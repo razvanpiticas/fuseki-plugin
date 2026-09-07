@@ -1,0 +1,13 @@
+{
+  "provider": "hermes",
+  "displayName": "Hermes",
+  "skillPaths": [
+    ".hermes/skills/fuseki"
+  ],
+  "mcp": {
+    "sourcePath": "merge-into-config.yaml",
+    "targetPath": ".hermes/config.yaml",
+    "scope": "user",
+    "pinning": "dynamic-registration"
+  }
+}

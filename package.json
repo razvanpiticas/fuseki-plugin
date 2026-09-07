@@ -1,0 +1,16 @@
+{
+  "name": "fuseki",
+  "version": "0.1.0",
+  "description": "Installs the Fuseki skill and MCP server into a project, for harnesses with no plugin system.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "bin": {
+    "fuseki": "./cli/bin/fuseki.mjs"
+  },
+  "files": [
+    "cli",
+    "providers"
+  ]
+}

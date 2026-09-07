@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "fuseki": {
+      "url": "https://mcp.fuseki.dev/mcp"
+    }
+  }
+}

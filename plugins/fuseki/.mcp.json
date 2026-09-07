@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fuseki": {
+      "type": "http",
+      "url": "https://mcp.fuseki.dev/mcp",
+      "oauth": {
+        "clientId": "fuseki-public-client",
+        "callbackPort": 8123
+      }
+    }
+  }
+}

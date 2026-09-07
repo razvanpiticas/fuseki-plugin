@@ -1,0 +1,13 @@
+{
+  "provider": "gemini",
+  "displayName": "Gemini CLI",
+  "skillPaths": [
+    ".gemini/skills/fuseki"
+  ],
+  "mcp": {
+    "sourcePath": ".gemini/settings.json",
+    "targetPath": ".gemini/settings.json",
+    "scope": "project",
+    "pinning": "dynamic-registration"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "mcp": {
+    "fuseki": {
+      "type": "remote",
+      "url": "https://mcp.fuseki.dev/mcp",
+      "enabled": true
+    }
+  }
+}

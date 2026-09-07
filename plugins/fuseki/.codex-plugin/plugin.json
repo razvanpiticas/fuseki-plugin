@@ -1,0 +1,15 @@
+{
+  "name": "fuseki",
+  "version": "0.1.0",
+  "description": "Drives the Fuseki MCP server — project data, tenant-scoped, under the caller's own permissions.",
+  "author": {
+    "name": "Fuseki"
+  },
+  "skills": "./skills-codex/",
+  "interface": {
+    "displayName": "Fuseki",
+    "shortDescription": "Project data from the Fuseki MCP server.",
+    "category": "Productivity",
+    "defaultPrompt": "Use the fuseki skill to work with Fuseki project data."
+  }
+}

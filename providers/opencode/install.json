@@ -1,0 +1,13 @@
+{
+  "provider": "opencode",
+  "displayName": "OpenCode",
+  "skillPaths": [
+    ".opencode/skills/fuseki"
+  ],
+  "mcp": {
+    "sourcePath": "opencode.json",
+    "targetPath": "opencode.json",
+    "scope": "project",
+    "pinning": "dynamic-registration"
+  }
+}

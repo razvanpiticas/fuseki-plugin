@@ -1,0 +1,4 @@
+mcp_servers:
+  fuseki:
+    url: https://mcp.fuseki.dev/mcp
+    transport: streamable-http

@@ -1,0 +1,13 @@
+{
+  "provider": "cursor",
+  "displayName": "Cursor",
+  "skillPaths": [
+    ".cursor/skills/fuseki"
+  ],
+  "mcp": {
+    "sourcePath": ".cursor/mcp.json",
+    "targetPath": ".cursor/mcp.json",
+    "scope": "project",
+    "pinning": "dynamic-registration"
+  }
+}

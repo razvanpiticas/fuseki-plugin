@@ -1,0 +1,13 @@
+{
+  "provider": "openclaw",
+  "displayName": "OpenClaw",
+  "skillPaths": [
+    ".agents/skills/fuseki"
+  ],
+  "mcp": {
+    "sourcePath": "merge-into-openclaw.json",
+    "targetPath": ".openclaw/openclaw.json",
+    "scope": "user",
+    "pinning": "dynamic-registration"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "fuseki-plugins",
+  "description": "The Fuseki agent plugin: skills and the Fuseki MCP server.",
+  "owner": {
+    "name": "Fuseki"
+  },
+  "plugins": [
+    {
+      "name": "fuseki",
+      "description": "Drives the Fuseki MCP server — project data, tenant-scoped, under the caller's own permissions.",
+      "source": "./plugins/fuseki",
+      "category": "productivity"
+    }
+  ]
+}
