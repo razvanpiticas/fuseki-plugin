@@ -83,15 +83,16 @@ const report = (result) => {
 /**
  * Resolves where the built trees are read from.
  *
- * `--from` points at a local `dist/providers` for testing a build before it is published. Without
- * it the trees come from the published plugin, which is the only case an installed npm package
- * ever sees.
+ * By default, `providers/` beside this CLI's own directory. That is the published layout: the build
+ * output *is* the package root, so `cli/` and `providers/` are siblings there. Running this file
+ * from the monorepo instead needs `--from <dist>/providers`, because in the source tree the CLI
+ * sits beside its own sources rather than beside a build.
  */
 const resolveSourceRoot = (argv) => {
   const index = argv.indexOf(FROM_ARGUMENT)
   // fileURLToPath rather than URL.pathname: on Windows the latter yields "/C:/..." with a leading
   // slash, which resolves to a directory that does not exist.
-  if (index === -1) return fileURLToPath(new URL("../../dist/providers", import.meta.url))
+  if (index === -1) return fileURLToPath(new URL("../../providers", import.meta.url))
 
   const directory = argv[index + 1]
   if (!directory) throw new Error(`${FROM_ARGUMENT} requires a directory.`)
