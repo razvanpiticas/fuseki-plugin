@@ -2,7 +2,8 @@
   "provider": "hermes",
   "displayName": "Hermes",
   "skillPaths": [
-    ".hermes/skills/fuseki"
+    ".hermes/skills/fuseki",
+    ".hermes/skills/fuseki-update"
   ],
   "mcp": {
     "sourcePath": "merge-into-config.yaml",

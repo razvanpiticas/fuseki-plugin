@@ -2,7 +2,8 @@
   "provider": "openclaw",
   "displayName": "OpenClaw",
   "skillPaths": [
-    ".agents/skills/fuseki"
+    ".agents/skills/fuseki",
+    ".agents/skills/fuseki-update"
   ],
   "mcp": {
     "sourcePath": "merge-into-openclaw.json",

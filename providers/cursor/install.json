@@ -2,7 +2,8 @@
   "provider": "cursor",
   "displayName": "Cursor",
   "skillPaths": [
-    ".cursor/skills/fuseki"
+    ".cursor/skills/fuseki",
+    ".cursor/skills/fuseki-update"
   ],
   "mcp": {
     "sourcePath": ".cursor/mcp.json",
