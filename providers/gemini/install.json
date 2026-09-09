@@ -3,7 +3,8 @@
   "displayName": "Gemini CLI",
   "skillPaths": [
     ".gemini/skills/fuseki",
-    ".gemini/skills/fuseki-update"
+    ".gemini/skills/fuseki-update",
+    ".gemini/skills/fuseki-work"
   ],
   "mcp": {
     "sourcePath": ".gemini/settings.json",

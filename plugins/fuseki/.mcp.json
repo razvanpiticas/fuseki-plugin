@@ -4,7 +4,7 @@
       "type": "http",
       "url": "https://mcp.fuseki.dev/mcp",
       "oauth": {
-        "clientId": "fuseki-public-client",
+        "clientId": "fuseki-agent-client",
         "callbackPort": 8123
       }
     }

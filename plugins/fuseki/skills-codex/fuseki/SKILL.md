@@ -1,6 +1,6 @@
 ---
 name: fuseki
-description: Connects to and drives the Fuseki MCP server at mcp.fuseki.dev — project management data, tenant-scoped, under the caller's own permissions. Use when working with Fuseki projects, work items or teams, when a Fuseki tool refuses a call, or when connecting a harness to the Fuseki server.
+description: Connects to and drives the Fuseki MCP server at mcp.fuseki.dev — project management data, tenant-scoped, under the caller's own permissions. Use when connecting a harness to Fuseki, when sign-in or a connection is failing, when a Fuseki tool refuses a call and the refusal needs reading, or when somebody asks what access they have. For actually reading or writing a project's work — creating items, splitting an epic, moving something through a workflow, running a sprint — load the fuseki-work skill, which this one hands off to.
 ---
 
 # Fuseki
@@ -18,7 +18,7 @@ The server ships with this plugin. Enabling the plugin registers it — there is
 hand. If tool calls answer 401, run `codex mcp login fuseki` to sign in again.
 
 Sign-in is OAuth against the Keycloak realm at `keycloak.quantarcane.io`, using the public client
-`fuseki-public-client` and the loopback callback on port `8123`. Both halves are fixed: a different
+`fuseki-agent-client` and the loopback callback on port `8123`. Both halves are fixed: a different
 port is a redirect-uri mismatch, not a preference.
 
 **Call `server_info` first when anything is wrong.** It answers without touching any downstream
@@ -44,39 +44,62 @@ Every call is also tenant-scoped from the caller's token. A caller who belongs t
 
 ## The tools
 
-| Tool | One line |
+Forty-seven, in families. `list_` and `get_` read; `create_` and `add_` create; `update_` edits;
+`transition_`, `change_`, `move_`, `set_`, `start_`, `close_` and `restore_` change state;
+`delete_`, `remove_` and `revert_` take something away.
+
+| Family | Tools |
 | --- | --- |
-| `server_info` | What this deployment is and what it can reach. Touches nothing else |
-| `list_items` | Reads the item list |
-| `create_item` | Adds one item |
-| `project_management_health` | Proves this server can reach ProjectManagement and be accepted by it |
+| This deployment | `server_info` |
+| Projects and portfolios | `list_projects`, `get_project`, `get_project_vocabulary`, `list_portfolios`, `get_portfolio`, `list_teams`, `get_project_plan`, `create_project`, `update_project`, `archive_project`, `add_project_member`, `remove_project_member` |
+| Work items | `get_work_item`, `list_work_items`, `search_work_items`, `lookup_work_items`, `create_work_item`, `create_work_items`, `update_work_item`, `transition_work_item`, `change_work_item_type`, `change_work_item_parent`, `move_work_item`, `rebalance_backlog`, `set_work_item_labels`, `delete_work_item`, `restore_work_item` |
+| Backlog, sprints and boards | `get_backlog`, `list_sprints`, `get_sprint`, `preview_sprint_close`, `list_boards`, `get_board`, `create_sprint`, `update_sprint`, `start_sprint`, `close_sprint`, `add_to_sprint`, `remove_from_sprint` |
+| Conversation and links | `list_comments`, `add_comment`, `list_work_item_links`, `link_work_items`, `unlink_work_items` |
+| Taking a run back | `start_change_set`, `complete_change_set`, `revert_change_set` |
 
-Read [reference/tools.md](reference/tools.md) before the first call in a session — it carries the
-argument shapes and which tools change state.
+**There is no tool named after a kind of work item.** Fuseki has no Epic, Feature, Story or Task
+entity — a work item's kind is a row an organisation edits — so the call is
+`create_work_item` with the kind named as an argument, and `get_project_vocabulary` answers which
+kinds this organisation actually has.
 
-> **These are the tools the server was generated with, not Fuseki's product surface.** They are
-> scaffolding, they are being replaced as ProjectManagement's real capabilities are wired up, and
-> `list_items` in particular reads an in-memory list that empties whenever the pod restarts. If the
-> table above disagrees with what `server_info` reports, `server_info` is right and this file is
-> stale — say so rather than working around it.
+The permission each tool demands, whether it changes anything, and which of the five take a version
+are in [reference/tools.md](reference/tools.md). Read it before the first call in a session.
+
+**How to use them is the `fuseki-work` skill: which read comes before which write, how a name
+becomes the identifier a write needs, what a version protects, and how to make a run revertible.
+Load it for any read or write against a project's work.** This skill stops at the connection and
+what a refusal means.
 
 ## Reading a refusal
 
-A refused call names the arguments at fault and says whether retrying is worth anything. Read it
-rather than resending the same call.
+Every refusal carries a code, a sentence saying what happened, the arguments at fault, and a
+recovery saying whether retrying is worth anything. Do what the recovery says rather than resending.
 
-- **The refusal names an argument** — fix the argument and retry once.
-- **The refusal is a 403** — a permission or tenant problem. Retrying cannot fix it. Tell the user
-  which permission is missing.
-- **The refusal is a 401** — the token expired or was never minted. Sign in again.
-- **The refusal says a downstream holds nothing at that address** — the server reached
-  ProjectManagement and got a 404. That is a server-side routing fault, not a bad argument.
+- **`INVALID_ARGUMENT`** — an argument cannot be used as sent, and the refusal names which. Nothing
+  was read and nothing was changed. Fix it and call again.
+- **`NOT_FOUND`** — a name matched nothing in a list the server had just read: an item type, a
+  workflow state, a label, a relationship, a portfolio key. The refusal lists the names that do
+  exist, so the correction is in your hand.
+- **`CONFLICT`** — two different things, told apart by whether it names a version. Naming one means
+  somebody changed the item after you read it, and the refusal carries the item as it now stands;
+  naming none means either a rule of the project refuses the change or nothing you can see answers
+  to the name you gave. Fuseki deliberately does not distinguish those two, so that being refused
+  cannot be used to learn what exists.
+- **`FORBIDDEN`** — about who is asking, not about what was asked. Either the signed-in person is
+  missing a ProjectManagement permission — the tool's own description names which one — or the
+  organisation is in read-only mode because its plan lapsed, which the refusal says outright.
+  Retrying cannot fix either, and a different argument will not help. Report which it is.
+- **`SERVER_MISCONFIGURED`** — the credential was not accepted at all, or the server hit something
+  it did not anticipate. Not about your call. Sign in again if the session has been running a long
+  time; otherwise report it.
+- **`UPSTREAM_UNAVAILABLE`** — a service this server depends on did not answer. This is the one code
+  whose recovery invites a single retry.
 
 A refusal that fits none of these is worth a question rather than a second attempt.
 STOP and use Codex's structured user-input tool when available; if it is unavailable, ask directly in chat to clarify.
 
-`demonstrate_refusal` fails on purpose and changes nothing, so it is safe to call when you want to
-see the refusal shape before relying on it.
+**A `FORBIDDEN` on a write when reads succeed is a role problem and not a connection problem**, and
+re-authenticating does not fix it: the token has to be minted again *after* the role is granted.
 
 For symptoms that survive a retry, read
 [reference/troubleshooting.md](reference/troubleshooting.md).
@@ -86,9 +109,14 @@ For symptoms that survive a retry, read
 **Never invent a tenant.** No tool takes a tenant argument, and none should — the tenant comes from
 the token. A call that appears to need one is a sign the wrong tool was chosen.
 
-**Do not cache what `list_items` returns across turns.** It reads live state that another person in
-the same tenant can change between calls.
+**Do not cache what a read answered across turns.** Every read is live state that another person in
+the same organisation can change between calls, and a work item's version in particular is stale the
+moment somebody else writes.
 
-**A write is not confirmed until the tool says so.** `create_item` returns the created item; if the
-call refused, nothing was written, and reporting otherwise to the user is worse than reporting the
-failure.
+**A write is not confirmed until the tool answers with the row.** Report what came back, by
+reference code, never what you intended — a refusal changed nothing unless its message says
+otherwise, and telling somebody an item exists when it does not is worse than reporting the failure.
+
+**`server_info` is the authority on what this deployment offers.** When its tool list disagrees with
+this file or with any other document, the tool list is right and the document is stale — say so
+rather than working around it.

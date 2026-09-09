@@ -76,7 +76,7 @@ const report = (result) => {
   if (result.pinning === DYNAMIC_REGISTRATION) {
     console.log("  NOTE    This harness signs in by dynamic client registration, which the Fuseki")
     console.log("          realm refuses. If sign-in fails, its config must name the OAuth client")
-    console.log("          fuseki-public-client. There is no way around this from the client side.")
+    console.log("          fuseki-agent-client. There is no way around this from the client side.")
   }
 }
 

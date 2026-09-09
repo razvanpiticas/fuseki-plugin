@@ -32,7 +32,7 @@ It detects which of those harnesses you have, writes the skill and the server de
 prints anything it will not write for you.
 
 Any other MCP client: add `https://mcp.fuseki.dev/mcp` and set the OAuth client id to
-`fuseki-public-client`.
+`fuseki-agent-client`.
 
 ## After installing
 
@@ -44,4 +44,4 @@ Access is granted on Fuseki's own roles screen, per tenant: `mcp:tools.read` and
 Reads working while writes answer 403 means the write permission has not been granted, or the
 token predates the grant.
 
-Version 0.2.0+5f435bce6678.
+Version 0.3.0+3c522673ac69.

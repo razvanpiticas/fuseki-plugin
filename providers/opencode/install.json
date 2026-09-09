@@ -3,7 +3,8 @@
   "displayName": "OpenCode",
   "skillPaths": [
     ".opencode/skills/fuseki",
-    ".opencode/skills/fuseki-update"
+    ".opencode/skills/fuseki-update",
+    ".opencode/skills/fuseki-work"
   ],
   "mcp": {
     "sourcePath": "opencode.json",
