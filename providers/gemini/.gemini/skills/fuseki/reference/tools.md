@@ -43,6 +43,10 @@ permission and not the product one.
 | `get_backlog` | No | `project-management:workitems.read` |
 | `list_comments` | No | `project-management:workitems.read` |
 | `list_work_item_links` | No | `project-management:workitems.read` |
+| `get_similar_work_items` | No | `project-management:workitems.read` |
+| `get_neighbours` | No | `project-management:workitems.read` |
+| `get_dependencies` | No | `project-management:workitems.read` |
+| `list_untyped_links` | No | `project-management:workitems.read` |
 | `list_sprints` | No | `project-management:workitems.read` |
 | `get_sprint` | No | `project-management:workitems.read` |
 | `preview_sprint_close` | No | `project-management:workitems.read` |
@@ -86,6 +90,7 @@ permission and not the product one.
 | `add_comment` | **Yes** | `project-management:workitems.write` |
 | `link_work_items` | **Yes** | `project-management:workitems.write` |
 | `unlink_work_items` | **Yes, and it takes work away** | `project-management:workitems.write` |
+| `type_link` | **Yes** | `project-management:workitems.write` |
 | `create_sprint` | **Yes** | `project-management:sprints.manage` |
 | `update_sprint` | **Yes** | `project-management:sprints.manage` |
 | `start_sprint` | **Yes** | `project-management:sprints.manage` |
@@ -117,6 +122,25 @@ run's change set; it lands as a draft. `contradict_insight` is likewise only on 
 answer. Nothing here customises, edits or removes a definition, and nothing approves, rejects or
 applies a proposal: those are a person's, on the skill definitions screens, and the service refuses
 them to an agent.
+
+## Links and finding related work
+
+The embedder links work items that read alike with the placeholder word `related`. `list_untyped_links`
+pages a project's untyped links — or, with `changeSetId`, only those touching what that run wrote —
+each with both ends' codes, titles and matching passages, and once per page every word they may be
+typed with, each with its meaning. `type_link` gives one its word and direction inside the run's
+change set, creating the organisation's own word when `newWord` is sent; a possible duplicate is
+refused and is reported instead. The link keeps its inferred origin and waits for a person.
+
+There is no tool that confirms or rejects a link, and that is the rule, not a gap: a verdict is a
+person's judgement, the service refuses it to every agent token, and a tool for it could only ever be
+refused. Send the person to the links screen to rule.
+
+To find work related to an item you hold: `get_similar_work_items` for what reads alike (it spends
+nothing from the embedding allowance), `list_work_item_links` for what the item is joined to, worded
+from its end, `get_neighbours` for everything within one to three links in any direction, and
+`get_dependencies` for what has to finish before it can. `search_work_items` finds work by what a
+phrase is about. Read the resource `fuseki://glossary` once first.
 
 ## Runs and routines
 

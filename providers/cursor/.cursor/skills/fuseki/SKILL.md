@@ -43,9 +43,9 @@ Every call is also tenant-scoped from the caller's token. A caller who belongs t
 
 ## The tools
 
-Sixty-one, in families. `list_` and `get_` read; `create_`, `add_`, `record_` and `observe_`
-create; `update_` and `save_` edit; `transition_`, `change_`, `move_`, `set_`, `start_`, `close_`,
-`restore_`, `supersede_` and `contradict_` change state; `delete_`, `remove_` and `revert_` take
+Sixty-six, in families. `list_` and `get_` read; `create_`, `add_`, `record_` and `observe_`
+create; `update_` and `save_` edit; `transition_`, `type_`, `change_`, `move_`, `set_`, `start_`,
+`close_`, `restore_`, `supersede_` and `contradict_` change state; `delete_`, `remove_` and `revert_` take
 something away.
 
 | Family | Tools |
@@ -54,7 +54,8 @@ something away.
 | Projects and portfolios | `list_projects`, `get_project`, `get_project_vocabulary`, `list_portfolios`, `get_portfolio`, `list_teams`, `get_product_vision`, `create_project`, `update_project`, `archive_project`, `add_project_member`, `remove_project_member`, `save_product_vision` |
 | Work items | `get_work_item`, `list_work_items`, `search_work_items`, `lookup_work_items`, `create_work_item`, `create_work_items`, `update_work_item`, `transition_work_item`, `change_work_item_type`, `change_work_item_parent`, `move_work_item`, `rebalance_backlog`, `set_work_item_labels`, `delete_work_item`, `restore_work_item` |
 | Backlog, sprints and boards | `get_backlog`, `list_sprints`, `get_sprint`, `preview_sprint_close`, `list_boards`, `get_board`, `create_sprint`, `update_sprint`, `start_sprint`, `close_sprint`, `add_to_sprint`, `remove_from_sprint` |
-| Conversation and links | `list_comments`, `add_comment`, `list_work_item_links`, `link_work_items`, `unlink_work_items` |
+| Conversation and links | `list_comments`, `add_comment`, `list_work_item_links`, `link_work_items`, `unlink_work_items`, `list_untyped_links`, `type_link` |
+| Finding related work | `get_similar_work_items`, `get_neighbours`, `get_dependencies` |
 | Runs and taking them back | `list_change_sets`, `get_change_set`, `start_change_set`, `observe_change_set`, `complete_change_set`, `revert_change_set` |
 | Routines | `list_routines`, `get_routine` |
 | Skill definitions and what was learned | `list_skill_definitions`, `get_skill_definition`, `list_insights`, `get_insight`, `record_skill_definition_insight`, `supersede_insight`, `contradict_insight` |
@@ -63,6 +64,10 @@ something away.
 entity — a work item's kind is a row an organisation edits — so the call is
 `create_work_item` with the kind named as an argument, and `get_project_vocabulary` answers which
 kinds this organisation actually has.
+
+The server also publishes one resource, `fuseki://glossary`: the product's words, one meaning each.
+It is a resource, not a tool. Read it once before searching or typing links, and ask in its words;
+the `fuseki-work` skill says how this harness reads it.
 
 The permission each tool demands, whether it changes anything, and which of the five take a version
 are in [reference/tools.md](reference/tools.md). Read it before the first call in a session.

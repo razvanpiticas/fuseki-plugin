@@ -1,8 +1,8 @@
 ---
 name: fuseki-work
-description: Reads and writes a Fuseki project's work through the Fuseki MCP tools — projects, work items and their hierarchy, the backlog, sprints, boards, comments, links and the change set that makes a run revertible. Use this whenever a task touches project work in any way, even if the user never says Fuseki — writing a backlog item, splitting an epic into features, reparenting or ranking something, moving work through a workflow, planning or closing a sprint, or reading what a project already holds. Every later method skill writes through this one.
+description: Reads and writes a Fuseki project's work through the Fuseki MCP tools — projects, work items and their hierarchy, the backlog, sprints, boards, comments, links and the change set that makes a run revertible. Use this whenever a task touches project work in any way, even if the user never says Fuseki — writing a backlog item, splitting an epic into features, reparenting or ranking something, moving work through a workflow, planning or closing a sprint, typing the links the embedder drew, finding related work, reading the Fuseki glossary, or reading what a project already holds. Every later method skill writes through this one.
 argument-hint: <project key or name> <what to read or write>
-allowed-tools: mcp__fuseki__server_info, mcp__fuseki__list_projects, mcp__fuseki__get_project, mcp__fuseki__get_project_vocabulary, mcp__fuseki__list_portfolios, mcp__fuseki__get_portfolio, mcp__fuseki__list_teams, mcp__fuseki__get_work_item, mcp__fuseki__list_work_items, mcp__fuseki__search_work_items, mcp__fuseki__lookup_work_items, mcp__fuseki__get_backlog, mcp__fuseki__list_comments, mcp__fuseki__list_work_item_links, mcp__fuseki__list_sprints, mcp__fuseki__get_sprint, mcp__fuseki__preview_sprint_close, mcp__fuseki__list_boards, mcp__fuseki__get_board, mcp__fuseki__get_product_vision, mcp__fuseki__list_skill_definitions, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__list_routines, mcp__fuseki__get_routine, mcp__fuseki__get_change_set, mcp__fuseki__list_change_sets, mcp__fuseki__start_change_set, mcp__fuseki__observe_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__revert_change_set, mcp__fuseki__create_project, mcp__fuseki__update_project, mcp__fuseki__archive_project, mcp__fuseki__add_project_member, mcp__fuseki__remove_project_member, mcp__fuseki__save_product_vision, mcp__fuseki__create_work_item, mcp__fuseki__create_work_items, mcp__fuseki__update_work_item, mcp__fuseki__transition_work_item, mcp__fuseki__change_work_item_type, mcp__fuseki__change_work_item_parent, mcp__fuseki__move_work_item, mcp__fuseki__rebalance_backlog, mcp__fuseki__set_work_item_labels, mcp__fuseki__delete_work_item, mcp__fuseki__restore_work_item, mcp__fuseki__add_comment, mcp__fuseki__link_work_items, mcp__fuseki__unlink_work_items, mcp__fuseki__create_sprint, mcp__fuseki__update_sprint, mcp__fuseki__start_sprint, mcp__fuseki__close_sprint, mcp__fuseki__add_to_sprint, mcp__fuseki__remove_from_sprint, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__supersede_insight, mcp__fuseki__contradict_insight
+allowed-tools: mcp__fuseki__server_info, mcp__fuseki__list_projects, mcp__fuseki__get_project, mcp__fuseki__get_project_vocabulary, mcp__fuseki__list_portfolios, mcp__fuseki__get_portfolio, mcp__fuseki__list_teams, mcp__fuseki__get_work_item, mcp__fuseki__list_work_items, mcp__fuseki__search_work_items, mcp__fuseki__lookup_work_items, mcp__fuseki__get_backlog, mcp__fuseki__list_comments, mcp__fuseki__list_work_item_links, mcp__fuseki__get_similar_work_items, mcp__fuseki__get_neighbours, mcp__fuseki__get_dependencies, mcp__fuseki__list_untyped_links, mcp__fuseki__list_sprints, mcp__fuseki__get_sprint, mcp__fuseki__preview_sprint_close, mcp__fuseki__list_boards, mcp__fuseki__get_board, mcp__fuseki__get_product_vision, mcp__fuseki__list_skill_definitions, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__list_routines, mcp__fuseki__get_routine, mcp__fuseki__get_change_set, mcp__fuseki__list_change_sets, mcp__fuseki__start_change_set, mcp__fuseki__observe_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__revert_change_set, mcp__fuseki__create_project, mcp__fuseki__update_project, mcp__fuseki__archive_project, mcp__fuseki__add_project_member, mcp__fuseki__remove_project_member, mcp__fuseki__save_product_vision, mcp__fuseki__create_work_item, mcp__fuseki__create_work_items, mcp__fuseki__update_work_item, mcp__fuseki__transition_work_item, mcp__fuseki__change_work_item_type, mcp__fuseki__change_work_item_parent, mcp__fuseki__move_work_item, mcp__fuseki__rebalance_backlog, mcp__fuseki__set_work_item_labels, mcp__fuseki__delete_work_item, mcp__fuseki__restore_work_item, mcp__fuseki__add_comment, mcp__fuseki__link_work_items, mcp__fuseki__unlink_work_items, mcp__fuseki__type_link, mcp__fuseki__create_sprint, mcp__fuseki__update_sprint, mcp__fuseki__start_sprint, mcp__fuseki__close_sprint, mcp__fuseki__add_to_sprint, mcp__fuseki__remove_from_sprint, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__supersede_insight, mcp__fuseki__contradict_insight
 ---
 
 # Fuseki work
@@ -15,6 +15,18 @@ connection and sign-in are the `fuseki` skill's job; this skill is about what to
 **There is no Epic, Feature, Story or Task in Fuseki.** A work item's kind is a row an organisation
 edits, so the call is always `create_work_item` with the kind named as an argument, and an
 organisation may have kinds nobody else has. Never assume a kind exists — read it.
+
+## The glossary comes first
+
+Fuseki's words — work item, reference code, change set, link, link word, untyped link, possible
+duplicate, passage, verdict, skill definition, insight, routine and the rest — are one short file on
+the server, the resource `fuseki://glossary`. It is a resource, not a tool: no tool is named after it.
+Read it once per session, before the first search, the first link read and the first link typed, so
+a question is asked in the product's words and an answer is read in them. Already read in this
+session: do not read it again.
+Here, `ListMcpResourcesTool` lists it under the Fuseki server, and `ReadMcpResourceTool` reads it
+with that server's name and uri `fuseki://glossary`. The server is `plugin:fuseki:fuseki` when it
+came with this plugin, and `fuseki` when it was added by hand. That call is this step.
 
 ## The loop every write follows
 
@@ -78,15 +90,35 @@ never having happened.
 leave behind whatever the run writes next. End it first. It takes back what the run created and puts
 back what it changed, and it answers both lists.
 
-## Finding a work item: four tools, four jobs
+## Finding a work item: one tool per job
 
 | You have | Call | Not this |
 | --- | --- | --- |
 | The reference code | `get_work_item` | — it is the only one that answers the version |
 | A project and a filter (kind, state, assignee) | `list_work_items` | it cannot order by rank |
-| A description of what the work is *about* | `search_work_items` | not the type-ahead; not project-scoped |
+| A description of what the work is *about* | `search_work_items` | not the type-ahead; not project-scoped; spends the embedding allowance |
 | Part of a code or title, in one project | `lookup_work_items` | not the search; it will not find by meaning |
+| An item, and you want what reads like it | `get_similar_work_items` | spends nothing; answers while search by meaning is off |
+| An item, and you want what is joined to it | `list_work_item_links` one hop, `get_neighbours` up to three | — |
+| An item, and you want what must finish first | `get_dependencies` | never decide an item can start from its links alone |
 | The backlog in order | `get_backlog` | the tree with rollups, and the only read in rank order |
+
+Read the glossary before the first of them, and say which tool answered.
+
+## Links: typing what the embedder drew
+
+The embedder links items that read alike with the placeholder word `related`. Those are the
+untyped links. `list_untyped_links` pages a project's untyped links — with `changeSetId`, only those
+touching what that run wrote — each with both ends' codes, titles and matching passages, and once per
+page the words they may be typed with, each with its meaning.
+
+`type_link` gives one link its word and direction, inside the run's change set (`changeSetId` is
+required). Choose the word from the ones the page offered; send `newWord` only when none of them
+says it. A link flagged as a possible duplicate is refused: report it to the person, never type it.
+A typed link keeps its inferred origin and waits for a person.
+
+**No tool confirms or rejects a link**, and that is the rule, not a gap: a verdict is a person's
+judgement, given on the links screen. Send the person there to rule.
 
 ## Writing a work item well
 
