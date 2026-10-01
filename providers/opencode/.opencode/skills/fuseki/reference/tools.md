@@ -46,6 +46,7 @@ permission and not the product one.
 | `get_similar_work_items` | No | `project-management:workitems.read` |
 | `get_neighbours` | No | `project-management:workitems.read` |
 | `get_dependencies` | No | `project-management:workitems.read` |
+| `run_analytical_query` | No | `project-management:workitems.read` |
 | `list_untyped_links` | No | `project-management:workitems.read` |
 | `list_sprints` | No | `project-management:workitems.read` |
 | `get_sprint` | No | `project-management:workitems.read` |
@@ -139,7 +140,12 @@ refused. Send the person to the links screen to rule.
 To find work related to an item you hold: `get_similar_work_items` for what reads alike (it spends
 nothing from the embedding allowance), `list_work_item_links` for what the item is joined to, worded
 from its end, `get_neighbours` for everything within one to three links in any direction, and
-`get_dependencies` for what has to finish before it can. `search_work_items` finds work by what a
+`get_dependencies` for the whole chain that has to finish before it can. For a question that names a
+shape of more than one hop — which items block an item that blocks FUS-12 — `run_analytical_query` runs one
+read-only SELECT you write over `GRAPH_TABLE (fuseki_project_graph …)`, naming the project's
+`projectId` (from `get_project`) on the vertex it starts from; it answers the rows with the query
+echoed, confined to the organisation and the projects the caller may see, five seconds and 200 rows
+at most. `search_work_items` finds work by what a
 phrase is about. Read the resource `fuseki://glossary` once first.
 
 ## Runs and routines

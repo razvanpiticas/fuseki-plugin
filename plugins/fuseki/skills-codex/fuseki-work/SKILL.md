@@ -96,6 +96,7 @@ back what it changed, and it answers both lists.
 | An item, and you want what reads like it | `get_similar_work_items` | spends nothing; answers while search by meaning is off |
 | An item, and you want what is joined to it | `list_work_item_links` one hop, `get_neighbours` up to three | — |
 | An item, and you want what must finish first | `get_dependencies` | never decide an item can start from its links alone |
+| A question that names a shape of more than one hop (what blocks what blocks an item; the stories under an epic blocked from another project) | `run_analytical_query` | not `get_dependencies`, which answers the whole chain; one SELECT over the project graph, naming the project's `projectId`; quote the query it echoes |
 | The backlog in order | `get_backlog` | the tree with rollups, and the only read in rank order |
 
 Read the glossary before the first of them, and say which tool answered.
