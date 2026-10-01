@@ -48,7 +48,11 @@ permission and not the product one.
 | `preview_sprint_close` | No | `project-management:workitems.read` |
 | `list_boards` | No | `project-management:workitems.read` |
 | `get_board` | No | `project-management:workitems.read` |
-| `get_project_plan` | No | `project-management:projects.read` |
+| `get_product_vision` | No | `project-management:projects.read` |
+| `list_skill_definitions` | No | `project-management:definitions.read` |
+| `get_skill_definition` | No | `project-management:definitions.read` |
+| `list_insights` | No | `project-management:definitions.read` |
+| `get_insight` | No | `project-management:definitions.read` |
 
 ## Writes
 
@@ -62,6 +66,7 @@ permission and not the product one.
 | `archive_project` | **Yes** | `project-management:projects.manage` |
 | `add_project_member` | **Yes** | `project-management:projects.manage` |
 | `remove_project_member` | **Yes** | `project-management:projects.manage` |
+| `save_product_vision` | **Yes, and it replaces the whole text** | `project-management:projects.configure` |
 | `create_work_item` | **Yes** | `project-management:workitems.write` |
 | `create_work_items` | **Yes** | `project-management:workitems.write` |
 | `update_work_item` | **Yes** | `project-management:workitems.write` |
@@ -82,12 +87,31 @@ permission and not the product one.
 | `close_sprint` | **Yes** | `project-management:sprints.manage` |
 | `add_to_sprint` | **Yes** | `project-management:sprints.manage` |
 | `remove_from_sprint` | **Yes** | `project-management:sprints.manage` |
+| `record_skill_definition_insight` | **Yes** | `project-management:definitions.read` |
+| `supersede_insight` | **Yes** | `project-management:definitions.read` |
+| `contradict_insight` | **Yes** | `project-management:definitions.manage` |
 
-Three permissions above are easy to be surprised by. Reverting a change set and deleting a work
+Five permissions above are easy to be surprised by. Reverting a change set and deleting a work
 item cost `workitems.delete` rather than `workitems.write`, so a role that can write everything and
 delete nothing can open a run it cannot take back. Every sprint call costs `sprints.manage`, which
-is not implied by `workitems.write`. And a project write costs `projects.manage`, which is a
-separate grant again.
+is not implied by `workitems.write`. A project write costs `projects.manage`, which is a separate
+grant again, and saving the product vision costs `projects.configure`, which is another. And
+recording a learning costs only `definitions.read`, so a member's session can record one, while
+contradicting one costs `definitions.manage`, which a member does not hold.
+
+## Skill definitions and learnings
+
+A skill that follows a method fetches it with `get_skill_definition` when it runs, for its project,
+and reads the instructions whole before acting. The answer names the level the text came from —
+`Project`, `Organisation` or `Shipped`, the first that exists — and its version; quote both when
+reporting what was followed. It carries no learnings: read them with `list_insights` only when the
+person asks, before recording one, or when distilling.
+
+Record a learning with `record_skill_definition_insight` only on the person's word, inside the
+run's change set; it lands as a draft. `contradict_insight` is likewise only on the person's
+answer. Nothing here customises, edits or removes a definition, and nothing approves, rejects or
+applies a proposal: those are a person's, on the skill definitions screens, and the service refuses
+them to an agent.
 
 ## The five tools that take a version
 
