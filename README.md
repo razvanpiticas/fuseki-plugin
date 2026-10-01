@@ -25,7 +25,7 @@ codex plugin add fuseki@fuseki-plugins
 Cursor, Gemini CLI, OpenCode, OpenClaw, Hermes — run this in your project:
 
 ```
-npx github:razvanpiticas/fuseki-plugin install
+pnpm dlx github:razvanpiticas/fuseki-plugin install
 ```
 
 It detects which of those harnesses you have, writes the skill and the server declaration, and
@@ -44,4 +44,4 @@ Access is granted on Fuseki's own roles screen, per tenant: `mcp:tools.read` and
 Reads working while writes answer 403 means the write permission has not been granted, or the
 token predates the grant.
 
-Version 0.3.0+3c522673ac69.
+Version 0.3.0+8f11f2beacc5.

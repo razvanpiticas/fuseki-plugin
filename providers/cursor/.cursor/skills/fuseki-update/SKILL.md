@@ -35,7 +35,7 @@ Re-run the installer from the project directory. It rewrites the files it wrote 
 nothing to uninstall first.
 
 ```bash
-npx github:razvanpiticas/fuseki-plugin install
+pnpm dlx github:razvanpiticas/fuseki-plugin install
 ```
 
 Reload the window afterwards so the rewritten skill files are read again.
