@@ -67,12 +67,13 @@ you overwrite somebody's work with a decision made before it existed.
 ## Change sets: making a run revertible
 
 A run that writes more than once opens a change set first. `start_change_set` answers an id; pass it
-as `changeSetId` on every write in the run; `complete_change_set` closes it. A run that turned out
+as `changeSetId` on every write in the run; `complete_change_set` ends it, with the outcome
+`Completed` and a summary of what the run did, or `Failed` and the reason. A run that turned out
 wrong — the wrong four features under the wrong epic — is then one `revert_change_set` away from
 never having happened.
 
-`revert_change_set` is **refused while the run is still open**, because undoing it now would leave
-behind whatever the run writes next. Complete first. It takes back what the run created and puts
+`revert_change_set` is **refused while the run is still running**, because undoing it now would
+leave behind whatever the run writes next. End it first. It takes back what the run created and puts
 back what it changed, and it answers both lists.
 
 ## Finding a work item: four tools, four jobs

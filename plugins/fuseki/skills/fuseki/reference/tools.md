@@ -53,12 +53,17 @@ permission and not the product one.
 | `get_skill_definition` | No | `project-management:definitions.read` |
 | `list_insights` | No | `project-management:definitions.read` |
 | `get_insight` | No | `project-management:definitions.read` |
+| `list_routines` | No | `project-management:projects.read` |
+| `get_routine` | No | `project-management:projects.read` |
+| `get_change_set` | No | `project-management:workitems.read` |
+| `list_change_sets` | No | `project-management:workitems.read` |
 
 ## Writes
 
 | Tool | Changes state | ProjectManagement permission |
 | --- | --- | --- |
 | `start_change_set` | **Yes** | `project-management:workitems.write` |
+| `observe_change_set` | **Yes** | `project-management:workitems.write` |
 | `complete_change_set` | **Yes** | `project-management:workitems.write` |
 | `revert_change_set` | **Yes, and it takes work away** | `project-management:workitems.delete` |
 | `create_project` | **Yes** | `project-management:projects.manage` |
@@ -112,6 +117,23 @@ run's change set; it lands as a draft. `contradict_insight` is likewise only on 
 answer. Nothing here customises, edits or removes a definition, and nothing approves, rejects or
 applies a proposal: those are a person's, on the skill definitions screens, and the service refuses
 them to an agent.
+
+## Runs and routines
+
+A change set is the run. `start_change_set` opens it, naming the project it works on and, when a
+routine's schedule fired it, the routine (`routineId`, together with `projectKey`).
+`observe_change_set` records what the run noticed on the way, and `complete_change_set` ends it:
+outcome `Completed` with the digest as `summary`, or `Failed` with the `reason`. `list_change_sets`
+reads the runs newest first, narrowed by project, routine or status, and `get_change_set` reads one
+whole: its events and the codes of what it wrote. A run a routine fired that nobody ends is ended by
+the server as failed after two hours without activity. Cancelling a run is a person's act on the
+runs screen; no tool offers it.
+
+`list_routines` and `get_routine` read a project's routines. There is no tool that creates, edits,
+switches on, switches off or deletes a routine, and that is the rule, not a gap: only a person
+changes a routine, and the service refuses every routine change to an agent, so a tool for it could
+only ever be refused. Send the person to the project's Routines tab for any change to a routine.
+Neither this server nor Fuseki fires a routine; the scheduler on the person's machine does.
 
 ## The five tools that take a version
 

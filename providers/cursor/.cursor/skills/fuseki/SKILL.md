@@ -43,9 +43,10 @@ Every call is also tenant-scoped from the caller's token. A caller who belongs t
 
 ## The tools
 
-Fifty-six, in families. `list_` and `get_` read; `create_`, `add_` and `record_` create; `update_`
-and `save_` edit; `transition_`, `change_`, `move_`, `set_`, `start_`, `close_`, `restore_`,
-`supersede_` and `contradict_` change state; `delete_`, `remove_` and `revert_` take something away.
+Sixty-one, in families. `list_` and `get_` read; `create_`, `add_`, `record_` and `observe_`
+create; `update_` and `save_` edit; `transition_`, `change_`, `move_`, `set_`, `start_`, `close_`,
+`restore_`, `supersede_` and `contradict_` change state; `delete_`, `remove_` and `revert_` take
+something away.
 
 | Family | Tools |
 | --- | --- |
@@ -54,7 +55,8 @@ and `save_` edit; `transition_`, `change_`, `move_`, `set_`, `start_`, `close_`,
 | Work items | `get_work_item`, `list_work_items`, `search_work_items`, `lookup_work_items`, `create_work_item`, `create_work_items`, `update_work_item`, `transition_work_item`, `change_work_item_type`, `change_work_item_parent`, `move_work_item`, `rebalance_backlog`, `set_work_item_labels`, `delete_work_item`, `restore_work_item` |
 | Backlog, sprints and boards | `get_backlog`, `list_sprints`, `get_sprint`, `preview_sprint_close`, `list_boards`, `get_board`, `create_sprint`, `update_sprint`, `start_sprint`, `close_sprint`, `add_to_sprint`, `remove_from_sprint` |
 | Conversation and links | `list_comments`, `add_comment`, `list_work_item_links`, `link_work_items`, `unlink_work_items` |
-| Taking a run back | `start_change_set`, `complete_change_set`, `revert_change_set` |
+| Runs and taking them back | `list_change_sets`, `get_change_set`, `start_change_set`, `observe_change_set`, `complete_change_set`, `revert_change_set` |
+| Routines | `list_routines`, `get_routine` |
 | Skill definitions and what was learned | `list_skill_definitions`, `get_skill_definition`, `list_insights`, `get_insight`, `record_skill_definition_insight`, `supersede_insight`, `contradict_insight` |
 
 **There is no tool named after a kind of work item.** Fuseki has no Epic, Feature, Story or Task

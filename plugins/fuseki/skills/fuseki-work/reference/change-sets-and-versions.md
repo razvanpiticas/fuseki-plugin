@@ -60,20 +60,26 @@ nothing to retry. Read what is actually there, and change what you asked for.
 ## Change sets
 
 ```
-start_change_set   →  answers an id
+start_change_set     →  answers an id
    ↓  pass it as changeSetId on every write in the run
-complete_change_set
+observe_change_set   →  optional: what the run noticed on the way
+complete_change_set  →  outcome Completed with a summary, or Failed with the reason
    ↓  and if the run was wrong
-revert_change_set  →  everything it created is gone, everything it changed is back
+revert_change_set    →  everything it created is gone, everything it changed is back
 ```
 
 Open one whenever a run will write more than once. Without one, every write opens and closes a
 session of its own, and taking back a forty-item decomposition means forty separate undos that do
 not exist as a single act.
 
-`revert_change_set` is **refused while the run is still open**. Complete first — undoing an open run
-would leave behind whatever it writes next. Completing twice is also refused, because a second
-completion means something else believes it owns the same session.
+`revert_change_set` is **refused while the run is still running**. End it first — undoing a running
+run would leave behind whatever it writes next. A failed run can be reverted too. Ending twice is
+refused with "This change set is no longer running; start a new one.", because a second ending means
+something else believes it owns the same session, and so is any write that quotes an ended change set.
+
+`get_change_set` reads a run whole — its events and the codes of what it created and changed — and is
+the read to make before a revert, to say exactly what it will take back. `list_change_sets` finds
+runs again, newest first, by project, routine or status.
 
 A revert answers two lists: what it took back (items the run created, now deleted) and what it put
 back (items the run changed, now restored to what they were). Reverting twice is refused.
