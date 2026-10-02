@@ -81,6 +81,11 @@ as `changeSetId` on every write in the run; `complete_change_set` ends it, with 
 wrong — the wrong four features under the wrong epic — is then one `revert_change_set` away from
 never having happened.
 
+**A change set that wrote work items is typed before it completes.** Whichever skill opened it
+runs `fuseki-linker` with the project key and that change set's id just before its
+`complete_change_set`, and puts the lines the linker hands back into its own report. The embedder may
+not have drawn every link yet; the linker types what is there, and the Weekly linker catches the rest.
+
 `revert_change_set` is **refused while the run is still running**, because undoing it now would
 leave behind whatever the run writes next. End it first. It takes back what the run created and puts
 back what it changed, and it answers both lists.
@@ -99,7 +104,9 @@ back what it changed, and it answers both lists.
 | A question that names a shape of more than one hop (what blocks what blocks an item; the stories under an epic blocked from another project) | `run_analytical_query` | not `get_dependencies`, which answers the whole chain; one SELECT over the project graph, naming the project's `projectId`; quote the query it echoes |
 | The backlog in order | `get_backlog` | the tree with rollups, and the only read in rank order |
 
-Read the glossary before the first of them, and say which tool answered.
+Read the glossary before the first of them, and say which tool answered. A question about what a
+project holds, what relates to an item or what is in its way goes to `fuseki-search`, which picks
+among these in order of cost.
 
 ## Links: typing what the embedder drew
 
@@ -109,8 +116,9 @@ touching what that run wrote — each with both ends' codes, titles and matching
 page the words they may be typed with, each with its meaning.
 
 `type_link` gives one link its word and direction, inside the run's change set (`changeSetId` is
-required). Choose the word from the ones the page offered; send `newWord` only when none of them
-says it. A link flagged as a possible duplicate is refused: report it to the person, never type it.
+required). The typing itself is `fuseki-linker`'s: it pages the queue, chooses each word by its
+meaning, reports the possible duplicates and hands back one line per link. Choose the word from the
+ones the page offered; send `newWord` only when none of them says it. A link flagged as a possible duplicate is refused: report it to the person, never type it.
 A typed link keeps its inferred origin and waits for a person.
 
 **No tool confirms or rejects a link**, and that is the rule, not a gap: a verdict is a person's

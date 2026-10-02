@@ -64,8 +64,8 @@ Map the code
 12. Write a walkthrough               — /fuseki:fuseki-map-walkthrough — not in this version yet
 13. Write the coding standards        — /fuseki:fuseki-coding-standards — not in this version yet
 Work and keep it in shape
-14. Search the work                   — /fuseki:fuseki-search — not in this version yet
-15. Type the links                    — /fuseki:fuseki-linker — not in this version yet
+14. Search the work                   — /fuseki:fuseki-search
+15. Type the links                    — /fuseki:fuseki-linker
 16. Distil the insights               — /fuseki:fuseki-distiller — not in this version yet
 17. Routines: switch on, run now      — /fuseki:fuseki-routines — not in this version yet
 18. Set up GitHub                     — /fuseki:fuseki

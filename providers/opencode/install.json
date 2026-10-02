@@ -3,6 +3,8 @@
   "displayName": "OpenCode",
   "skillPaths": [
     ".opencode/skills/fuseki",
+    ".opencode/skills/fuseki-linker",
+    ".opencode/skills/fuseki-search",
     ".opencode/skills/fuseki-update",
     ".opencode/skills/fuseki-work"
   ],
