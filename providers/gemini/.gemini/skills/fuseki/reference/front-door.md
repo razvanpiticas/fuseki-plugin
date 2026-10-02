@@ -49,20 +49,20 @@ bring it." and shows the menu again.
 ```
 What else I can do:
 Plan
- 1. Plan the product vision           — the fuseki-plan-product-vision — not in this version yet
- 2. Plan an epic                      — the fuseki-plan-epic — not in this version yet
- 3. Plan a feature                    — the fuseki-plan-feature — not in this version yet
- 4. Plan a story                      — the fuseki-plan-story — not in this version yet
+ 1. Plan the product vision           — the fuseki-plan-product-vision
+ 2. Plan an epic                      — the fuseki-plan-epic
+ 3. Plan a feature                    — the fuseki-plan-feature
+ 4. Plan a story                      — the fuseki-plan-story
 Map the code
- 5. Map the system                    — the fuseki-map-system — not in this version yet
- 6. Map a subsystem                   — the fuseki-map-subsystem — not in this version yet
- 7. Map a story                       — the fuseki-map-story — not in this version yet
- 8. Write a system document           — the fuseki-map-sys-doc — not in this version yet
- 9. Write a guide                     — the fuseki-map-guide — not in this version yet
-10. Write a pattern                   — the fuseki-map-pattern — not in this version yet
-11. Write a cross-cutting document    — the fuseki-map-cross-cutting — not in this version yet
-12. Write a walkthrough               — the fuseki-map-walkthrough — not in this version yet
-13. Write the coding standards        — the fuseki-coding-standards — not in this version yet
+ 5. Map the system                    — the fuseki-map-system
+ 6. Map a subsystem                   — the fuseki-map-subsystem
+ 7. Map a story                       — the fuseki-map-story
+ 8. Write a system document           — the fuseki-map-sys-doc
+ 9. Write a guide                     — the fuseki-map-guide
+10. Write a pattern                   — the fuseki-map-pattern
+11. Write a cross-cutting document    — the fuseki-map-cross-cutting
+12. Write a walkthrough               — the fuseki-map-walkthrough
+13. Write the coding standards        — the fuseki-coding-standards
 Work and keep it in shape
 14. Search the work                   — the fuseki-search
 15. Type the links                    — the fuseki-linker

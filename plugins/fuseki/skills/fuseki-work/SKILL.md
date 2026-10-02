@@ -2,7 +2,7 @@
 name: fuseki-work
 description: Reads and writes a Fuseki project's work through the Fuseki MCP tools — projects, work items and their hierarchy, the backlog, sprints, boards, comments, links and the change set that makes a run revertible. Use this whenever a task touches project work in any way, even if the user never says Fuseki — writing a backlog item, splitting an epic into features, reparenting or ranking something, moving work through a workflow, planning or closing a sprint, typing the links the embedder drew, finding related work, reading the Fuseki glossary, or reading what a project already holds. Every later method skill writes through this one.
 argument-hint: <project key or name> <what to read or write>
-allowed-tools: mcp__fuseki__server_info, mcp__fuseki__list_projects, mcp__fuseki__get_project, mcp__fuseki__get_project_vocabulary, mcp__fuseki__list_portfolios, mcp__fuseki__get_portfolio, mcp__fuseki__list_teams, mcp__fuseki__get_work_item, mcp__fuseki__list_work_items, mcp__fuseki__search_work_items, mcp__fuseki__lookup_work_items, mcp__fuseki__get_backlog, mcp__fuseki__list_comments, mcp__fuseki__list_work_item_links, mcp__fuseki__get_similar_work_items, mcp__fuseki__get_neighbours, mcp__fuseki__get_dependencies, mcp__fuseki__run_analytical_query, mcp__fuseki__list_untyped_links, mcp__fuseki__list_sprints, mcp__fuseki__get_sprint, mcp__fuseki__preview_sprint_close, mcp__fuseki__list_boards, mcp__fuseki__get_board, mcp__fuseki__get_product_vision, mcp__fuseki__list_skill_definitions, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__list_routines, mcp__fuseki__get_routine, mcp__fuseki__get_change_set, mcp__fuseki__list_change_sets, mcp__fuseki__start_change_set, mcp__fuseki__observe_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__revert_change_set, mcp__fuseki__create_project, mcp__fuseki__update_project, mcp__fuseki__archive_project, mcp__fuseki__add_project_member, mcp__fuseki__remove_project_member, mcp__fuseki__save_product_vision, mcp__fuseki__create_work_item, mcp__fuseki__create_work_items, mcp__fuseki__update_work_item, mcp__fuseki__transition_work_item, mcp__fuseki__change_work_item_type, mcp__fuseki__change_work_item_parent, mcp__fuseki__move_work_item, mcp__fuseki__rebalance_backlog, mcp__fuseki__set_work_item_labels, mcp__fuseki__delete_work_item, mcp__fuseki__restore_work_item, mcp__fuseki__add_comment, mcp__fuseki__link_work_items, mcp__fuseki__unlink_work_items, mcp__fuseki__type_link, mcp__fuseki__create_sprint, mcp__fuseki__update_sprint, mcp__fuseki__start_sprint, mcp__fuseki__close_sprint, mcp__fuseki__add_to_sprint, mcp__fuseki__remove_from_sprint, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__supersede_insight, mcp__fuseki__contradict_insight
+allowed-tools: Bash(date *), mcp__fuseki__server_info, mcp__fuseki__list_projects, mcp__fuseki__get_project, mcp__fuseki__get_project_vocabulary, mcp__fuseki__list_portfolios, mcp__fuseki__get_portfolio, mcp__fuseki__list_teams, mcp__fuseki__get_work_item, mcp__fuseki__list_work_items, mcp__fuseki__search_work_items, mcp__fuseki__lookup_work_items, mcp__fuseki__get_backlog, mcp__fuseki__list_comments, mcp__fuseki__list_work_item_links, mcp__fuseki__get_similar_work_items, mcp__fuseki__get_neighbours, mcp__fuseki__get_dependencies, mcp__fuseki__run_analytical_query, mcp__fuseki__list_untyped_links, mcp__fuseki__list_sprints, mcp__fuseki__get_sprint, mcp__fuseki__preview_sprint_close, mcp__fuseki__list_boards, mcp__fuseki__get_board, mcp__fuseki__get_product_vision, mcp__fuseki__list_skill_definitions, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__list_routines, mcp__fuseki__get_routine, mcp__fuseki__get_change_set, mcp__fuseki__list_change_sets, mcp__fuseki__start_change_set, mcp__fuseki__observe_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__revert_change_set, mcp__fuseki__create_project, mcp__fuseki__update_project, mcp__fuseki__archive_project, mcp__fuseki__add_project_member, mcp__fuseki__remove_project_member, mcp__fuseki__save_product_vision, mcp__fuseki__create_work_item, mcp__fuseki__create_work_items, mcp__fuseki__update_work_item, mcp__fuseki__transition_work_item, mcp__fuseki__change_work_item_type, mcp__fuseki__change_work_item_parent, mcp__fuseki__move_work_item, mcp__fuseki__rebalance_backlog, mcp__fuseki__set_work_item_labels, mcp__fuseki__delete_work_item, mcp__fuseki__restore_work_item, mcp__fuseki__add_comment, mcp__fuseki__link_work_items, mcp__fuseki__unlink_work_items, mcp__fuseki__type_link, mcp__fuseki__create_sprint, mcp__fuseki__update_sprint, mcp__fuseki__start_sprint, mcp__fuseki__close_sprint, mcp__fuseki__add_to_sprint, mcp__fuseki__remove_from_sprint, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__supersede_insight, mcp__fuseki__contradict_insight
 ---
 
 # Fuseki work
@@ -80,11 +80,25 @@ you overwrite somebody's work with a decision made before it existed.
 
 ## Change sets: making a run revertible
 
-A run that writes more than once opens a change set first. `start_change_set` answers an id; pass it
-as `changeSetId` on every write in the run; `complete_change_set` ends it, with the outcome
-`Completed` and a summary of what the run did, or `Failed` and the reason. A run that turned out
-wrong — the wrong four features under the wrong epic — is then one `revert_change_set` away from
-never having happened.
+A run that writes more than once opens a change set first, and every call in it says which run it
+belongs to:
+
+- `start_change_set(summary, projectKey)` opens it. Name the project it works on, so the runs screen
+  lists the run under that project; `routineId` only when a routine's schedule fired the run — a
+  person asking is not a routine. It answers an id: pass it as `changeSetId` on every write in the run.
+  The summary names the run and the moment it opens, taken with `date -u "+%Y-%m-%d %H:%M:%S"`:
+  the same summary on the same project within thirty days is read as the same request and answers
+  the change set that request opened, even a finished one. A write refused because its change set is
+  no longer running wrote nothing: open a new one, with a new moment.
+- `observe_change_set(changeSetId, note)` records what the run noticed on the way that no write
+  shows — a decision taken, a dead end, a step done — in one sentence, as it happens.
+- `complete_change_set(changeSetId, outcome, …)` ends it, with one of two outcomes: `Completed` and
+  a summary of what the run did, or `Failed` and the reason it could not be carried out. Work done that
+  the person then disliked is `Completed`; `Failed` is for a run that could not do its work. Nothing
+  else is accepted: cancelling is the person's act, on the runs screen.
+
+A run that turned out wrong — the wrong four features under the wrong epic — is then one
+`revert_change_set` away from never having happened.
 
 **A change set that wrote work items is typed before it completes.** Whichever skill opened it
 runs `fuseki-linker` with the project key and that change set's id just before its

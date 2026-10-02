@@ -60,9 +60,9 @@ nothing to retry. Read what is actually there, and change what you asked for.
 ## Change sets
 
 ```
-start_change_set     →  answers an id
+start_change_set     →  summary with the moment (date -u) and projectKey (routineId only when a routine fired it); answers an id
    ↓  pass it as changeSetId on every write in the run
-observe_change_set   →  optional: what the run noticed on the way
+observe_change_set   →  optional: a note on what the run noticed on the way
 complete_change_set  →  outcome Completed with a summary, or Failed with the reason
    ↓  and if the run was wrong
 revert_change_set    →  everything it created is gone, everything it changed is back

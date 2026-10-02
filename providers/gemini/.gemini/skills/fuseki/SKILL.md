@@ -24,7 +24,11 @@ the command, or as the answer to the menu — the task skips steps 7 and 8 and g
 steps 1 to 3 have run: reading or writing a project's work goes to `fuseki-work`, finding what a
 project holds or what relates to an item goes to `fuseki-search`, typing the links goes to
 `fuseki-linker`, distilling the insights goes to `fuseki-distiller`, switching a routine on or off or
-running one goes to `fuseki-routines`, and a line of the menu goes to the skill it names.
+running one goes to `fuseki-routines`, planning the product vision, an epic, a feature or a story
+goes to `fuseki-plan-product-vision`, `fuseki-plan-epic`, `fuseki-plan-feature` or `fuseki-plan-story`,
+mapping the code or writing one of its wiki documents goes to the `fuseki-map-` skill of that
+document, writing the coding standards goes to `fuseki-coding-standards`, and a line of the menu goes
+to the skill it names.
 
 Every step that touches this repository runs the plugin's command-line tool from the repository's
 root, which is the directory this session was started in:

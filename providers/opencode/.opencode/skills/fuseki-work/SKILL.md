@@ -75,11 +75,25 @@ you overwrite somebody's work with a decision made before it existed.
 
 ## Change sets: making a run revertible
 
-A run that writes more than once opens a change set first. `start_change_set` answers an id; pass it
-as `changeSetId` on every write in the run; `complete_change_set` ends it, with the outcome
-`Completed` and a summary of what the run did, or `Failed` and the reason. A run that turned out
-wrong — the wrong four features under the wrong epic — is then one `revert_change_set` away from
-never having happened.
+A run that writes more than once opens a change set first, and every call in it says which run it
+belongs to:
+
+- `start_change_set(summary, projectKey)` opens it. Name the project it works on, so the runs screen
+  lists the run under that project; `routineId` only when a routine's schedule fired the run — a
+  person asking is not a routine. It answers an id: pass it as `changeSetId` on every write in the run.
+  The summary names the run and the moment it opens, taken with `date -u "+%Y-%m-%d %H:%M:%S"`:
+  the same summary on the same project within thirty days is read as the same request and answers
+  the change set that request opened, even a finished one. A write refused because its change set is
+  no longer running wrote nothing: open a new one, with a new moment.
+- `observe_change_set(changeSetId, note)` records what the run noticed on the way that no write
+  shows — a decision taken, a dead end, a step done — in one sentence, as it happens.
+- `complete_change_set(changeSetId, outcome, …)` ends it, with one of two outcomes: `Completed` and
+  a summary of what the run did, or `Failed` and the reason it could not be carried out. Work done that
+  the person then disliked is `Completed`; `Failed` is for a run that could not do its work. Nothing
+  else is accepted: cancelling is the person's act, on the runs screen.
+
+A run that turned out wrong — the wrong four features under the wrong epic — is then one
+`revert_change_set` away from never having happened.
 
 **A change set that wrote work items is typed before it completes.** Whichever skill opened it
 runs `fuseki-linker` with the project key and that change set's id just before its

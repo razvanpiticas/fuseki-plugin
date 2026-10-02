@@ -49,20 +49,20 @@ bring it." and shows the menu again.
 ```
 What else I can do:
 Plan
- 1. Plan the product vision           — /fuseki:fuseki-plan-product-vision — not in this version yet
- 2. Plan an epic                      — /fuseki:fuseki-plan-epic — not in this version yet
- 3. Plan a feature                    — /fuseki:fuseki-plan-feature — not in this version yet
- 4. Plan a story                      — /fuseki:fuseki-plan-story — not in this version yet
+ 1. Plan the product vision           — /fuseki:fuseki-plan-product-vision
+ 2. Plan an epic                      — /fuseki:fuseki-plan-epic
+ 3. Plan a feature                    — /fuseki:fuseki-plan-feature
+ 4. Plan a story                      — /fuseki:fuseki-plan-story
 Map the code
- 5. Map the system                    — /fuseki:fuseki-map-system — not in this version yet
- 6. Map a subsystem                   — /fuseki:fuseki-map-subsystem — not in this version yet
- 7. Map a story                       — /fuseki:fuseki-map-story — not in this version yet
- 8. Write a system document           — /fuseki:fuseki-map-sys-doc — not in this version yet
- 9. Write a guide                     — /fuseki:fuseki-map-guide — not in this version yet
-10. Write a pattern                   — /fuseki:fuseki-map-pattern — not in this version yet
-11. Write a cross-cutting document    — /fuseki:fuseki-map-cross-cutting — not in this version yet
-12. Write a walkthrough               — /fuseki:fuseki-map-walkthrough — not in this version yet
-13. Write the coding standards        — /fuseki:fuseki-coding-standards — not in this version yet
+ 5. Map the system                    — /fuseki:fuseki-map-system
+ 6. Map a subsystem                   — /fuseki:fuseki-map-subsystem
+ 7. Map a story                       — /fuseki:fuseki-map-story
+ 8. Write a system document           — /fuseki:fuseki-map-sys-doc
+ 9. Write a guide                     — /fuseki:fuseki-map-guide
+10. Write a pattern                   — /fuseki:fuseki-map-pattern
+11. Write a cross-cutting document    — /fuseki:fuseki-map-cross-cutting
+12. Write a walkthrough               — /fuseki:fuseki-map-walkthrough
+13. Write the coding standards        — /fuseki:fuseki-coding-standards
 Work and keep it in shape
 14. Search the work                   — /fuseki:fuseki-search
 15. Type the links                    — /fuseki:fuseki-linker
