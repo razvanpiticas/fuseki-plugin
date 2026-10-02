@@ -44,4 +44,4 @@ Access is granted on Fuseki's own roles screen, per tenant: `mcp:tools.read` and
 Reads working while writes answer 403 means the write permission has not been granted, or the
 token predates the grant.
 
-Version 0.3.0+c13716318731.
+Version 0.4.0+edd94618e1ca.

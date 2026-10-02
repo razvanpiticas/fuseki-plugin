@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "project": { "key": "", "name": "", "portfolioKey": "" },
+  "docsRoot": "",
+  "productVision": { "path": "", "definitionVersion": null, "savedToServerAtUtc": "" },
+  "codingStandards": { "path": "", "definitionVersion": null },
+  "wiki": {
+    "systemWide": { "architecture": "", "structure": "", "testing": "", "otherDocs": [] },
+    "subsystems": {}
+  },
+  "planning": { "lastEpic": "", "lastFeature": "", "lastStory": "" },
+  "uiTesting": {
+    "playwrightCli": { "available": false, "version": "", "declined": false, "checkedAtUtc": "" },
+    "baseUrl": "",
+    "requiresSignIn": null,
+    "envFile": "",
+    "envKeysPresent": []
+  },
+  "repository": {
+    "hasGit": false,
+    "remoteUrl": "",
+    "defaultBranch": "",
+    "github": {
+      "ghCli": { "available": false, "version": "", "authenticated": false, "declined": false, "checkedAtUtc": "" },
+      "repository": ""
+    },
+    "cicd": { "provider": "", "workflows": [], "checkedAtUtc": "" }
+  },
+  "routines": {},
+  "plugin": { "version": "" }
+}

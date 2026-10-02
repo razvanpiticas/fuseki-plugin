@@ -1,6 +1,6 @@
 ---
 name: fuseki-update
-description: Moves the installed Fuseki plugin to the version published on the public mirror, and reports what changed. Use when asked to update, upgrade or refresh Fuseki, the Fuseki plugin or the Fuseki skills, when a Fuseki tool is missing or behaves unlike its documentation, or when the tools the server reports disagree with what the skills describe.
+description: Update the plugin: moves the installed Fuseki plugin to the version published on the public mirror, and reports what changed. Use when asked to update, upgrade or refresh Fuseki, the Fuseki plugin or the Fuseki skills, when a Fuseki tool is missing or behaves unlike its documentation, or when the tools the server reports disagree with what the skills describe.
 ---
 
 # Updating Fuseki
