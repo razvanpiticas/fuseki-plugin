@@ -1,6 +1,6 @@
 ---
 name: fuseki-distiller
-description: Distil the insights recorded about how a Fuseki project's skill definitions worked — the drafts runs left when something blocked them — into one proposal per skill definition whose instructions should change, written as the whole new text, at the project's level or the organisation's, superseding the drafts it folds and naming contradictions. It never approves, applies, rejects or deletes anything: a person does, on the skill definition's Guidance tab. Use when the person says "distil the insights", "what did we learn about plan-story", "fold the learnings", when the Weekly distiller routine fires, or when blockers were recorded and the person asks what a skill definition should say instead.
+description: Distil the insights recorded about how a Fuseki project's skill definitions worked — the drafts runs left when something blocked them — into one proposal per skill definition whose instructions should change, written as the whole new text, at the project's level or the organisation's, superseding the drafts it folds and naming contradictions. It never approves, applies, rejects or deletes anything: a person does, on the skill definition's Guidance tab. Use when the person says "distil the insights", "what did we learn about plan-story", "fold the learnings", when fuseki-routines hands it the Weekly distiller's run, or when blockers were recorded and the person asks what a skill definition should say instead. "Run the Weekly distiller", now or on its schedule, is the routine's run: fuseki-routines opens it first.
 argument-hint: <project key> [skill definition code] [since <date> | since the last run] [change set id]
 allowed-tools: Bash(node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" *), Bash(date *), mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__list_skill_definitions, mcp__fuseki__get_skill_definition, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__supersede_insight, mcp__fuseki__contradict_insight, mcp__fuseki__list_routines, mcp__fuseki__get_routine, mcp__fuseki__list_change_sets, mcp__fuseki__get_change_set, mcp__fuseki__start_change_set, mcp__fuseki__observe_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios
 ---
@@ -24,12 +24,18 @@ superseded the drafts.
 | The Weekly distiller routine fired | `fuseki-routines`, inside the change set it opened naming the routine | the routine's: you open none and complete none | the previous firing, which `fuseki-routines` hands you | the digest, which `fuseki-routines` completes the change set with |
 | A person asks: "distil the insights on FUS" | the person | yours: `start_change_set(projectKey, summary)` first, `complete_change_set` last | the Weekly distiller's last firing | the digest, as the change set's summary and as your answer |
 
+**A request that names the Weekly distiller is the routine's run**, whether a schedule fired it or a
+person asked for it — "run the Weekly distiller on FUS now", or the firing prompt. Handed no change
+set, you do not open that run: load the `fuseki-routines` skill and follow its *run now*, before any
+call of yours. It reads the routine, opens the change set naming it, and hands the run back to you
+with the previous firing; then you are in the first row.
+
 **Handed a change set id, you never complete it** — not when the pass is done, not when nobody says
 who will. It is the routine's run, and `fuseki-routines` completes it with your digest; completing it
 yourself ends that run under it. Your last call is the last `observe_change_set`, and your answer ends
 "Change set <id> is still running; its caller completes it with this digest." Handed none, open one
-with a one-line summary ("Distil the insights on FUS"), no `routineId` — a person asking is not a
-routine — and complete it at the end with outcome `Completed` and the digest as its summary. That
+with a one-line summary ("Distil the insights on FUS"), no `routineId` — a person asking to distil is
+not a routine — and complete it at the end with outcome `Completed` and the digest as its summary. That
 change set is the only one you ever complete.
 
 **A run the routine fired is unattended to its last word.** Nobody is asked anything: what needs a

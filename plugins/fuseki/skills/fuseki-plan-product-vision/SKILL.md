@@ -37,9 +37,7 @@ The command-line tool runs as `node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" <
 5. **The state.** Take the time of the save with `date -u +%Y-%m-%dT%H:%M:%SZ`, then
    `fuseki state set productVision '{"path":"<docsRoot>/product/product-vision.md","definitionVersion":<version>,"savedToServerAtUtc":"<that time>"}'`.
    `productVision` is this skill's key, and the only one it writes.
-6. **End the run.** The insight question comes first, as above, inside this change set: an answer
-   the definition asks for that the person could not give, left open in the vision, is something that
-   blocked you. Then
+6. **End the run.** **The insight question comes first**, before `complete_change_set` and inside this change set. Read back what you wrote and what the person answered. Something blocked you when an answer the definition asks for is one the person said they did not know or could not give, when you wrote a default, a guess or a placeholder in its place, or when your report will list it as still open. "Work with what you have", "write it now" and "go ahead" are not that answer: what they leave open still blocked you. When something did, say what, ask whether to record an insight, and stop there with the change set running; after the person answers, record the insight on a yes, then complete it. A yes or a no the person already gave in this session is that answer, so do not ask again. When nothing did, complete it. A report never says nothing blocked you beside an answer it lists as open. Completing it is
    `complete_change_set` with outcome `Completed` and a one-line summary: "Saved the product vision
    of <key>, by plan-product-vision version <n>."
 7. **Report** what the tools answered: that the vision was saved (its first heading), the file

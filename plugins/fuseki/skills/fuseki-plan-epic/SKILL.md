@@ -44,9 +44,7 @@ skill's rules: names in, identifiers out, a version for every edit.
    there may be no link to type.
 5. **The state.** `fuseki state set planning.lastEpic '"<the epic's code>"'`. `planning` belongs to the
    three plan skills, and this one writes only `lastEpic`.
-6. **End the run.** The insight question comes first, as above, inside this change set: an answer
-   the definition asks for that the person could not give, left open in the plan, is something that
-   blocked you. Then
+6. **End the run.** **The insight question comes first**, before `complete_change_set` and inside this change set. Read back what you wrote and what the person answered. Something blocked you when an answer the definition asks for is one the person said they did not know or could not give, when you wrote a default, a guess or a placeholder in its place, or when your report will list it as still open. "Work with what you have", "write it now" and "go ahead" are not that answer: what they leave open still blocked you. When something did, say what, ask whether to record an insight, and stop there with the change set running; after the person answers, record the insight on a yes, then complete it. A yes or a no the person already gave in this session is that answer, so do not ask again. When nothing did, complete it. A report never says nothing blocked you beside an answer it lists as open. Completing it is
    `complete_change_set` with outcome `Completed` and a summary naming the epic and its features by
    code. A run that wrote nothing it meant to — refused before the first create — completes with
    outcome `Failed` and the refusal as the reason.

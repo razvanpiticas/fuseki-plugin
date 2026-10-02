@@ -1,6 +1,6 @@
 ---
 name: fuseki-linker
-description: Type the links in Fuseki — gives every untyped link the embedder drew between work items that read alike its meaning, the word that fits (blocks, duplicates, causes, relates to or the organisation's own), its direction and, for a word with a size, how much. Use it before completing a change set that wrote work items, when the Weekly linker routine fires, and whenever a person says "type the links", asks what the related links mean, or wants the project's inferred links given words. Handed a change set, it works inside it and never completes it. It reports possible duplicates instead of typing them, and it never confirms or rejects a link and never merges two items: those are a person's, on the links screen.
+description: Type the links in Fuseki — gives every untyped link the embedder drew between work items that read alike its meaning, the word that fits (blocks, duplicates, causes, relates to or the organisation's own), its direction and, for a word with a size, how much. Use it before completing a change set that wrote work items, when fuseki-routines hands it the Weekly linker's run, and whenever a person says "type the links", asks what the related links mean, or wants the project's inferred links given words. Handed a change set, it works inside it and never completes it. It reports possible duplicates instead of typing them, and it never confirms or rejects a link and never merges two items: those are a person's, on the links screen. "Run the Weekly linker", now or on its schedule, is the routine's run: fuseki-routines opens it first.
 ---
 
 # Fuseki linker
@@ -22,6 +22,12 @@ and the run can be taken back whole.
 | The Weekly linker routine fired | `fuseki-routines`, inside the change set it opened naming the routine | the routine's: you open none and complete none | `list_untyped_links(projectKey)` — the whole project's queue, page by page | the digest, which `fuseki-routines` completes the change set with |
 | A person asks: "type the links on FUS" | the person | yours: `start_change_set(projectKey, summary)` first, `complete_change_set` last | `list_untyped_links(projectKey)` — the whole project's queue | the digest, as the change set's summary and as your answer |
 
+**A request that names the Weekly linker is the routine's run**, whether a schedule fired it or a
+person asked for it — "run the Weekly linker on FUS now", or the firing prompt. Handed no change
+set, you do not open that run: load the `fuseki-routines` skill and follow its *run now*, before any
+call of yours. It reads the routine, opens the change set naming it, and hands the run back to you;
+then you are in the second row.
+
 **Handed a change set id, you never complete it.** Not when it names the Weekly linker, not when the
 routine's instructions say "report … in the digest", not when no `fuseki-routines` is loaded and
 nobody says who will close it, not when your work is done. The change set is the caller's: the
@@ -33,7 +39,7 @@ line: "Change set <id> is still running; its caller completes it with this diges
 "no change set scope" means the list is the whole project's, not that the change set is yours.
 
 Handed none, you are the third row: open one with a one-line summary ("Type the links on FUS"), no
-`routineId` (a person asking is not a routine), and complete it at the end with outcome `Completed`
+`routineId` (a person asking to type the links is not a routine), and complete it at the end with outcome `Completed`
 and the digest as its summary. That change set, the one `start_change_set` answered you, is the only
 one you ever complete. The project is the one named, else the one this repository is bound to
 (`pnpm dlx github:razvanpiticas/fuseki-plugin state get project`).
