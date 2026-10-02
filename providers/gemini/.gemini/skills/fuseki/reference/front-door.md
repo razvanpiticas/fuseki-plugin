@@ -66,8 +66,8 @@ Map the code
 Work and keep it in shape
 14. Search the work                   — the fuseki-search
 15. Type the links                    — the fuseki-linker
-16. Distil the insights               — the fuseki-distiller — not in this version yet
-17. Routines: switch on, run now      — the fuseki-routines — not in this version yet
+16. Distil the insights               — the fuseki-distiller
+17. Routines: switch on, run now      — the fuseki-routines
 18. Set up GitHub                     — the fuseki
 19. Set up browser testing            — the fuseki
 20. Update the plugin                 — the fuseki-update

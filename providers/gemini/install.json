@@ -3,7 +3,9 @@
   "displayName": "Gemini CLI",
   "skillPaths": [
     ".gemini/skills/fuseki",
+    ".gemini/skills/fuseki-distiller",
     ".gemini/skills/fuseki-linker",
+    ".gemini/skills/fuseki-routines",
     ".gemini/skills/fuseki-search",
     ".gemini/skills/fuseki-update",
     ".gemini/skills/fuseki-work"

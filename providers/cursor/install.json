@@ -3,7 +3,9 @@
   "displayName": "Cursor",
   "skillPaths": [
     ".cursor/skills/fuseki",
+    ".cursor/skills/fuseki-distiller",
     ".cursor/skills/fuseki-linker",
+    ".cursor/skills/fuseki-routines",
     ".cursor/skills/fuseki-search",
     ".cursor/skills/fuseki-update",
     ".cursor/skills/fuseki-work"

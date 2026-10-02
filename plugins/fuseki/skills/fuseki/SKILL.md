@@ -24,7 +24,8 @@ and the first run of it in a repository sets that repository up. Named with a ta
 the command, or as the answer to the menu — the task skips steps 7 and 8 and goes to its skill once
 steps 1 to 3 have run: reading or writing a project's work goes to `fuseki-work`, finding what a
 project holds or what relates to an item goes to `fuseki-search`, typing the links goes to
-`fuseki-linker`, and a line of the menu goes to the skill it names.
+`fuseki-linker`, distilling the insights goes to `fuseki-distiller`, switching a routine on or off or
+running one goes to `fuseki-routines`, and a line of the menu goes to the skill it names.
 
 Every step that touches this repository runs the plugin's command-line tool from the repository's
 root, which is the directory this session was started in:

@@ -3,7 +3,9 @@
   "displayName": "OpenClaw",
   "skillPaths": [
     ".agents/skills/fuseki",
+    ".agents/skills/fuseki-distiller",
     ".agents/skills/fuseki-linker",
+    ".agents/skills/fuseki-routines",
     ".agents/skills/fuseki-search",
     ".agents/skills/fuseki-update",
     ".agents/skills/fuseki-work"

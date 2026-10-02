@@ -3,7 +3,9 @@
   "displayName": "Hermes",
   "skillPaths": [
     ".hermes/skills/fuseki",
+    ".hermes/skills/fuseki-distiller",
     ".hermes/skills/fuseki-linker",
+    ".hermes/skills/fuseki-routines",
     ".hermes/skills/fuseki-search",
     ".hermes/skills/fuseki-update",
     ".hermes/skills/fuseki-work"
