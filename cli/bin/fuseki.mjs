@@ -29,6 +29,7 @@ and schedules a project's routines.
   fuseki state get <key path>          print one value, such as project
   fuseki state set <key path> <json>   write one value, the whole file in one step
   fuseki state reconcile               clear every recorded path whose file is gone
+  fuseki state discover                record the documents already where the skills write them
 
   fuseki tooling check                 detect playwright-cli, git, the GitHub remote, gh and CI
 

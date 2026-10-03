@@ -7,6 +7,7 @@
     ".cursor/skills/fuseki-distiller",
     ".cursor/skills/fuseki-linker",
     ".cursor/skills/fuseki-map-cross-cutting",
+    ".cursor/skills/fuseki-map-decision",
     ".cursor/skills/fuseki-map-guide",
     ".cursor/skills/fuseki-map-pattern",
     ".cursor/skills/fuseki-map-story",

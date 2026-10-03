@@ -1,7 +1,7 @@
 ---
 name: fuseki
 description: The front door to Fuseki and the connection under every other Fuseki skill. Invoked with nothing, it signs in, binds this repository to a Fuseki project in a gitignored .fuseki/state.json, checks git, GitHub and browser testing on this machine, shows where the project stands and offers everything the plugin can do. Set up GitHub or set up browser testing again through it. Use when the person types the Fuseki command alone, asks what Fuseki can do or where the project stands, wants this repository bound to a project, when sign-in or a connection is failing, when a Fuseki tool refuses a call and the refusal needs reading, or when somebody asks what access they have. For reading or writing a project's work, load the fuseki-work skill, which this one hands off to.
-allowed-tools: mcp__fuseki__server_info, mcp__fuseki__list_projects, mcp__fuseki__get_project, mcp__fuseki__get_project_vocabulary, mcp__fuseki__list_portfolios, mcp__fuseki__get_portfolio, mcp__fuseki__list_teams, mcp__fuseki__get_work_item, mcp__fuseki__list_work_items, mcp__fuseki__search_work_items, mcp__fuseki__lookup_work_items, mcp__fuseki__get_backlog, mcp__fuseki__list_comments, mcp__fuseki__list_work_item_links, mcp__fuseki__get_similar_work_items, mcp__fuseki__get_neighbours, mcp__fuseki__get_dependencies, mcp__fuseki__run_analytical_query, mcp__fuseki__list_untyped_links, mcp__fuseki__list_sprints, mcp__fuseki__get_sprint, mcp__fuseki__preview_sprint_close, mcp__fuseki__list_boards, mcp__fuseki__get_board, mcp__fuseki__get_product_vision, mcp__fuseki__list_skill_definitions, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__list_routines, mcp__fuseki__get_routine, mcp__fuseki__get_change_set, mcp__fuseki__list_change_sets, mcp__fuseki__start_change_set, mcp__fuseki__observe_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__revert_change_set, mcp__fuseki__create_project, mcp__fuseki__update_project, mcp__fuseki__archive_project, mcp__fuseki__add_project_member, mcp__fuseki__remove_project_member, mcp__fuseki__save_product_vision, mcp__fuseki__create_work_item, mcp__fuseki__create_work_items, mcp__fuseki__update_work_item, mcp__fuseki__transition_work_item, mcp__fuseki__change_work_item_type, mcp__fuseki__change_work_item_parent, mcp__fuseki__move_work_item, mcp__fuseki__rebalance_backlog, mcp__fuseki__set_work_item_labels, mcp__fuseki__delete_work_item, mcp__fuseki__restore_work_item, mcp__fuseki__add_comment, mcp__fuseki__link_work_items, mcp__fuseki__unlink_work_items, mcp__fuseki__type_link, mcp__fuseki__create_sprint, mcp__fuseki__update_sprint, mcp__fuseki__start_sprint, mcp__fuseki__close_sprint, mcp__fuseki__add_to_sprint, mcp__fuseki__remove_from_sprint, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__supersede_insight, mcp__fuseki__contradict_insight, Bash(node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" *)
+allowed-tools: Read, Bash(date *), mcp__fuseki__server_info, mcp__fuseki__list_projects, mcp__fuseki__get_project, mcp__fuseki__get_project_vocabulary, mcp__fuseki__list_portfolios, mcp__fuseki__get_portfolio, mcp__fuseki__list_teams, mcp__fuseki__get_work_item, mcp__fuseki__list_work_items, mcp__fuseki__search_work_items, mcp__fuseki__lookup_work_items, mcp__fuseki__get_backlog, mcp__fuseki__list_comments, mcp__fuseki__list_work_item_links, mcp__fuseki__get_similar_work_items, mcp__fuseki__get_neighbours, mcp__fuseki__get_dependencies, mcp__fuseki__run_analytical_query, mcp__fuseki__list_untyped_links, mcp__fuseki__list_sprints, mcp__fuseki__get_sprint, mcp__fuseki__preview_sprint_close, mcp__fuseki__list_boards, mcp__fuseki__get_board, mcp__fuseki__get_product_vision, mcp__fuseki__list_skill_definitions, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__list_routines, mcp__fuseki__get_routine, mcp__fuseki__get_change_set, mcp__fuseki__list_change_sets, mcp__fuseki__start_change_set, mcp__fuseki__observe_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__revert_change_set, mcp__fuseki__create_project, mcp__fuseki__update_project, mcp__fuseki__archive_project, mcp__fuseki__add_project_member, mcp__fuseki__remove_project_member, mcp__fuseki__save_product_vision, mcp__fuseki__create_work_item, mcp__fuseki__create_work_items, mcp__fuseki__update_work_item, mcp__fuseki__transition_work_item, mcp__fuseki__change_work_item_type, mcp__fuseki__change_work_item_parent, mcp__fuseki__move_work_item, mcp__fuseki__rebalance_backlog, mcp__fuseki__set_work_item_labels, mcp__fuseki__delete_work_item, mcp__fuseki__restore_work_item, mcp__fuseki__add_comment, mcp__fuseki__link_work_items, mcp__fuseki__unlink_work_items, mcp__fuseki__type_link, mcp__fuseki__create_sprint, mcp__fuseki__update_sprint, mcp__fuseki__start_sprint, mcp__fuseki__close_sprint, mcp__fuseki__add_to_sprint, mcp__fuseki__remove_from_sprint, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__supersede_insight, mcp__fuseki__contradict_insight, Bash(node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" *)
 ---
 
 # Fuseki
@@ -21,8 +21,8 @@ menu are skipped.
 
 `/fuseki:fuseki` with nothing after it is the way in for somebody who does not know what to ask,
 and the first run of it in a repository sets that repository up. Named with a task instead — after
-the command, or as the answer to the menu — the task skips steps 7 and 8 and goes to its skill once
-steps 1 to 3 have run: reading or writing a project's work goes to `fuseki-work`, finding what a
+the command, or as the answer to the menu — the task skips steps 8 and 9 and goes to its skill once
+steps 1 to 4 have run: reading or writing a project's work goes to `fuseki-work`, finding what a
 project holds or what relates to an item goes to `fuseki-search`, typing the links goes to
 `fuseki-linker`, distilling the insights goes to `fuseki-distiller`, switching a routine on or off or
 running one — "run the Weekly distiller now" included — goes to `fuseki-routines`, planning the product vision, an epic, a feature or a story
@@ -43,7 +43,7 @@ stop. **Never delete, replace or hand-edit `.fuseki/state.json`** — a file the
 the person's to fix, and the message says what is wrong. Nothing but the tool writes it, and each
 skill writes only its own key ([reference/front-door.md](reference/front-door.md) has the table).
 
-Eight steps, in this order:
+Nine steps, in this order:
 
 1. **Sign in.** Call `list_portfolios`. A 401 means sign in again, as [Connecting](#connecting) says;
    any other refusal — `server_info` first, then [Reading a refusal](#reading-a-refusal). Nothing
@@ -65,7 +65,32 @@ Eight steps, in this order:
      record the directory the person names. Create it first when it does not exist (`mkdir -p
      <directory>`): `state reconcile` clears a recorded path that is not on disk, so a directory
      recorded before it exists is asked for again on the next run.
-4. **Repository and GitHub.** Run `node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" tooling check`; it covers this step and the next. Read
+4. **The documents.** Run `node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" state discover`. It records, under keys that are still
+   empty, the documents already where the skills write them — the product vision, the coding
+   standards, the system-wide architecture, structure and testing, and each subsystem's documents
+   and decision records — and prints a `Recorded …` line for each: say them in one line, and nothing
+   when there are none. It never replaces a recorded path.
+   - **Candidates.** A `Candidate for <key>: <path>` line is a document whose place is not certain.
+     When there are any: STOP and call the AskUserQuestion tool to clarify. Ask once, listing every candidate with its key, which to
+     record; for a candidate offered for a whole subsystem (`wiki.subsystems.<name>`), also which of
+     its lists it belongs in: `systems`, `crossCutting`, `guides`, `patterns`, `walkthroughs` or
+     `decisions`. Record each one picked by setting its list with the path added and every path
+     already in it kept: `node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" state set <key> '["…", "<path>"]'`, or the subsystem's whole
+     entry when it has none, `root` its folder and every other value empty but this path. Set
+     `discovery.ignored` once with every candidate not picked added and every path already in it
+     kept, so none is asked about again.
+   - **The vision on the server.** When `productVision.path` is set, `productVision.savedToServerAtUtc`
+     is empty and the path is not in `discovery.ignored`, call `get_product_vision` with the project's
+     key. When the project has no vision: STOP and call the AskUserQuestion tool to clarify. The question, word for word: "This
+     repository has a product vision at <path>, and the project in Fuseki has none. Save it to the
+     project?" **Yes:** read the file, `start_change_set` with the project's key and the summary "Save
+     the product vision of <key> from <path>", `save_product_vision` with the file's whole text,
+     unchanged, and the change set's id, `complete_change_set` with outcome `Completed`, then
+     `node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" state set productVision.savedToServerAtUtc '"<date -u +%Y-%m-%dT%H:%M:%SZ>"'`. A
+     refusal saved nothing: complete the change set `Failed` with its sentence, say it in one line,
+     and go on with step 5. **No:**
+     add the path to `discovery.ignored`, so the question is not asked again.
+5. **Repository and GitHub.** Run `node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" tooling check`; it covers this step and the next. Read
    `node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" state get repository`, then:
    - No git (`hasGit` false): say so in one line. Nothing that needs git is offered — the
      continuous-integration checks and the commit-based steps of the plan skills.
@@ -77,14 +102,14 @@ Eight steps, in this order:
    - `gh` present and not signed in (`authenticated` false): tell the person to type `! gh auth login`
      themselves — it is interactive, and this skill never runs it — then run `node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" tooling check` again.
    - Say which continuous-integration provider was found, and its workflow files.
-5. **Browser testing: `playwright-cli`.** Read `node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" state get uiTesting`.
+6. **Browser testing: `playwright-cli`.** Read `node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" state get uiTesting`.
    - `playwrightCli.available`: say its version, then go on.
    - Missing and not `declined`: STOP and call the AskUserQuestion tool to clarify. The question, word for word: "Planning a feature
      or a story writes browser checks run with playwright-cli. Install it now?" **Yes:** guide the person through
      [reference/ui-testing.md](reference/ui-testing.md), then run `node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" tooling check` again. **No:**
      `node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" state set uiTesting.playwrightCli.declined true`, and say the plan skills will write the browser
      checks without running them.
-6. **Browser testing: the app's address and sign-in.** Only when `playwrightCli.available` is true and
+7. **Browser testing: the app's address and sign-in.** Only when `playwrightCli.available` is true and
    `requiresSignIn` is `null`:
    1. Ask for the app's local address, and record it: `node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" state set uiTesting.baseUrl '"<address>"'`.
    2. STOP and call the AskUserQuestion tool to clarify. The question, word for word: "Does the app need a sign-in to use it?"
@@ -97,17 +122,19 @@ Eight steps, in this order:
    in the state. `.fuseki/.env` is never opened by this skill: `node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" env check` reports the names of the
    keys that are filled, and that is all anybody here needs to know. When `requiresSignIn` is already
    `true`, run `node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" env check` on every run, so the browser-testing line says what the file holds now.
-7. **Status.** Seven lines, each read, never invented — the fields are in
+8. **Status.** Eight lines, each read, never invented — the fields are in
    [reference/front-door.md](reference/front-door.md): the project; the open sprint; the untyped
-   links; the pending proposals; the routines switched on; the repository; browser testing.
-8. **The menu.** The fenced block in [reference/front-door.md](reference/front-door.md), printed
+   links; the pending proposals; the routines switched on; the documents; the repository; browser
+   testing.
+9. **The menu.** The fenced block in [reference/front-door.md](reference/front-door.md), printed
    as it stands inside a code block — every line, its numbers, its group headings and its "not in
    this version yet" — never rewritten as a list. Then do what the person picks. A line marked "not in this version yet" answers one sentence and shows the
    menu again.
 
-The front door writes nothing on the server. On this machine it writes only through the tool, and a
-second run on a repository nothing changed in asks nothing and changes nothing. **Set up GitHub**
-reruns step 4, and **set up browser testing** reruns steps 5 and 6, even when the person declined or
+The front door writes nothing on the server but a product vision the person agreed to save in step
+4. On this machine it writes only through the tool, and a second run on a repository nothing changed
+in asks nothing and changes nothing. **Set up GitHub**
+reruns step 5, and **set up browser testing** reruns steps 6 and 7, even when the person declined or
 answered before: `declined` is set back to `false` and `requiresSignIn` to `null` with `node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" state set`
 before the step runs again.
 

@@ -8,6 +8,7 @@
     "systemWide": { "architecture": "", "structure": "", "testing": "", "otherDocs": [] },
     "subsystems": {}
   },
+  "discovery": { "ignored": [] },
   "planning": { "lastEpic": "", "lastFeature": "", "lastStory": "" },
   "uiTesting": {
     "playwrightCli": { "available": false, "version": "", "declined": false, "checkedAtUtc": "" },

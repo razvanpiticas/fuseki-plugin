@@ -42,7 +42,7 @@ const JSON_INDENT = 2
  * like. The story that defines the file says it, and it is restated here once.
  */
 export const OPEN_MAP_ENTRY_SHAPES = Object.freeze({
-  "wiki.subsystems": Object.freeze({ root: "", architecture: "", structure: "", systems: [], crossCutting: [], guides: [], patterns: [], walkthroughs: [] }),
+  "wiki.subsystems": Object.freeze({ root: "", architecture: "", structure: "", systems: [], crossCutting: [], guides: [], patterns: [], walkthroughs: [], decisions: [] }),
   routines: Object.freeze({ name: "", installedAtUtc: "", harness: "", entry: "" }),
 })
 

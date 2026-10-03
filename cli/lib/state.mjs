@@ -2,6 +2,7 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs"
 import { join, resolve } from "node:path"
 
 import { readBundledVersion } from "./bundled.mjs"
+import { discoverDocuments } from "./discover.mjs"
 import { answeredYes } from "./run-program.mjs"
 import {
   ENV_FILE_LABEL,
@@ -23,8 +24,8 @@ import {
 /**
  * `fuseki state` — creates, reads, writes and reconciles `.fuseki/state.json`.
  *
- * <p>The front door runs `init` and `reconcile` on every run, and every skill writes its own key
- * through `set`. Nothing else writes the file (D15). Each action answers the lines it prints, so
+ * <p>The front door runs `init`, `reconcile` and `discover` on every run, and every skill writes its own
+ * key through `set`. Nothing else writes the file (D15). Each action answers the lines it prints, so
  * what a person reads is what the tests read.</p>
  */
 
@@ -37,6 +38,7 @@ export const STATE_ACTIONS = Object.freeze({
   get: { usage: "fuseki state get <key path>", argumentCount: 1 },
   set: { usage: "fuseki state set <key path> <json>", argumentCount: 2 },
   reconcile: { usage: "fuseki state reconcile", argumentCount: 0 },
+  discover: { usage: "fuseki state discover", argumentCount: 0 },
 })
 
 /** The line `.gitignore` must carry, so nothing under `.fuseki/` is ever committed. */
@@ -56,6 +58,7 @@ const RECORDED_PATH_KEYS = Object.freeze([
   "wiki.systemWide.structure",
   "wiki.systemWide.testing",
   "wiki.systemWide.otherDocs",
+  "discovery.ignored",
   "uiTesting.envFile",
   "repository.cicd.workflows",
 ])
@@ -86,6 +89,7 @@ export const runState = (argv, context) => {
   if (argv[0] === "init") return initState(context)
   if (argv[0] === "get") return getState(context, args[0])
   if (argv[0] === "set") return setState(context, args[0], args[1])
+  if (argv[0] === "discover") return discoverDocuments(context)
 
   return reconcileState(context)
 }

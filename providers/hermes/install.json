@@ -7,6 +7,7 @@
     ".hermes/skills/fuseki-distiller",
     ".hermes/skills/fuseki-linker",
     ".hermes/skills/fuseki-map-cross-cutting",
+    ".hermes/skills/fuseki-map-decision",
     ".hermes/skills/fuseki-map-guide",
     ".hermes/skills/fuseki-map-pattern",
     ".hermes/skills/fuseki-map-story",

@@ -30,9 +30,9 @@ The command-line tool runs as `pnpm dlx github:razvanpiticas/fuseki-plugin <comm
    Answers the person already gave are answers: do not ask them again.
 4. **The state.** Once the documents are written, set the subsystem's whole entry in one call, every
    path relative to the repository's root, every list keeping the paths already in it — the
-   cross-cutting documents, guides, patterns and walkthroughs other skills recorded are kept as they
-   are:
-   `fuseki state set wiki.subsystems.<name> '{"root":"<docsRoot>/wiki/subsystems/<name>","architecture":"<…>/architecture.md","structure":"<…>/structure.md","systems":["<…>/systems/<system>.md"],"crossCutting":[…],"guides":[…],"patterns":[…],"walkthroughs":[…]}'`.
+   cross-cutting documents, guides, patterns, walkthroughs and decision records other skills recorded
+   are kept as they are:
+   `fuseki state set wiki.subsystems.<name> '{"root":"<docsRoot>/wiki/subsystems/<name>","architecture":"<…>/architecture.md","structure":"<…>/structure.md","systems":["<…>/systems/<system>.md"],"crossCutting":[…],"guides":[…],"patterns":[…],"walkthroughs":[…],"decisions":[…]}'`.
    `wiki.*` belongs to the mapping skills, and this one writes only this subsystem's entry.
 5. **The insight question**, as above:
 

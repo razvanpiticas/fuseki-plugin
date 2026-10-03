@@ -35,7 +35,7 @@ The command-line tool runs as `pnpm dlx github:razvanpiticas/fuseki-plugin <comm
      (`fuseki state set wiki.systemWide.otherDocs '["…", "<new path>"]'`);
    - under `<docsRoot>/wiki/subsystems/<name>/`: that subsystem's list named after the folder —
      `systems/` → `systems`, `cross-cutting/` → `crossCutting`, `guides/` → `guides`, `patterns/` →
-     `patterns`, `walkthroughs/` → `walkthroughs`
+     `patterns`, `walkthroughs/` → `walkthroughs`, `decisions/` → `decisions`
      (`fuseki state set wiki.subsystems.<name>.<list> '["…", "<new path>"]'`); a subsystem with no
      entry yet gets its whole entry, `root` its folder and every other value empty but this path.
    `wiki.*` belongs to the mapping skills; this one writes only the lists its new documents belong in.

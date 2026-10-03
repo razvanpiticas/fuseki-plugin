@@ -7,6 +7,7 @@
     ".agents/skills/fuseki-distiller",
     ".agents/skills/fuseki-linker",
     ".agents/skills/fuseki-map-cross-cutting",
+    ".agents/skills/fuseki-map-decision",
     ".agents/skills/fuseki-map-guide",
     ".agents/skills/fuseki-map-pattern",
     ".agents/skills/fuseki-map-story",
