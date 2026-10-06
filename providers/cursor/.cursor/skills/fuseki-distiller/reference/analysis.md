@@ -5,7 +5,7 @@ Load this before writing anything. The reading is done; this is what to make of 
 ## Group
 
 Within one code, put insights together when they are about the same thing: the same step of the
-instructions, the same input, the same check under "Done when". An insight may be about two things;
+instructions, the same input, the same check under "Done when" (or "DoR" in the planning definitions). An insight may be about two things;
 then it is in two groups, and the digest says so.
 
 ## Recurring
@@ -30,7 +30,8 @@ out or said something that did not happen. The proposal is the whole text in for
 the change in place — read it once more as the agent that will follow it next week:
 
 - every heading kept, in its order (`# <Name>`, `## Purpose`, `## Inputs`, `## Steps`, `## Output`,
-  `## Done when`, and any the text in force carries beyond them);
+  `## Done when` — `## DoR (Definition of Ready)` in `plan-epic` and `plan-feature` — and any the text in
+  force carries beyond them);
 - the definition's own voice: plain English, numbered steps where it numbers them;
 - nothing changed that the insights do not support, and no tool, path or person's name added.
 
