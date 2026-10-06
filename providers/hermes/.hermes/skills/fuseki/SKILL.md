@@ -145,7 +145,17 @@ Nine steps, in this order:
 7. **Browser testing: the app's address and sign-in.** Only when `playwrightCli.available` is true and
    `requiresSignIn` is `null`:
    1. Ask for the app's local address, and record it: `pnpm dlx github:razvanpiticas/fuseki-plugin state set uiTesting.baseUrl '"<address>"'`.
-   2. Ask the user directly to clarify what you cannot infer. The question, word for word: "Does the app need a sign-in to use it?"
+   2. **Whether the app needs a sign-in comes from the code.** A repository with code (step 4 counted
+      files outside the docs) is never asked: look for sign-in with Grep and Glob — an authentication
+      package in a manifest (`next-auth`, `@auth/`, `passport`, `keycloak-js`, `oidc-client`,
+      `@clerk/`, `firebase/auth`, `Microsoft.AspNetCore.Authentication`,
+      `spring-boot-starter-security`, `devise`), a sign-in page or route (`login`, `signin`,
+      `sign-in`), or middleware or attributes that turn away a reader who is not signed in
+      (`[Authorize]`, a session check that redirects). Found: go on as Yes. None: go on as No. Either
+      way, say in one line what decided it, with the file — "Sign-in found: `middleware.ts` redirects
+      readers with no session." — so the person can correct it through **set up browser testing**.
+      No code yet: Ask the user directly to clarify what you cannot infer. The question, word for word: "Does the app need a sign-in to
+      use it?"
    3. **No:** `pnpm dlx github:razvanpiticas/fuseki-plugin state set uiTesting.requiresSignIn false`.
    4. **Yes:** run `pnpm dlx github:razvanpiticas/fuseki-plugin env init`, then tell the person to open `.fuseki/.env` themselves and fill in
       `FUSEKI_UI_USERNAME` and `FUSEKI_UI_PASSWORD` for a test account. When they say it is done, run
