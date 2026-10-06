@@ -1,6 +1,6 @@
 ---
 name: fuseki-plan-story
-description: Plan a story in a Fuseki project so whoever builds it assumes nothing, by the method the server holds as the skill definition plan-story — its description opening with the goal execution prompt, its Gherkin acceptance criteria, estimate and priority written onto the work item in one change set, every story it waits on or holds up written as a blocks link, then a wiki curation agent writing its Relevant Wiki section and a technical solution agent writing its technical solution, and the story moved to the project's ready state. "Continuous integration passes" ends the goal execution prompt and the definition of done as the gh commands that prove it only when the repository runs GitHub Actions and gh here is installed, signed in and not declined (otherwise as a check by hand); the story is recorded in .fuseki/state.json. Use when the person asks to plan, specify, refine or write acceptance criteria for a story, or picks "Plan a story" from the Fuseki menu.
+description: Plan a story in a Fuseki project so whoever builds it assumes nothing, by the method the server holds as the skill definition plan-story — its description opening with the goal execution prompt, its Gherkin acceptance criteria, estimate and priority written onto the work item in one change set, every story it waits on or holds up written as a blocks link, then a wiki curation agent writing its Relevant Wiki section and a technical solution agent running fuseki-architect-technical-solution to write its technical solution (a product question it cannot settle comes back to the person and into the acceptance criteria), and the story moved to the project's ready state. "Continuous integration passes" ends the goal execution prompt and the definition of done as the gh commands that prove it only when the repository runs GitHub Actions and gh here is installed, signed in and not declined (otherwise as a check by hand); the story is recorded in .fuseki/state.json. Use when the person asks to plan, specify, refine or write acceptance criteria for a story, or picks "Plan a story" from the Fuseki menu.
 ---
 
 # Plan a story
@@ -59,10 +59,14 @@ skill's rules: names in, identifiers out, a version for every edit.
      `fuseki state get codingStandards` and the definition's wiki curation rules, word for word. It
      replaces the Relevant Wiki placeholder in `descriptionMarkdown` and keeps every other section as
      it read it.
-   - **The technical solution agent**, once the first answered, writes `technicalSolutionMarkdown`
-     only, from the requirements, the acceptance criteria, the feature's technical context, every
-     document the Relevant Wiki section lists and the code, by the definition's technical solution
-     rules.
+   - **The technical solution agent**, once the first answered, runs the
+     `fuseki-architect-technical-solution` skill — the method the server holds as
+     `architect-technical-solution` — and writes `technicalSolutionMarkdown` only. It answers "done",
+     or "blocked: " and a question only product behaviour can answer. Blocked: put the question to the
+     person. STOP and call the question tool to clarify. Write their answer into the acceptance criteria as a scenario or a
+     change to one, read back to them and written only on their yes, with one `update_work_item`
+     carrying `changeSetId`; then spin the agent up again. Each blocked answer is a new question, never
+     a retry.
    - Then read the story back with `get_work_item`. A Relevant Wiki section still the placeholder, or
      an empty technical solution, sends that agent again, once. Still missing after that: say which,
      move nothing in step 7, and report it.

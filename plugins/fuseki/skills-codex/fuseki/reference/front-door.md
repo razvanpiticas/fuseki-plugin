@@ -52,7 +52,7 @@ only which of its keys are filled.
 
 ## The menu
 
-Twenty-one lines, grouped the way a person meets the work. Each line names the skill it goes to; the
+Twenty-two lines, grouped the way a person meets the work. Each line names the skill it goes to; the
 build refuses a line whose skill directory does not exist unless the line says so, and refuses a line
 whose words the named skill's own description does not use. A skill not yet in this version carries
 the suffix; picking it answers "That part of Fuseki is not installed yet; the plugin update will
@@ -65,25 +65,26 @@ Plan
  2. Plan an epic                      — $fuseki-plan-epic
  3. Plan a feature                    — $fuseki-plan-feature
  4. Plan a story                      — $fuseki-plan-story
+ 5. Architect a technical solution    — $fuseki-architect-technical-solution
 Map the code
- 5. Map the system                    — $fuseki-map-system
- 6. Map a subsystem                   — $fuseki-map-subsystem
- 7. Map a story                       — $fuseki-map-story
- 8. Write a system document           — $fuseki-map-sys-doc
- 9. Write a guide                     — $fuseki-map-guide
-10. Write a pattern                   — $fuseki-map-pattern
-11. Write a cross-cutting document    — $fuseki-map-cross-cutting
-12. Write a walkthrough               — $fuseki-map-walkthrough
-13. Write a decision record           — $fuseki-map-decision
-14. Write the coding standards        — $fuseki-coding-standards
+ 6. Map the system                    — $fuseki-map-system
+ 7. Map a subsystem                   — $fuseki-map-subsystem
+ 8. Map a story                       — $fuseki-map-story
+ 9. Write a system document           — $fuseki-map-sys-doc
+10. Write a guide                     — $fuseki-map-guide
+11. Write a pattern                   — $fuseki-map-pattern
+12. Write a cross-cutting document    — $fuseki-map-cross-cutting
+13. Write a walkthrough               — $fuseki-map-walkthrough
+14. Write a decision record           — $fuseki-map-decision
+15. Write the coding standards        — $fuseki-coding-standards
 Work and keep it in shape
-15. Search the work                   — $fuseki-search
-16. Type the links                    — $fuseki-linker
-17. Distil the insights               — $fuseki-distiller
-18. Routines: switch on, run now      — $fuseki-routines
-19. Set up GitHub                     — $fuseki
-20. Set up browser testing            — $fuseki
-21. Update the plugin                 — $fuseki-update
+16. Search the work                   — $fuseki-search
+17. Type the links                    — $fuseki-linker
+18. Distil the insights               — $fuseki-distiller
+19. Routines: switch on, run now      — $fuseki-routines
+20. Set up GitHub                     — $fuseki
+21. Set up browser testing            — $fuseki
+22. Update the plugin                 — $fuseki-update
 Or just say what you want read or written in Fuseki.
 ```
 

@@ -3,6 +3,7 @@
   "displayName": "OpenClaw",
   "skillPaths": [
     ".agents/skills/fuseki",
+    ".agents/skills/fuseki-architect-technical-solution",
     ".agents/skills/fuseki-coding-standards",
     ".agents/skills/fuseki-distiller",
     ".agents/skills/fuseki-linker",

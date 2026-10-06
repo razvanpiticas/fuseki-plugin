@@ -3,6 +3,7 @@
   "displayName": "Hermes",
   "skillPaths": [
     ".hermes/skills/fuseki",
+    ".hermes/skills/fuseki-architect-technical-solution",
     ".hermes/skills/fuseki-coding-standards",
     ".hermes/skills/fuseki-distiller",
     ".hermes/skills/fuseki-linker",

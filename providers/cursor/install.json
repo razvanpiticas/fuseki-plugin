@@ -3,6 +3,7 @@
   "displayName": "Cursor",
   "skillPaths": [
     ".cursor/skills/fuseki",
+    ".cursor/skills/fuseki-architect-technical-solution",
     ".cursor/skills/fuseki-coding-standards",
     ".cursor/skills/fuseki-distiller",
     ".cursor/skills/fuseki-linker",

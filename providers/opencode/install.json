@@ -3,6 +3,7 @@
   "displayName": "OpenCode",
   "skillPaths": [
     ".opencode/skills/fuseki",
+    ".opencode/skills/fuseki-architect-technical-solution",
     ".opencode/skills/fuseki-coding-standards",
     ".opencode/skills/fuseki-distiller",
     ".opencode/skills/fuseki-linker",

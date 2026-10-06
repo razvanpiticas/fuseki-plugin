@@ -3,6 +3,7 @@
   "displayName": "Gemini CLI",
   "skillPaths": [
     ".gemini/skills/fuseki",
+    ".gemini/skills/fuseki-architect-technical-solution",
     ".gemini/skills/fuseki-coding-standards",
     ".gemini/skills/fuseki-distiller",
     ".gemini/skills/fuseki-linker",

@@ -27,6 +27,7 @@ project holds or what relates to an item goes to `fuseki-search`, typing the lin
 `fuseki-linker`, distilling the insights goes to `fuseki-distiller`, switching a routine on or off or
 running one — "run the Weekly distiller now" included — goes to `fuseki-routines`, planning the product vision, an epic, a feature or a story
 goes to `fuseki-plan-product-vision`, `fuseki-plan-epic`, `fuseki-plan-feature` or `fuseki-plan-story`,
+architecting a story's technical solution goes to `fuseki-architect-technical-solution`,
 mapping the code or writing one of its wiki documents goes to the `fuseki-map-` skill of that
 document, writing the coding standards goes to `fuseki-coding-standards`, and a line of the menu goes
 to the skill it names.
