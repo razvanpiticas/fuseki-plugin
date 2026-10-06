@@ -16,7 +16,7 @@ Before anything else, read `.fuseki/state.json` through `fuseki state get projec
 ## The mechanics
 
 The command-line tool runs as `pnpm dlx github:razvanpiticas/fuseki-plugin <command>`, from the repository's root; every
-`fuseki state …` in this file means that.
+`fuseki state …` and `fuseki activity …` in this file mean that.
 
 1. **The story.** `get_work_item(referenceCode)` answers its description, acceptance criteria and
    technical solution, and `get_work_item` on its parent the feature's wider intent; `list_comments`
@@ -52,8 +52,16 @@ The command-line tool runs as `pnpm dlx github:razvanpiticas/fuseki-plugin <comm
      entry yet gets its whole entry, `root` its folder and every other value empty but this run's paths.
    `wiki.*` belongs to the mapping skills; this one writes only the keys of the documents it created or
    updated.
-5. **The insight question**, as above:
+5. **The activity.** The story was built, so record it: `fuseki activity record --skill map-story
+   --item <the story's code> --feature <its parent's code> --epic <the feature's parent's code> --note
+   "<note>"`, such as "Mapped FUS-12: 2 documents updated, 1 written". The feature is the story's
+   `parentReferenceCode`, and the epic the feature's, read with `get_work_item`; leave out a flag whose
+   item the story does not have. It puts the story at the head of the stories built, which the front
+   door reads; only this command writes `activity`.
+   The note is one line of at most 120 characters saying what the run did; the tool refuses a longer
+   one.
+6. **The insight question**, as above:
 
    This skill writes nothing on the server while it works, so it opens no change set. An insight is recorded inside one, so when the person says yes to recording an insight, open one then — `start_change_set` with the bound project's key and a one-line summary naming this skill and the moment from `date -u "+%Y-%m-%d %H:%M:%S"`, so a second insight opens its own change set — call `record_skill_definition_insight` with its `changeSetId`, and complete it with `complete_change_set`, outcome `Completed` and a one-line summary.
-6. **Report** the story by code, every document updated or written by path with one line on what
+7. **Report** the story by code, every document updated or written by path with one line on what
    changed in it, and the definition's level and version.

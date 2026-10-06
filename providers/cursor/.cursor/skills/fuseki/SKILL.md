@@ -1,6 +1,6 @@
 ---
 name: fuseki
-description: The front door to Fuseki and the connection under every other Fuseki skill. Invoked with nothing, it signs in, binds this repository to a Fuseki project in a gitignored .fuseki/state.json, checks git, GitHub and browser testing on this machine, offers to plan the product vision and write the coding standards when either is missing, shows where the project stands and offers everything the plugin can do. Set up GitHub or set up browser testing again through it. Use when the person types the Fuseki command alone, asks what Fuseki can do or where the project stands, wants this repository bound to a project, when sign-in or a connection is failing, when a Fuseki tool refuses a call and the refusal needs reading, or when somebody asks what access they have. For reading or writing a project's work, load the fuseki-work skill, which this one hands off to.
+description: The front door to Fuseki and the connection under every other Fuseki skill. Invoked with nothing, it signs in, binds this repository to a Fuseki project in a gitignored .fuseki/state.json, checks git, GitHub and browser testing on this machine, offers to plan the product vision, write the system architecture and write the coding standards when one is missing, shows where the project stands — the foundations as a checklist, the epic and feature being worked on, the stories built and left — offers the next step, such as planning the next story, and offers everything the plugin can do. Set up GitHub or set up browser testing again through it. Use when the person types the Fuseki command alone, asks what Fuseki can do or where the project stands, wants this repository bound to a project, when sign-in or a connection is failing, when a Fuseki tool refuses a call and the refusal needs reading, or when somebody asks what access they have. For reading or writing a project's work, load the fuseki-work skill, which this one hands off to.
 ---
 
 # Fuseki
@@ -155,19 +155,23 @@ Nine steps, in this order:
    in the state. `.fuseki/.env` is never opened by this skill: `pnpm dlx github:razvanpiticas/fuseki-plugin env check` reports the names of the
    keys that are filled, and that is all anybody here needs to know. When `requiresSignIn` is already
    `true`, run `pnpm dlx github:razvanpiticas/fuseki-plugin env check` on every run, so the browser-testing line says what the file holds now.
-8. **Status.** Eight lines, each read, never invented — the fields are in
+8. **Status.** Nine lines, each read, never invented — the fields are in
    [reference/front-door.md](reference/front-door.md): the project; the open sprint; the untyped
-   links; the pending proposals; the routines switched on; the documents; the repository; browser
-   testing. Then the brownfield suggestion of step 4, when it has one.
-9. **The menu.** A yes to a foundation question of step 4 runs that skill here instead, and the menu
-   is not printed. Otherwise the fenced block in [reference/front-door.md](reference/front-door.md), printed
+   links; the pending proposals; the routines switched on; the foundations; where we are; the
+   repository; browser testing. Then the brownfield suggestion of step 4, when it has one.
+9. **The next step, then the menu.** A yes to a foundation question of step 4 runs that skill here
+   instead, and nothing else in this step happens. Otherwise, when the where-we-are line found a next
+   step ([reference/front-door.md](reference/front-door.md#where-we-are-and-the-next-step) has the
+   rules), ask it in its words, such as "Should we continue with planning story FUS-31 Resend an
+   invitation?". Ask the user directly to clarify what you cannot infer. **Yes:** load the skill it names with the item's reference code,
+   and the menu is not printed. **No**, or no next step: the fenced block in [reference/front-door.md](reference/front-door.md), printed
    as it stands inside a code block — every line, its numbers, its group headings and its "not in
    this version yet" — never rewritten as a list. Then do what the person picks. A line marked "not in this version yet" answers one sentence and shows the
    menu again.
 
 The front door writes nothing on the server but a product vision the person agreed to save in step
 4. On this machine it writes only through the tool, and a second run on a repository nothing changed
-in asks nothing and changes nothing: a foundation question answered no is recorded under
+in asks nothing but the next step and changes nothing: a foundation question answered no is recorded under
 `onboarding`, and one answered yes leaves its document recorded by the skill that wrote it. **Set up GitHub**
 reruns step 5, and **set up browser testing** reruns steps 6 and 7, even when the person declined or
 answered before: `declined` is set back to `false` and `requiresSignIn` to `null` with `pnpm dlx github:razvanpiticas/fuseki-plugin state set`

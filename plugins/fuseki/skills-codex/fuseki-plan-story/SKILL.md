@@ -18,7 +18,7 @@ Before anything else, read `.fuseki/state.json` through `fuseki state get projec
 ## The mechanics
 
 The command-line tool runs as `pnpm dlx github:razvanpiticas/fuseki-plugin <command>`, from the repository's root; every
-`fuseki state …` in this file means that. Every read and write of work goes through the `fuseki-work`
+`fuseki state …` and `fuseki activity …` in this file mean that. Every read and write of work goes through the `fuseki-work`
 skill's rules: names in, identifiers out, a version for every edit.
 
 1. **The kind.** Fuseki has no Story entity: a kind of work item is a row the organisation edits. Call
@@ -91,8 +91,12 @@ skill's rules: names in, identifiers out, a version for every edit.
    the state named "Ready" (any letter case) among the states step 1 kept, against the version the
    last write answered. When the kind has no such state, ask which state means ready here.
    STOP and use Codex's structured user-input tool when available; if it is unavailable, ask directly in chat to clarify. Move it only on the person's answer.
-8. **The state file.** `fuseki state set planning.lastStory '"<the story's code>"'`. `planning`
-   belongs to the three plan skills, and this one writes only `lastStory`.
+8. **The state file.** `fuseki activity record --skill plan-story --item <the story's code> --feature
+   <its feature's code> --epic <its epic's code> --note "<note>"`, such as "Planned Invite by email
+   link: 6 scenarios, Ready"; leave out a flag whose item the story does not have. Only this command
+   writes `activity`.
+   The note is one line of at most 120 characters saying what the run did; the tool refuses a longer
+   one.
 9. **End the run.** **The insight question comes first**, before `complete_change_set` and inside this change set. Read back what you wrote and what the person answered. Something blocked you when an answer the definition asks for is one the person said they did not know or could not give, when you wrote a default, a guess or a placeholder in its place, or when your report will list it as still open. "Work with what you have", "write it now" and "go ahead" are not that answer: what they leave open still blocked you. When something did, say what, ask whether to record an insight, and stop there with the change set running; after the person answers, record the insight on a yes, then complete it. A yes or a no the person already gave in this session is that answer, so do not ask again. When nothing did, complete it. A report never says nothing blocked you beside an answer it lists as open. Completing it is
    `complete_change_set` with outcome `Completed` and a summary naming the story by code.
 10. **Report** by reference code what the tools answered: the story and the fields written, the links
@@ -116,7 +120,7 @@ This skill never opens, prints or echoes `.fuseki/.env`, and never writes a valu
 ## Continuous integration
 
 Read `fuseki state get repository` before following the definition. It alone decides the line that
-ends the goal execution prompt's last bullet and the definition of done's pipeline item — never the
+ends the goal execution prompt's commit bullet and the definition of done's pipeline item — never the
 acceptance criteria. Ask its questions in this order; the first "yes" decides, and the ones after it
 are not asked:
 
@@ -134,7 +138,7 @@ are not asked:
    the first that holds: "this repository has no git", "you declined gh", "gh is not installed here",
    "gh is not signed in".
 4. **Otherwise**, and only then — `github-actions`, git, and `gh` installed, signed in and not
-   declined — the goal execution prompt's last bullet reads "Commit and push to main to trigger the
+   declined — the goal execution prompt's commit bullet reads "Commit and push to main to trigger the
    CI/CD. Use `gh` to confirm every workflow run for the commit passes.", followed by the commands
    that prove it, and the definition of done's item reads "Pushed to main; every pipeline run passes,
    checked with `gh`.":
@@ -149,7 +153,7 @@ are not asked:
    `<sha>` is the story's commit and `<run id>` comes from the first command; the implementation run
    fills them in.
 
-Under questions 1 to 3 the prompt's last bullet and the definition of done's item are the one sentence
+Under questions 1 to 3 the prompt's commit bullet and the definition of done's item are the one sentence
 above, and the story holds **no `gh` command at all**; the report says why in its one line. The front
 door's "set up GitHub" changes the answer for the next story.
 

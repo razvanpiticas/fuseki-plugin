@@ -10,7 +10,7 @@
   },
   "discovery": { "ignored": [] },
   "onboarding": { "productVisionDeclined": false, "systemArchitectureDeclined": false, "codingStandardsDeclined": false },
-  "planning": { "lastEpic": "", "lastFeature": "", "lastStory": "" },
+  "activity": { "epic": "", "feature": "", "recent": [], "implemented": [] },
   "uiTesting": {
     "playwrightCli": { "available": false, "version": "", "declined": false, "checkedAtUtc": "" },
     "baseUrl": "",

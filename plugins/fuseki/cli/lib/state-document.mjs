@@ -46,6 +46,14 @@ export const OPEN_MAP_ENTRY_SHAPES = Object.freeze({
   routines: Object.freeze({ name: "", installedAtUtc: "", harness: "", entry: "" }),
 })
 
+/**
+ * Lists whose items are objects rather than strings, with the shape every item takes. The template
+ * holds them empty, so, as for the open maps, the shape is restated here once.
+ */
+export const LIST_ENTRY_SHAPES = Object.freeze({
+  "activity.recent": Object.freeze({ atUtc: "", skill: "", item: "", note: "" }),
+})
+
 /** Keys the template holds as null — not asked or not written yet — and the type each takes once it is. */
 export const NULLABLE_KEY_TYPES = Object.freeze({
   "productVision.definitionVersion": "number",
@@ -188,7 +196,8 @@ export const valueAt = (document, segments) => {
 /**
  * Holds a value to the shape the template gives its key, and throws on the first difference.
  *
- * A string key takes a string, a list takes a list of strings, an object takes exactly the
+ * A string key takes a string, a list takes a list of strings (or of objects in the shape
+ * `LIST_ENTRY_SHAPES` names), an object takes exactly the
  * template's keys, an open map takes any names with every value in the entry shape, and a key the
  * template holds as null takes null or the type `NULLABLE_KEY_TYPES` names.
  *
@@ -209,6 +218,14 @@ export const requireConformance = (shape, value, keyPath) => {
 
   if (Array.isArray(shape)) {
     if (!Array.isArray(value)) throw new Error(`${label} takes a list, and ${describe(value)} was given.`)
+
+    const itemShape = LIST_ENTRY_SHAPES[keyPath]
+    if (itemShape !== undefined) {
+      value.forEach((item, index) => requireConformance(itemShape, item, `${label}[${index}]`))
+
+      return
+    }
+
     value.forEach((item, index) => {
       if (typeof item !== "string") throw new Error(`${label}[${index}] takes a string, and ${describe(item)} was given.`)
     })

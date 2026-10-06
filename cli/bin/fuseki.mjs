@@ -4,6 +4,7 @@ import { existsSync } from "node:fs"
 import { join, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
 
+import { ACTIVITY_COMMAND, runActivity } from "../lib/activity.mjs"
 import { bundledDirectoryOfThisTool } from "../lib/bundled.mjs"
 import { DETECTABLE_PROVIDER_IDS, detectHarnesses } from "../lib/detect-harness.mjs"
 import { ENV_COMMAND, runEnv } from "../lib/env.mjs"
@@ -31,6 +32,9 @@ and schedules a project's routines.
   fuseki state reconcile               clear every recorded path whose file is gone
   fuseki state discover                record the documents already where the skills write them
 
+  fuseki activity record --skill <skill> --item <code> --note "<text>" [--epic <code>] [--feature <code>]
+                                       record a plan or map-story run: the epic and feature worked on, three notes, three built stories
+
   fuseki tooling check                 detect playwright-cli, git, the GitHub remote, gh and CI
 
   fuseki env init                      write .fuseki/.env with blank keys, never over an existing one
@@ -53,6 +57,7 @@ Claude Code and Codex install from the plugin marketplace instead:
 const REPOSITORY_COMMANDS = Object.freeze({
   [STATE_COMMAND]: runState,
   [TOOLING_COMMAND]: runTooling,
+  [ACTIVITY_COMMAND]: runActivity,
   [ENV_COMMAND]: runEnv,
 })
 

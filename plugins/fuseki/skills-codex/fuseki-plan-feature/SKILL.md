@@ -16,7 +16,7 @@ Before anything else, read `.fuseki/state.json` through `fuseki state get projec
 ## The mechanics
 
 The command-line tool runs as `pnpm dlx github:razvanpiticas/fuseki-plugin <command>`, from the repository's root; every
-`fuseki state …` in this file means that. Every read and write of work goes through the `fuseki-work`
+`fuseki state …` and `fuseki activity …` in this file mean that. Every read and write of work goes through the `fuseki-work`
 skill's rules: names in, identifiers out, a version for every edit.
 
 1. **The kinds.** Fuseki has no Feature entity: a kind of work item is a row the organisation edits.
@@ -56,8 +56,12 @@ skill's rules: names in, identifiers out, a version for every edit.
    the change set's id, before completing the change set; keep the lines it hands back for the report.
    Its calls are its own: this skill never calls `list_untyped_links` or `type_link` itself, even when
    there may be no link to type.
-6. **The state.** `fuseki state set planning.lastFeature '"<the feature's code>"'`. `planning` belongs
-   to the three plan skills, and this one writes only `lastFeature`.
+6. **The state.** `fuseki activity record --skill plan-feature --item <the feature's code> --epic <its
+   epic's code> --note "<note>"`, such as "Planned Invite by email: 5 stories"; leave out `--epic` for
+   a feature with no epic. It points the front door at this feature, and only this command writes
+   `activity`.
+   The note is one line of at most 120 characters saying what the run did; the tool refuses a longer
+   one.
 7. **End the run.** **The insight question comes first**, before `complete_change_set` and inside this change set. Read back what you wrote and what the person answered. Something blocked you when an answer the definition asks for is one the person said they did not know or could not give, when you wrote a default, a guess or a placeholder in its place, or when your report will list it as still open. "Work with what you have", "write it now" and "go ahead" are not that answer: what they leave open still blocked you. When something did, say what, ask whether to record an insight, and stop there with the change set running; after the person answers, record the insight on a yes, then complete it. A yes or a no the person already gave in this session is that answer, so do not ask again. When nothing did, complete it. A report never says nothing blocked you beside an answer it lists as open. Completing it is
    `complete_change_set` with outcome `Completed` and a summary naming the feature and its stories by
    code.

@@ -1,6 +1,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs"
 import { join, resolve } from "node:path"
 
+import { ACTIVITY_KEY, carryRetiredPlanning } from "./activity.mjs"
 import { readBundledVersion } from "./bundled.mjs"
 import { discoverDocuments } from "./discover.mjs"
 import { answeredYes } from "./run-program.mjs"
@@ -101,7 +102,8 @@ export const runState = (argv, context) => {
  * In this order, so a repository where `.fuseki/.env` would be committed gets nothing written into
  * `.fuseki/` at all: `.gitignore` gains `.fuseki/` when it lacks it; git, when this is a git
  * repository, is asked whether `.fuseki/.env` is ignored, and a no stops here; then the file is
- * copied from the template when missing, or given the template's keys it lacks; and the plugin's
+ * copied from the template when missing, or given the template's keys it lacks (an older `planning`
+ * key moved into `activity` first); and the plugin's
  * version is recorded.
  */
 export const initState = ({ repositoryDirectory, bundledDirectory, run }) => {
@@ -113,10 +115,12 @@ export const initState = ({ repositoryDirectory, bundledDirectory, run }) => {
 
   const before = existed ? readStateUnchecked(repositoryDirectory) : null
   const document = existed ? structuredClone(before) : structuredClone(template)
+  const carried = existed ? carryRetiredPlanning(document) : []
   const added = existed ? fillMissingKeys(template, document) : []
 
   requireConformance(template, document, "")
 
+  lines.push(...carried)
   if (!existed) lines.push(`Created ${STATE_FILE_LABEL} from the template.`)
   else if (added.length > 0) lines.push(`Added to ${STATE_FILE_LABEL} the keys it lacked: ${added.join(", ")}.`)
   else lines.push(`${STATE_FILE_LABEL} carries every key.`)
@@ -148,6 +152,8 @@ export const getState = ({ repositoryDirectory, bundledDirectory }, keyPath) => 
  */
 export const setState = ({ repositoryDirectory, bundledDirectory }, keyPath, json) => {
   const segments = splitKeyPath(keyPath)
+  if (segments[0] === ACTIVITY_KEY) throw new Error(`${ACTIVITY_KEY} is written only by fuseki activity record, which keeps it short.`)
+
   const template = readTemplate(bundledDirectory)
   const before = readState(repositoryDirectory, template)
 

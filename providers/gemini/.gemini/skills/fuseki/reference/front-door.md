@@ -1,11 +1,11 @@
 # The front door, field by field
 
 Load this when writing the status, printing the menu, or deciding who may write a key of
-`.fuseki/state.json`. The skill carries the eight steps; this carries what each line is read from.
+`.fuseki/state.json`. The skill carries the nine steps; this carries what each line is read from.
 
 ## The status lines
 
-Eight lines, in this order. Each is read from a tool or from the state, never invented, and a line
+Nine lines, in this order. Each is read from a tool or from the state, never invented, and a line
 whose read was refused says so rather than guessing.
 
 | Line | Read from | Say |
@@ -15,9 +15,42 @@ whose read was refused says so rather than guessing.
 | Untyped links | `list_untyped_links(projectKey, pageSize: 100)`: how many links the page holds, and `nextCursor` | "12 inferred links have no word yet; type the links to give them one." When `nextCursor` is set: "100 or more …". When none: "Every inferred link has its word." |
 | Pending proposals | `list_insights(projectKey, pendingProposals: true)`: the insights answered plus `notReturnedCount` | "2 proposals wait for a person on the skill definitions' Guidance tab." When none: "No proposal waits." |
 | Routines on | `list_routines(projectKey)`: the routines whose `isEnabled` is true; `pnpm dlx github:razvanpiticas/fuseki-plugin state get routines`: which of them this machine carries an entry for | "Weekly linker is on and fires from this machine; Weekly distiller is off." A routine on with no entry here: "… is on, and no machine entry here fires it." |
-| The documents | `pnpm dlx github:razvanpiticas/fuseki-plugin state get productVision`, `codingStandards` and `wiki`, after step 4 | "The vision, the coding standards, structure, 3 system-wide decision records and 6 subsystems with 26 decision records are recorded; architecture and testing are not written yet." Name what is recorded — the system-wide decision records (`wiki.systemWide.decisions`) apart from the subsystems' — then what is empty. When nothing is: "No documents are recorded yet; mapping the system writes them." |
+| The foundations | `pnpm dlx github:razvanpiticas/fuseki-plugin state get productVision`, `codingStandards` and `wiki`, after step 4 | A checklist, one mark per document, recorded ✓ or empty ✗: "✓ product vision · ✓ coding standards · ✗ system architecture · ✓ structure · ✗ testing", then the counts: "3 system-wide decision records · 6 subsystems with 26 decision records". A count of none is left out |
+| Where we are | `pnpm dlx github:razvanpiticas/fuseki-plugin state get activity`; `get_backlog(projectKey)` | As [Where we are and the next step](#where-we-are-and-the-next-step) says |
 | The repository | `pnpm dlx github:razvanpiticas/fuseki-plugin state get repository` | "git · GitHub example-owner/example-repo · gh signed in · GitHub Actions, 2 workflows". What is missing is named in its place: "no git", "no GitHub remote", "gh not installed" (and "declined" when it was), "gh not signed in", "no continuous integration found" |
 | Browser testing | `pnpm dlx github:razvanpiticas/fuseki-plugin state get uiTesting` | "playwright-cli 0.0.58 · http://localhost:3002 · signs in as the test account in .fuseki/.env". What is missing is named in its place: "playwright-cli not installed" (and "declined" when it was), "no address yet", "no sign-in needed", ".fuseki/.env still has blank keys: FUSEKI_UI_PASSWORD" — the key names `env check` printed, never a value |
+
+## Where we are and the next step
+
+`activity` points at the epic and the feature being worked on, and holds the last three runs of the
+plan skills and `fuseki-map-story`, newest first, and the last three stories built. Everything else is
+read live with one `get_backlog(projectKey)`: find the epic's node, its features and their stories,
+in rank order, each with what its state means.
+
+A story is **built** when its state means Completed or its code is in `activity.implemented`;
+**being built** when it means Started; **planned** when it means Unstarted; **not planned** when it
+means Backlog. A Cancelled story is left out. A feature is built when it has stories and every one is
+built.
+
+**The line.** "Recently we worked on epic FUS-10 Team invitations, feature FUS-20 Invite by email.
+Built: FUS-21, FUS-22, FUS-23. Left: FUS-24 (planned), FUS-25 (not planned)." Then the newest run:
+"Last: Planned Invite by email link: 6 scenarios, Ready (plan-story, 6 October)." With no feature,
+the epic's features stand where the stories do. With neither pointer set: "Nothing planned from this
+repository yet." A pointer the backlog no longer answers is named as gone ("FUS-20 is not in the
+backlog any more."), and no next step is offered.
+
+**The next step**, the first rule that holds, starting from the feature (from the epic's first
+feature not built when no feature is set):
+
+1. The feature has a story not planned: the first in rank. "Should we continue with planning story
+   <code> <title>?" → `fuseki-plan-story`.
+2. Every story left is planned or being built: no question. Say "<code> is planned and waits to be
+   built from its goal execution prompt." for the first in rank.
+3. Every story is built: the epic's next feature in rank that is not built. With no stories yet:
+   "Should we plan feature <code> <title>?" → `fuseki-plan-feature`. With stories: rules 1 and 2 for
+   it, naming it: "Should we continue with planning story <code> <title> of feature <code>?"
+4. Every feature of the epic is built: "Epic <code> is done. Should we plan the next epic?" →
+   `fuseki-plan-epic`.
 
 ## Who writes which key
 
@@ -34,7 +67,7 @@ own key. A key another skill owns is read, never set.
 | `wiki.subsystems.<name>` | `fuseki-map-subsystem` (the whole entry); each one-document map skill its own list, creating the entry when the subsystem is not mapped and the person declined mapping it first; `fuseki-map-story` the keys of the documents it writes or updates |
 | `discovery` | the front door (through `state discover` and its question) |
 | `onboarding` | the front door (a no to its vision, architecture or coding standards question) |
-| `planning` | the three plan skills |
+| `activity` | `fuseki activity record` alone, run by the three plan skills and `fuseki-map-story`; `state set` refuses it |
 | `uiTesting` | the front door (through `tooling check`, `env init` and `env check`) |
 | `repository` | the front door (through `tooling check`) |
 | `routines` | `schedule add` and `schedule remove` |
