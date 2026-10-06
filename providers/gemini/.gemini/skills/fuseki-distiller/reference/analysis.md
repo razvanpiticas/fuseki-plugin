@@ -30,7 +30,7 @@ out or said something that did not happen. The proposal is the whole text in for
 the change in place — read it once more as the agent that will follow it next week:
 
 - every heading kept, in its order (`# <Name>`, `## Purpose`, `## Inputs`, `## Steps`, `## Output`,
-  `## Done when` — `## DoR (Definition of Ready)` in `plan-epic` and `plan-feature` — and any the text in
+  `## Done when` — `## DoR (Definition of Ready)` in `plan-epic`, `plan-feature` and `plan-story` — and any the text in
   force carries beyond them);
 - the definition's own voice: plain English, numbered steps where it numbers them;
 - nothing changed that the insights do not support, and no tool, path or person's name added.

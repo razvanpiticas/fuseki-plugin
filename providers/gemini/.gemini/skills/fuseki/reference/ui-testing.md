@@ -1,8 +1,9 @@
 # Installing playwright-cli
 
-Load this when the person said yes to installing `playwright-cli`. Planning a feature or a story
-writes its browser checks as `playwright-cli` steps — open, snapshot, act, read back — and with the
-tool on this machine the plan skills can run them once against the app, to prove they are runnable.
+Load this when the person said yes to installing `playwright-cli`. Planning a feature writes its
+browser checks as `playwright-cli` steps — open, snapshot, act, read back — and with the tool on this
+machine the plan skill can run them once against the app, to prove they are runnable. A planned
+story's run walks every one of its scenarios with `playwright-cli`.
 
 Walk the person through these three steps, one at a time, and wait for each to finish. **The person
 runs the installers themselves.**
