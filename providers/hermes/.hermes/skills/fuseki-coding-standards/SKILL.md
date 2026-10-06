@@ -33,7 +33,8 @@ The command-line tool runs as `pnpm dlx github:razvanpiticas/fuseki-plugin <comm
 3. **Follow the definition**, reading the repository for every rule it proposes. The product vision
    it reads is `get_product_vision` with the bound project's key (`fuseki state get project`); a
    project with none is said in one line, and the definition goes on from the code and the person's
-   answers. Whether the person is technical, and the architecture and paradigm they chose, are asked
+   answers. The system architecture document it reads is the file
+   `fuseki state get wiki.systemWide.architecture` names; empty means there is none yet. Whether the person is technical, and the architecture and paradigm they chose, are asked
    where the definition asks them, once. Answers the person already gave are answers: do not ask them
    again.
 4. **The state.** `fuseki state set codingStandards '{"path":"<docsRoot>/wiki/system-wide/coding-standards.md","definitionVersion":<version>}'`,

@@ -90,26 +90,32 @@ Nine steps, in this order:
      refusal saved nothing: complete the change set `Failed` with its sentence, say it in one line,
      and go on with step 5. **No:**
      add the path to `discovery.ignored`, so the question is not asked again.
-   - **The foundations: a vision, then coding standards.** Every plan skill traces its work to the
-     product vision, and every technical solution and implementation follows the coding standards.
+   - **The foundations: a vision, an architecture, then coding standards.** Every plan skill traces
+     its work to the product vision, the architecture fixes the subsystems and the stack, and every
+     technical solution and implementation follows the coding standards.
      Read `pnpm dlx github:razvanpiticas/fuseki-plugin state get onboarding`, then ask each question below that applies, in this
      order, once each. Ask the user directly to clarify what you cannot infer.
      - **The vision.** `productVision.path` is empty, `onboarding.productVisionDeclined` is false, and
        `get_product_vision` with the project's key answers no vision. The question, word for word:
        "This project has no product vision. Plan it now?"
+     - **The architecture.** `wiki.systemWide.architecture` is empty and
+       `onboarding.systemArchitectureDeclined` is false. The question, word for word: "This repository
+       has no system architecture document. Write it now?"
      - **The coding standards.** `codingStandards.path` is empty and `onboarding.codingStandardsDeclined`
        is false. The question, word for word: "This repository has no coding standards. Write them now?"
 
-     **Yes:** that skill runs after the status, in place of the menu — `fuseki-plan-product-vision`
-     first when both were a yes, then `fuseki-coding-standards`. **No:**
+     **Yes:** that skill runs after the status, in place of the menu, each one a yes in this order:
+     `fuseki-plan-product-vision`, `fuseki-map-system`, `fuseki-coding-standards`. With no code yet,
+     `fuseki-map-system` interviews the person for the architecture. **No:**
      `pnpm dlx github:razvanpiticas/fuseki-plugin state set onboarding.productVisionDeclined true` (or
-     `onboarding.codingStandardsDeclined`), so the question is never asked again; the menu still offers
-     both.
+     `onboarding.systemArchitectureDeclined`, or `onboarding.codingStandardsDeclined`), so the question
+     is never asked again; the menu still offers all three.
    - **An unmapped brownfield repository.** Run `git ls-files` (no git: Glob `**/*`) and count the files
      outside `<docsRoot>`, `.fuseki/` and the dot-folders. None: a new repository, nothing to say. Some:
      the repository has code, and the planning and mapping skills read its wiki through
      `pnpm dlx github:razvanpiticas/fuseki-plugin state get wiki`. Then:
-     - `wiki.systemWide.architecture` is empty: after the status, say "This repository has code and no
+     - `wiki.systemWide.architecture` is empty and `onboarding.systemArchitectureDeclined` is true:
+       after the status, say "This repository has code and no
        mapped wiki. Map the system first (the fuseki-map-system), then each subsystem
        (the fuseki-map-subsystem): planning and mapping read them."
      - It is recorded: read it, take the subsystems it names, and name every one with no

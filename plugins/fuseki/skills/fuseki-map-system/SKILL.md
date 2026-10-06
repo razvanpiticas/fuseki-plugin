@@ -34,7 +34,9 @@ The command-line tool runs as `node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" <
    refreshed at its own path, and no second copy is written beside it. An existing document is
    brought up to date unless the person chose Recreate or Skip, as the definition asks; what the
    definition does not ask to change stays as it was. The product vision, when the definition reads
-   it, is `get_product_vision` with the bound project's key.
+   it, is `get_product_vision` with the bound project's key. The coding standards, when the definition
+   reads them, are the file `fuseki state get codingStandards` names; its `path` empty means there are
+   none yet.
 3. **Follow the definition**, reading the repository itself — its files, its tests, its history — for
    every statement the documents make. Answers the person already gave are answers: do not ask them
    again. When the definition asks for the agent's instructions, they are a short section in

@@ -2,7 +2,7 @@
 name: fuseki-architect-technical-solution
 description: Architect a technical solution for one story of a Fuseki project, by the method the server holds as the skill definition architect-technical-solution — the code read as it is, every part the story touches checked for the refactoring it needs so the new code fits instead of stacking on top, what the story replaces, the build order with the test that proves each step, and mermaid diagrams of the architecture, the types and every flow — written to the story's technical-solution field and nothing else. plan-story's technical solution agent runs it and it answers only "done" or "blocked: <the question>"; run on its own, it asks the person instead. Use when the person asks to architect, design, plan or redo the technical solution of a story, or picks "Architect a technical solution" from the Fuseki menu.
 argument-hint: [project key] <the story's reference code>
-allowed-tools: Bash(node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" *), Bash(date *), Bash(git ls-files *), Bash(git log *), Bash(git show *), Read, Glob, Grep, Agent, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__get_work_item, mcp__fuseki__list_work_item_links, mcp__fuseki__update_work_item, mcp__fuseki__start_change_set, mcp__fuseki__observe_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info
+allowed-tools: Bash(node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" *), Bash(date *), Bash(git ls-files *), Bash(git log *), Bash(git show *), Read, Glob, Grep, Agent, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__get_work_item, mcp__fuseki__get_product_vision, mcp__fuseki__list_work_item_links, mcp__fuseki__update_work_item, mcp__fuseki__start_change_set, mcp__fuseki__observe_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info
 ---
 
 # Architect a technical solution
@@ -32,8 +32,10 @@ skill's rules: names in, identifiers out, a version for every edit.
 2. **Read the story** with `get_work_item`: its user story, description, acceptance criteria,
    Relevant Wiki section, technical solution and version. Read its feature the same way, and
    `fuseki state get docsRoot` and `fuseki state get codingStandards` for where the wiki and the coding
-   standards are. Run by the person on a story whose technical solution is already filled: ask whether
-   to refine it or replace it. STOP and call the AskUserQuestion tool to clarify.
+   standards are. With no code yet, the definition also reads the file
+   `fuseki state get wiki.systemWide.architecture` names and `get_product_vision` with the project's
+   key. Run by the person on a story whose technical solution is already filled: ask whether to
+   refine it or replace it. STOP and call the AskUserQuestion tool to clarify.
 3. **Follow the definition.** A story touching several subsystems gets one analysis agent per
    subsystem, in parallel, each handed `docsRoot`, the coding standards' path, the subsystem and the
    story's reference code, and told to return findings with file and line, never a design and never a

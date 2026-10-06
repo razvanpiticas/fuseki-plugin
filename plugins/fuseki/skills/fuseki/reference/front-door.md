@@ -33,7 +33,7 @@ own key. A key another skill owns is read, never set.
 | `wiki.systemWide.decisions` | `fuseki-map-system` (the records already there), `fuseki-map-decision` and `fuseki-map-story` (a system-wide decision record each writes) |
 | `wiki.subsystems.<name>` | `fuseki-map-subsystem` (the whole entry); each one-document map skill its own list, creating the entry when the subsystem is not mapped and the person declined mapping it first; `fuseki-map-story` the keys of the documents it writes or updates |
 | `discovery` | the front door (through `state discover` and its question) |
-| `onboarding` | the front door (a no to its vision or coding standards question) |
+| `onboarding` | the front door (a no to its vision, architecture or coding standards question) |
 | `planning` | the three plan skills |
 | `uiTesting` | the front door (through `tooling check`, `env init` and `env check`) |
 | `repository` | the front door (through `tooling check`) |

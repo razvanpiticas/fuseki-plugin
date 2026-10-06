@@ -30,8 +30,10 @@ skill's rules: names in, identifiers out, a version for every edit.
 2. **Read the story** with `get_work_item`: its user story, description, acceptance criteria,
    Relevant Wiki section, technical solution and version. Read its feature the same way, and
    `fuseki state get docsRoot` and `fuseki state get codingStandards` for where the wiki and the coding
-   standards are. Run by the person on a story whose technical solution is already filled: ask whether
-   to refine it or replace it. Ask the user directly to clarify what you cannot infer.
+   standards are. With no code yet, the definition also reads the file
+   `fuseki state get wiki.systemWide.architecture` names and `get_product_vision` with the project's
+   key. Run by the person on a story whose technical solution is already filled: ask whether to
+   refine it or replace it. Ask the user directly to clarify what you cannot infer.
 3. **Follow the definition.** A story touching several subsystems gets one analysis agent per
    subsystem, in parallel, each handed `docsRoot`, the coding standards' path, the subsystem and the
    story's reference code, and told to return findings with file and line, never a design and never a

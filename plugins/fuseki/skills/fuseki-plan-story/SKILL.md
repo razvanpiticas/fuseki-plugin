@@ -1,8 +1,8 @@
 ---
 name: fuseki-plan-story
-description: Plan a story in a Fuseki project so whoever builds it assumes nothing, by the method the server holds as the skill definition plan-story — offering first to write the coding standards when the repository has none, then its description opening with the goal execution prompt, its Gherkin acceptance criteria, estimate and priority written onto the work item in one change set, every story it waits on or holds up written as a blocks link, then a wiki curation agent writing its Relevant Wiki section and a technical solution agent running fuseki-architect-technical-solution to write its technical solution (a product question it cannot settle comes back to the person and into the acceptance criteria), and the story moved to the project's ready state. "Continuous integration passes" ends the goal execution prompt and the definition of done as the gh commands that prove it only when the repository runs GitHub Actions and gh here is installed, signed in and not declined (otherwise as a check by hand); the story is recorded in .fuseki/state.json. Use when the person asks to plan, specify, refine or write acceptance criteria for a story, or picks "Plan a story" from the Fuseki menu.
+description: Plan a story in a Fuseki project so whoever builds it assumes nothing, by the method the server holds as the skill definition plan-story — offering first to write the system architecture (fuseki-map-system) and the coding standards when the repository has none, then its description opening with the goal execution prompt, its Gherkin acceptance criteria, estimate and priority written onto the work item in one change set, every story it waits on or holds up written as a blocks link, then a wiki curation agent writing its Relevant Wiki section and a technical solution agent running fuseki-architect-technical-solution to write its technical solution (a product question it cannot settle comes back to the person and into the acceptance criteria), and the story moved to the project's ready state. "Continuous integration passes" ends the goal execution prompt and the definition of done as the gh commands that prove it only when the repository runs GitHub Actions and gh here is installed, signed in and not declined (otherwise as a check by hand); the story is recorded in .fuseki/state.json. Use when the person asks to plan, specify, refine or write acceptance criteria for a story, or picks "Plan a story" from the Fuseki menu.
 argument-hint: [project key] [the story's reference code, or its subject and the feature it belongs to]
-allowed-tools: Bash(node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" *), Bash(date *), Read, Glob, Grep, Agent, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__get_project_vocabulary, mcp__fuseki__get_product_vision, mcp__fuseki__get_backlog, mcp__fuseki__list_work_items, mcp__fuseki__lookup_work_items, mcp__fuseki__search_work_items, mcp__fuseki__get_work_item, mcp__fuseki__list_work_item_links, mcp__fuseki__get_dependencies, mcp__fuseki__link_work_items, mcp__fuseki__create_work_item, mcp__fuseki__create_work_items, mcp__fuseki__update_work_item, mcp__fuseki__transition_work_item, mcp__fuseki__start_change_set, mcp__fuseki__observe_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info
+allowed-tools: Bash(node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" *), Bash(date *), Bash(mkdir *), Bash(git ls-files *), Bash(git log *), Read, Write, Edit, Glob, Grep, Agent, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__get_project_vocabulary, mcp__fuseki__get_product_vision, mcp__fuseki__get_backlog, mcp__fuseki__list_work_items, mcp__fuseki__lookup_work_items, mcp__fuseki__search_work_items, mcp__fuseki__get_work_item, mcp__fuseki__list_work_item_links, mcp__fuseki__get_dependencies, mcp__fuseki__link_work_items, mcp__fuseki__create_work_item, mcp__fuseki__create_work_items, mcp__fuseki__update_work_item, mcp__fuseki__transition_work_item, mcp__fuseki__start_change_set, mcp__fuseki__observe_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info
 ---
 
 # Plan a story
@@ -34,11 +34,19 @@ skill's rules: names in, identifiers out, a version for every edit.
    [Browser checks](#browser-checks) and `fuseki state get repository` for
    [Continuous integration](#continuous-integration). The goal execution prompt and the definition of
    done depend on both.
-   Then `fuseki state get codingStandards`. Its `path` empty: say in one line that the technical
-   solution and the implementation follow the coding standards and this repository has none, and ask
-   whether to write them first. STOP and call the AskUserQuestion tool to clarify. **Yes:** load the `fuseki-coding-standards` skill
-   and follow it to its end, then go on with step 3. **No:** go on, and say in the report that the
-   story was planned without coding standards.
+   Then the foundations the technical solution stands on, in this order, each asked once.
+   STOP and call the AskUserQuestion tool to clarify.
+   - `fuseki state get wiki.systemWide.architecture` empty: say in one line that the technical
+     solution places the story in the system architecture and this repository has no document of it
+     (with no code yet, the first story lays out the code from it), and ask whether to write it first.
+     **Yes:** load the `fuseki-map-system` skill and follow it to its end. **No:** say in the report
+     that the story was planned without a system architecture.
+   - `fuseki state get codingStandards` with `path` empty: say in one line that the technical
+     solution and the implementation follow the coding standards and this repository has none, and
+     ask whether to write them first. **Yes:** load the `fuseki-coding-standards` skill and follow it
+     to its end. **No:** say in the report that the story was planned without coding standards.
+
+   Then go on with step 3.
 3. **Follow the definition** to a story the person agreed. Answers the person already gave — in the
    request or earlier in the session — are answers: do not ask them again. The story named by
    reference code is read with `get_work_item`, with its feature, its epic and the product vision.
