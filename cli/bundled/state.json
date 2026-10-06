@@ -9,6 +9,7 @@
     "subsystems": {}
   },
   "discovery": { "ignored": [] },
+  "onboarding": { "productVisionDeclined": false, "codingStandardsDeclined": false },
   "planning": { "lastEpic": "", "lastFeature": "", "lastStory": "" },
   "uiTesting": {
     "playwrightCli": { "available": false, "version": "", "declined": false, "checkedAtUtc": "" },
