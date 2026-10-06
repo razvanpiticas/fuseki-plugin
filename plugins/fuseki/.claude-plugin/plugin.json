@@ -1,6 +1,6 @@
 {
   "name": "fuseki",
-  "version": "0.7.0+407e1a7fbed2",
+  "version": "0.7.0+a2610bf23375",
   "description": "Drives the Fuseki MCP server — project data, tenant-scoped, under the caller's own permissions.",
   "author": {
     "name": "Fuseki"

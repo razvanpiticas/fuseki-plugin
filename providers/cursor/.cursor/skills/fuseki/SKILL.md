@@ -144,7 +144,13 @@ Nine steps, in this order:
      checks without running them.
 7. **Browser testing: the app's address and sign-in.** Only when `playwrightCli.available` is true and
    `requiresSignIn` is `null`:
-   1. Ask for the app's local address, and record it: `pnpm dlx github:razvanpiticas/fuseki-plugin state set uiTesting.baseUrl '"<address>"'`.
+   1. **The app's local address comes from the code.** A repository with code is never asked: read
+      the port the app is served on locally — the dev script in `package.json` (`--port`, `-p`),
+      `vite.config.*` or `next.config.*`, `Properties/launchSettings.json` (`applicationUrl`),
+      `application.properties` or `.yml` (`server.port`), `docker-compose*.yml` port mappings — and
+      take the user-facing app's, not an API's. Say in one line which file gave it. No code yet, or
+      no port anywhere in it: ask for the address. Record it:
+      `pnpm dlx github:razvanpiticas/fuseki-plugin state set uiTesting.baseUrl '"<address>"'`.
    2. **Whether the app needs a sign-in comes from the code.** A repository with code (step 4 counted
       files outside the docs) is never asked: look for sign-in with Grep and Glob — an authentication
       package in a manifest (`next-auth`, `@auth/`, `passport`, `keycloak-js`, `oidc-client`,
@@ -157,9 +163,11 @@ Nine steps, in this order:
       No code yet: Ask the user directly to clarify what you cannot infer. The question, word for word: "Does the app need a sign-in to
       use it?"
    3. **No:** `pnpm dlx github:razvanpiticas/fuseki-plugin state set uiTesting.requiresSignIn false`.
-   4. **Yes:** run `pnpm dlx github:razvanpiticas/fuseki-plugin env init`, then tell the person to open `.fuseki/.env` themselves and fill in
-      `FUSEKI_UI_USERNAME` and `FUSEKI_UI_PASSWORD` for a test account. When they say it is done, run
-      `pnpm dlx github:razvanpiticas/fuseki-plugin env check` and say which keys are present.
+   4. **Yes:** run `pnpm dlx github:razvanpiticas/fuseki-plugin env init`, then tell the person in one line to open `.fuseki/.env`
+      themselves and fill in `FUSEKI_UI_USERNAME` and `FUSEKI_UI_PASSWORD` for a test account, never in
+      the chat, and run `pnpm dlx github:razvanpiticas/fuseki-plugin env check`. **Do not wait for them:** go straight on to step 8.
+      The status's browser-testing line names the keys still blank, and the next run's
+      `pnpm dlx github:razvanpiticas/fuseki-plugin env check` reads what they filled.
 
    **Never ask for, read aloud, echo or write a credential.** Not in the chat, not in a command, not
    in the state. `.fuseki/.env` is never opened by this skill: `pnpm dlx github:razvanpiticas/fuseki-plugin env check` reports the names of the
