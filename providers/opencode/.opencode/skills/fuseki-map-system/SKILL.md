@@ -1,6 +1,6 @@
 ---
 name: fuseki-map-system
-description: Map the system-wide wiki of this repository — its structure, architecture and testing documents under the documentation root's wiki/system-wide — by the method the server holds as the skill definition map-system, and record every document written in .fuseki/state.json. Use when the person asks to map the system, document the whole codebase, write or refresh the architecture, structure or testing documents, start the repository's wiki, or picks "Map the system" from the Fuseki menu.
+description: Map the system-wide wiki of this repository — its structure, architecture and testing documents under the documentation root's wiki/system-wide, and the wiki readme — by the method the server holds as the skill definition map-system, and, after each run, update and maintain the wiki mapping in .fuseki/state.json: every document written or found, the readme and the system-wide decision records. Use when the person asks to map the system, document the whole codebase, write or refresh the architecture, structure or testing documents, start the repository's wiki, or picks "Map the system" from the Fuseki menu.
 ---
 
 # Map the system
@@ -21,23 +21,33 @@ The command-line tool runs as `pnpm dlx github:razvanpiticas/fuseki-plugin <comm
    `the fuseki skill` first and write nothing until it answers. The system-wide documents go in
    `<docsRoot>/wiki/system-wide/` (`mkdir -p` it first): `architecture.md`, `structure.md`,
    `testing.md`, and any other document the definition asks for, each named lowercase with hyphens.
+   The wiki readme, `wiki-readme.md`, sits at the wiki's root, `<docsRoot>/wiki/`, and is written only
+   when it is missing. The system-wide decision records are in `<docsRoot>/wiki/system-wide/decisions/`.
    `coding-standards.md` sits in the same folder and is not this skill's: it belongs to
    `fuseki-coding-standards`, and this skill neither writes nor records it.
 2. **What is there.** `fuseki state get wiki.systemWide`, and read every document it names before
-   writing: a document that exists is brought up to date, not started again, and what the definition
-   does not ask to change stays as it was.
+   writing; list `<docsRoot>/wiki/`, `<docsRoot>/wiki/system-wide/` and its `decisions/` folder too,
+   because a document can be there unrecorded. A document on the same subject under another name —
+   `system-architecture.md`, `system-structure.md`, `testing-framework.md` — is the existing one: it is
+   refreshed at its own path, and no second copy is written beside it. An existing document is
+   brought up to date unless the person chose Recreate or Skip, as the definition asks; what the
+   definition does not ask to change stays as it was. The product vision, when the definition reads
+   it, is `get_product_vision` with the bound project's key.
 3. **Follow the definition**, reading the repository itself — its files, its tests, its history — for
    every statement the documents make. Answers the person already gave are answers: do not ask them
    again. When the definition asks for the agent's instructions, they are a short section in
    `AGENTS.md` at the repository's root pointing at the wiki: read the file first, change only
    that section, and record nothing for it.
 4. **The state.** Once every document is written, set the whole key in one call, every path relative
-   to the repository's root and every path already recorded kept:
-   `fuseki state set wiki.systemWide '{"architecture":"<docsRoot>/wiki/system-wide/architecture.md","structure":"<docsRoot>/wiki/system-wide/structure.md","testing":"<docsRoot>/wiki/system-wide/testing.md","otherDocs":["<docsRoot>/wiki/system-wide/<other>.md"]}'`.
-   A document the run did not write keeps the value it had (empty when it never existed). `wiki.*`
-   belongs to the mapping skills, and this one writes only `wiki.systemWide`.
+   to the repository's root, every path already recorded kept and none listed twice:
+   `fuseki state set wiki.systemWide '{"architecture":"<path>","structure":"<path>","testing":"<path>","decisions":["<docsRoot>/wiki/system-wide/decisions/<record>.md", …],"otherDocs":["<docsRoot>/wiki/wiki-readme.md", …]}'`.
+   Each of `architecture`, `structure` and `testing` is its document's own path — the one written, or
+   the one found and refreshed or skipped, under whichever name it has (empty only when no such
+   document exists). `decisions` lists every record in the system-wide `decisions/` folder. `otherDocs`
+   holds the readme and any other system-wide document the definition asked for. `wiki.*` belongs to
+   the mapping skills, and this one writes only `wiki.systemWide`.
 5. **The insight question**, as above:
 
    This skill writes nothing on the server while it works, so it opens no change set. An insight is recorded inside one, so when the person says yes to recording an insight, open one then — `start_change_set` with the bound project's key and a one-line summary naming this skill and the moment from `date -u "+%Y-%m-%d %H:%M:%S"`, so a second insight opens its own change set — call `record_skill_definition_insight` with its `changeSetId`, and complete it with `complete_change_set`, outcome `Completed` and a one-line summary.
-6. **Report** every document written or updated, by path, what each now covers in one line, and the
-   definition's level and version.
+6. **Report** every document written, updated or skipped, by path, its action, its line count, what
+   each now covers in one line, and the definition's level and version.

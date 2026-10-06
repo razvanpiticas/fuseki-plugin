@@ -14,24 +14,32 @@ import { OPEN_MAP_ENTRY_SHAPES, readState, readTemplate, splitKeyPath, valueAt, 
  *
  * <p><b>Only an empty key is filled.</b> A recorded path, and a list that holds anything, is a skill's
  * own record and is never replaced. A document whose place in the layout is not certain — a
- * system-wide document other than the three the state names, a file loose in a subsystem's folder, a
+ * system-wide document other than the ones the state names, a file loose in a subsystem's folder, a
  * folder the state has no key for — is named as a candidate and written nowhere: the front door asks
  * the person, and records the answer itself. A candidate the person chose not to record is in
  * `discovery.ignored` and is not named again.</p>
  */
 
-/** The documents a key records by itself, relative to the documentation root. */
+/**
+ * The documents a key records by itself, relative to the documentation root, the name the skills write
+ * first. A system-wide document may also carry the name the map-system definition's templates give it
+ * (`system-architecture.md`), which is the same document: it is recorded when the first name is absent,
+ * and is a candidate like any other system-wide document when both are there.
+ */
 const SINGLE_DOCUMENTS = Object.freeze([
-  { keyPath: "productVision.path", relativePath: "product/product-vision.md" },
-  { keyPath: "codingStandards.path", relativePath: "wiki/system-wide/coding-standards.md" },
-  { keyPath: "wiki.systemWide.architecture", relativePath: "wiki/system-wide/architecture.md" },
-  { keyPath: "wiki.systemWide.structure", relativePath: "wiki/system-wide/structure.md" },
-  { keyPath: "wiki.systemWide.testing", relativePath: "wiki/system-wide/testing.md" },
+  { keyPath: "productVision.path", relativePaths: ["product/product-vision.md"] },
+  { keyPath: "codingStandards.path", relativePaths: ["wiki/system-wide/coding-standards.md"] },
+  { keyPath: "wiki.systemWide.architecture", relativePaths: ["wiki/system-wide/architecture.md", "wiki/system-wide/system-architecture.md"] },
+  { keyPath: "wiki.systemWide.structure", relativePaths: ["wiki/system-wide/structure.md", "wiki/system-wide/system-structure.md"] },
+  { keyPath: "wiki.systemWide.testing", relativePaths: ["wiki/system-wide/testing.md", "wiki/system-wide/testing-framework.md"] },
 ])
 
 const SYSTEM_WIDE_FOLDER = "wiki/system-wide"
+const SYSTEM_WIDE_DECISIONS_FOLDER = "wiki/system-wide/decisions"
 const SUBSYSTEMS_FOLDER = "wiki/subsystems"
+const WIKI_README = "wiki/wiki-readme.md"
 const OTHER_DOCS_KEY = "wiki.systemWide.otherDocs"
+const SYSTEM_WIDE_DECISIONS_KEY = "wiki.systemWide.decisions"
 const SUBSYSTEMS_KEY = "wiki.subsystems"
 
 /** A subsystem's two documents of its own, at the root of its folder, by key. */
@@ -65,9 +73,15 @@ export const discoverDocuments = ({ repositoryDirectory, bundledDirectory }) => 
   const recorded = []
   const candidates = []
 
-  for (const { keyPath, relativePath } of SINGLE_DOCUMENTS) fillSingle(document, keyPath, `${docsRoot}/${relativePath}`, repositoryDirectory, recorded)
+  for (const { keyPath, relativePaths } of SINGLE_DOCUMENTS) fillSingle(document, keyPath, relativePaths.map((relativePath) => `${docsRoot}/${relativePath}`), repositoryDirectory, recorded)
 
-  candidates.push(...systemWideCandidates(document, docsRoot, repositoryDirectory))
+  const decisionsFolder = `${docsRoot}/${SYSTEM_WIDE_DECISIONS_FOLDER}`
+  const systemWideDecisions = listMarkdown(repositoryDirectory, decisionsFolder).filter((path) => isDirectlyIn(path, decisionsFolder))
+  const readme = [`${docsRoot}/${WIKI_README}`].filter((path) => existsSync(join(repositoryDirectory, path)))
+
+  candidates.push(...fillList(document, SYSTEM_WIDE_DECISIONS_KEY, systemWideDecisions, recorded))
+  candidates.push(...fillList(document, OTHER_DOCS_KEY, readme, recorded))
+  candidates.push(...systemWideCandidates(document, docsRoot, repositoryDirectory, new Set(systemWideDecisions)))
   for (const name of listDirectories(join(repositoryDirectory, docsRoot, SUBSYSTEMS_FOLDER))) {
     candidates.push(...discoverSubsystem(document, docsRoot, name, repositoryDirectory, recorded))
   }
@@ -84,25 +98,51 @@ export const discoverDocuments = ({ repositoryDirectory, bundledDirectory }) => 
   return lines
 }
 
-/** Records one document under its key when the key is empty and the file is there. */
-const fillSingle = (document, keyPath, path, repositoryDirectory, recorded) => {
+/** Records one document under its key when the key is empty, the first of its names whose file is there. */
+const fillSingle = (document, keyPath, paths, repositoryDirectory, recorded) => {
   const segments = splitKeyPath(keyPath)
   const parent = valueAt(document, segments.slice(0, -1)).value
   const key = segments.at(-1)
+  const path = paths.find((candidate) => existsSync(join(repositoryDirectory, candidate)))
 
-  if (parent[key] !== "" || !existsSync(join(repositoryDirectory, path))) return
+  if (parent[key] !== "" || path === undefined) return
 
   parent[key] = path
   recorded.push(`Recorded ${keyPath}: ${path}`)
 }
 
-/** Every system-wide document the state does not name: each is a candidate for the other documents. */
-const systemWideCandidates = (document, docsRoot, repositoryDirectory) => {
+/**
+ * Fills a system-wide list with the documents found for it while it is empty; once it holds anything,
+ * answers each document it lacks as a candidate for it instead, so a list a skill wrote keeps exactly
+ * what that skill put in it.
+ *
+ * @returns {{keyPath: string, path: string}[]} the candidates
+ */
+const fillList = (document, keyPath, paths, recorded) => {
+  const segments = splitKeyPath(keyPath)
+  const parent = valueAt(document, segments.slice(0, -1)).value
+  const key = segments.at(-1)
+
+  if (paths.length === 0) return []
+  if (parent[key].length > 0) return paths.filter((path) => !parent[key].includes(path)).map((path) => ({ keyPath, path }))
+
+  parent[key] = paths
+  recorded.push(`Recorded ${keyPath}: ${paths.join(", ")}`)
+
+  return []
+}
+
+/**
+ * Every system-wide document the state does not name, other than the system-wide decision records:
+ * each is a candidate for the other documents. A single document's first name is the skills' own and
+ * never a candidate; its other name is one when the state records something else for that key.
+ */
+const systemWideCandidates = (document, docsRoot, repositoryDirectory, decisions) => {
   const folder = `${docsRoot}/${SYSTEM_WIDE_FOLDER}`
-  const named = new Set(SINGLE_DOCUMENTS.map(({ relativePath }) => `${docsRoot}/${relativePath}`))
+  const named = new Set(SINGLE_DOCUMENTS.map(({ relativePaths }) => `${docsRoot}/${relativePaths[0]}`))
 
   return listMarkdown(repositoryDirectory, folder)
-    .filter((path) => !named.has(path) && !document.wiki.systemWide.otherDocs.includes(path))
+    .filter((path) => !named.has(path) && !decisions.has(path) && !document.wiki.systemWide.otherDocs.includes(path))
     .map((path) => ({ keyPath: OTHER_DOCS_KEY, path }))
 }
 
@@ -161,6 +201,7 @@ const discoverSubsystem = (document, docsRoot, name, repositoryDirectory, record
 /** Every path the state records, so a document recorded anywhere is never named as a candidate. */
 const recordedPaths = (document) => [
   ...SINGLE_DOCUMENTS.map(({ keyPath }) => valueAt(document, splitKeyPath(keyPath)).value),
+  ...document.wiki.systemWide.decisions,
   ...document.wiki.systemWide.otherDocs,
   ...Object.values(document.wiki.subsystems).flatMap((entry) => [entry.architecture, entry.structure, ...Object.keys(SUBSYSTEM_FOLDERS).flatMap((key) => entry[key])]),
 ]

@@ -5,7 +5,7 @@
   "productVision": { "path": "", "definitionVersion": null, "savedToServerAtUtc": "" },
   "codingStandards": { "path": "", "definitionVersion": null },
   "wiki": {
-    "systemWide": { "architecture": "", "structure": "", "testing": "", "otherDocs": [] },
+    "systemWide": { "architecture": "", "structure": "", "testing": "", "decisions": [], "otherDocs": [] },
     "subsystems": {}
   },
   "discovery": { "ignored": [] },

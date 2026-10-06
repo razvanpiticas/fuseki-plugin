@@ -15,7 +15,7 @@ whose read was refused says so rather than guessing.
 | Untyped links | `list_untyped_links(projectKey, pageSize: 100)`: how many links the page holds, and `nextCursor` | "12 inferred links have no word yet; type the links to give them one." When `nextCursor` is set: "100 or more …". When none: "Every inferred link has its word." |
 | Pending proposals | `list_insights(projectKey, pendingProposals: true)`: the insights answered plus `notReturnedCount` | "2 proposals wait for a person on the skill definitions' Guidance tab." When none: "No proposal waits." |
 | Routines on | `list_routines(projectKey)`: the routines whose `isEnabled` is true; `pnpm dlx github:razvanpiticas/fuseki-plugin state get routines`: which of them this machine carries an entry for | "Weekly linker is on and fires from this machine; Weekly distiller is off." A routine on with no entry here: "… is on, and no machine entry here fires it." |
-| The documents | `pnpm dlx github:razvanpiticas/fuseki-plugin state get productVision`, `codingStandards` and `wiki`, after step 4 | "The vision, the coding standards, structure and 6 subsystems with 26 decision records are recorded; architecture and testing are not written yet." Name what is recorded, then what is empty. When nothing is: "No documents are recorded yet; mapping the system writes them." |
+| The documents | `pnpm dlx github:razvanpiticas/fuseki-plugin state get productVision`, `codingStandards` and `wiki`, after step 4 | "The vision, the coding standards, structure, 3 system-wide decision records and 6 subsystems with 26 decision records are recorded; architecture and testing are not written yet." Name what is recorded — the system-wide decision records (`wiki.systemWide.decisions`) apart from the subsystems' — then what is empty. When nothing is: "No documents are recorded yet; mapping the system writes them." |
 | The repository | `pnpm dlx github:razvanpiticas/fuseki-plugin state get repository` | "git · GitHub example-owner/example-repo · gh signed in · GitHub Actions, 2 workflows". What is missing is named in its place: "no git", "no GitHub remote", "gh not installed" (and "declined" when it was), "gh not signed in", "no continuous integration found" |
 | Browser testing | `pnpm dlx github:razvanpiticas/fuseki-plugin state get uiTesting` | "playwright-cli 0.0.58 · http://localhost:3002 · signs in as the test account in .fuseki/.env". What is missing is named in its place: "playwright-cli not installed" (and "declined" when it was), "no address yet", "no sign-in needed", ".fuseki/.env still has blank keys: FUSEKI_UI_PASSWORD" — the key names `env check` printed, never a value |
 
@@ -29,7 +29,9 @@ own key. A key another skill owns is read, never set.
 | `project`, `docsRoot`, `plugin` | the front door |
 | `productVision` | `fuseki-plan-product-vision` |
 | `codingStandards` | `fuseki-coding-standards` |
-| `wiki.*` | the map skills |
+| `wiki.systemWide.architecture`, `.structure`, `.testing`, `.otherDocs` | `fuseki-map-system`; `fuseki-map-story` for a document it writes or updates; `fuseki-map-subsystem` sets `.structure` and `.architecture` only while empty, when it adds its row to them |
+| `wiki.systemWide.decisions` | `fuseki-map-system` (the records already there), `fuseki-map-decision` and `fuseki-map-story` (a system-wide decision record each writes) |
+| `wiki.subsystems.<name>` | `fuseki-map-subsystem` (the whole entry); each one-document map skill its own list, creating the entry when the subsystem is not mapped and the person declined mapping it first; `fuseki-map-story` the keys of the documents it writes or updates |
 | `discovery` | the front door (through `state discover` and its question) |
 | `planning` | the three plan skills |
 | `uiTesting` | the front door (through `tooling check`, `env init` and `env check`) |

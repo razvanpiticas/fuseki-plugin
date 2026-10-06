@@ -66,8 +66,8 @@ Nine steps, in this order:
      recorded before it exists is asked for again on the next run.
 4. **The documents.** Run `pnpm dlx github:razvanpiticas/fuseki-plugin state discover`. It records, under keys that are still
    empty, the documents already where the skills write them — the product vision, the coding
-   standards, the system-wide architecture, structure and testing, and each subsystem's documents
-   and decision records — and prints a `Recorded …` line for each: say them in one line, and nothing
+   standards, the system-wide architecture, structure and testing, the system-wide decision records,
+   the wiki readme, and each subsystem's documents and decision records — and prints a `Recorded …` line for each: say them in one line, and nothing
    when there are none. It never replaces a recorded path.
    - **Candidates.** A `Candidate for <key>: <path>` line is a document whose place is not certain.
      When there are any: STOP and call the question tool to clarify. Ask once, listing every candidate with its key, which to
@@ -89,6 +89,18 @@ Nine steps, in this order:
      refusal saved nothing: complete the change set `Failed` with its sentence, say it in one line,
      and go on with step 5. **No:**
      add the path to `discovery.ignored`, so the question is not asked again.
+   - **An unmapped brownfield repository.** Run `git ls-files` (no git: Glob `**/*`) and count the files
+     outside `<docsRoot>`, `.fuseki/` and the dot-folders. None: a new repository, nothing to say. Some:
+     the repository has code, and the planning and mapping skills read its wiki through
+     `pnpm dlx github:razvanpiticas/fuseki-plugin state get wiki`. Then:
+     - `wiki.systemWide.architecture` is empty: after the status, say "This repository has code and no
+       mapped wiki. Map the system first (the fuseki-map-system), then each subsystem
+       (the fuseki-map-subsystem): planning and mapping read them."
+     - It is recorded: read it, take the subsystems it names, and name every one with no
+       `wiki.subsystems.<name>` entry: "Subsystems not mapped yet: <names>. Map each with
+       the fuseki-map-subsystem." Every one is mapped: say nothing.
+
+     It suggests and never runs a map skill itself: mapping writes the wiki, and the person decides when.
 5. **Repository and GitHub.** Run `pnpm dlx github:razvanpiticas/fuseki-plugin tooling check`; it covers this step and the next. Read
    `pnpm dlx github:razvanpiticas/fuseki-plugin state get repository`, then:
    - No git (`hasGit` false): say so in one line. Nothing that needs git is offered — the
@@ -124,7 +136,7 @@ Nine steps, in this order:
 8. **Status.** Eight lines, each read, never invented — the fields are in
    [reference/front-door.md](reference/front-door.md): the project; the open sprint; the untyped
    links; the pending proposals; the routines switched on; the documents; the repository; browser
-   testing.
+   testing. Then the brownfield suggestion of step 4, when it has one.
 9. **The menu.** The fenced block in [reference/front-door.md](reference/front-door.md), printed
    as it stands inside a code block — every line, its numbers, its group headings and its "not in
    this version yet" — never rewritten as a list. Then do what the person picks. A line marked "not in this version yet" answers one sentence and shows the

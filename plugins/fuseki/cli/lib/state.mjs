@@ -57,6 +57,7 @@ const RECORDED_PATH_KEYS = Object.freeze([
   "wiki.systemWide.architecture",
   "wiki.systemWide.structure",
   "wiki.systemWide.testing",
+  "wiki.systemWide.decisions",
   "wiki.systemWide.otherDocs",
   "discovery.ignored",
   "uiTesting.envFile",

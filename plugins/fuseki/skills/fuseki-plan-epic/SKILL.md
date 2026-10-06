@@ -1,8 +1,8 @@
 ---
 name: fuseki-plan-epic
-description: Plan an epic in a Fuseki project and break it into its features, by the method the server holds as the skill definition plan-epic — the epic and its features written as work items in one change set, their links typed before it completes, the epic recorded in .fuseki/state.json. Use when the person asks to plan, write or break down an epic, to turn part of the product vision into an epic, to split a large piece of work into features, or picks "Plan an epic" from the Fuseki menu.
+description: Plan an epic in a Fuseki project and break it into its features, by the method the server holds as the skill definition plan-epic — the epic and its features written as work items in one change set, acceptance criteria, estimate and priority in the cards' own fields, their links typed before it completes, the epic recorded in .fuseki/state.json. Use when the person asks to plan, write or break down an epic, to turn part of the product vision into an epic, to split a large piece of work into features, or picks "Plan an epic" from the Fuseki menu.
 argument-hint: [project key] [the epic's subject, or what the person already knows]
-allowed-tools: Bash(node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" *), Bash(date *), Read, Glob, Grep, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__get_project_vocabulary, mcp__fuseki__get_product_vision, mcp__fuseki__get_backlog, mcp__fuseki__list_work_items, mcp__fuseki__lookup_work_items, mcp__fuseki__search_work_items, mcp__fuseki__get_work_item, mcp__fuseki__create_work_item, mcp__fuseki__create_work_items, mcp__fuseki__update_work_item, mcp__fuseki__start_change_set, mcp__fuseki__observe_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info
+allowed-tools: Bash(node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" *), Bash(date *), Read, Glob, Grep, WebSearch, WebFetch, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__get_project_vocabulary, mcp__fuseki__get_product_vision, mcp__fuseki__get_backlog, mcp__fuseki__list_work_items, mcp__fuseki__lookup_work_items, mcp__fuseki__search_work_items, mcp__fuseki__get_work_item, mcp__fuseki__create_work_item, mcp__fuseki__create_work_items, mcp__fuseki__update_work_item, mcp__fuseki__start_change_set, mcp__fuseki__observe_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info
 ---
 
 # Plan an epic
@@ -30,14 +30,23 @@ skill's rules: names in, identifiers out, a version for every edit.
    Use the names exactly as the vocabulary answered them.
 2. **Follow the definition** to a plan the person agreed: the epic and its features. Answers the
    person already gave — in the request or earlier in the session — are answers: do not ask them
-   again. The reads it asks for are `get_product_vision`, `get_backlog` and the repository's wiki
-   (`fuseki state get wiki`, then the files it lists).
+   again. The reads it asks for are `get_product_vision`, `get_backlog` and the repository's wiki at
+   its high level only: `fuseki state get wiki`, then the documents its paths name for
+   `wiki.systemWide.architecture`, `wiki.systemWide.decisions` and `wiki.systemWide.otherDocs`, and,
+   for each subsystem the epic touches, `wiki.subsystems.<name>.architecture` and its `decisions` —
+   never the rest of the wiki. Research outside the repository, when the definition calls for it, is
+   `WebSearch` and `WebFetch`. The estimate is in the project's own scale, which `get_project`
+   answers. Nothing is written until the person approved the epic, its acceptance criteria, its
+   estimate and priority, and its features.
 3. **Write, in one change set.** `start_change_set` with the project's key and the summary
    "Plan an epic: <the epic's title>, <moment> UTC" (the moment from `date -u "+%Y-%m-%d %H:%M:%S"` taken then, so a second run opens its own change set). Then `create_work_item` for the epic (`itemTypeName` the Epic
-   kind, its description) and `create_work_items` for its features (`itemTypeName` the Feature kind,
-   `parentReferenceCode` the epic's code), every call carrying `changeSetId`. An epic the backlog
-   already holds is edited with `update_work_item` against the version `get_work_item` answered, never
-   created twice.
+   kind, `descriptionMarkdown` its description, `acceptanceCriteriaMarkdown` its acceptance criteria,
+   `estimate` and `priority`) and `create_work_items` for its features (`itemTypeName` the Feature kind,
+   `parentReferenceCode` the epic's code, each with its `descriptionMarkdown`, `estimate` and
+   `priority`), every call carrying `changeSetId`. Acceptance criteria, estimate and priority go in
+   those fields and never inside a description. An epic the backlog already holds is edited with
+   `update_work_item` against the version `get_work_item` answered, the same fields, never created
+   twice.
 4. **Type the links.** Load the `fuseki-linker` skill and follow it, with the project's key and
    the change set's id, before completing the change set; keep the lines it hands back for the report.
    Its calls are its own: this skill never calls `list_untyped_links` or `type_link` itself, even when
