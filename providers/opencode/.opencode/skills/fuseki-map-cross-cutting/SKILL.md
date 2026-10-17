@@ -1,6 +1,6 @@
 ---
-name: fuseki-map-cross-cutting
-description: Write a cross-cutting document in this repository's wiki — shared infrastructure that spans several systems of a subsystem, such as authentication, persistence or messaging — by the method the server holds as the skill definition map-cross-cutting, under the documentation root's wiki/subsystems/<name>/cross-cutting, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to write or refresh a cross-cutting document, to document a concern several systems share, or picks "Write a cross-cutting document" from the Fuseki menu.
+name: "fuseki-map-cross-cutting"
+description: "Write a cross-cutting document in this repository's wiki — shared infrastructure that spans several systems of a subsystem, such as authentication, persistence or messaging — by the method the server holds as the skill definition map-cross-cutting, under the documentation root's wiki/subsystems/<name>/cross-cutting, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to write or refresh a cross-cutting document, to document a concern several systems share, or picks \"Write a cross-cutting document\" from the Fuseki menu."
 ---
 
 # Write a cross-cutting document

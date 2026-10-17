@@ -1,8 +1,8 @@
 ---
-name: fuseki-map-subsystem
-description: Map a subsystem of this repository into the wiki — its structure and architecture documents and the systems, patterns, cross-cutting documents, guides, walkthroughs and decision records inside it, under the documentation root's wiki/subsystems/<name> — by the method the server holds as the skill definition map-subsystem, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to map a subsystem, a service, a module or a client of the codebase into the wiki, to document one part of the system, or picks "Map a subsystem" from the Fuseki menu.
-argument-hint: <the subsystem's name or folder>
-allowed-tools: Bash(node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" *), Bash(date *), Bash(mkdir *), Bash(git ls-files *), Bash(git log *), Read, Write, Edit, Glob, Grep, WebSearch, WebFetch, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__start_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info
+name: "fuseki-map-subsystem"
+description: "Map a subsystem of this repository into the wiki — its structure and architecture documents and the systems, patterns, cross-cutting documents, guides, walkthroughs and decision records inside it, under the documentation root's wiki/subsystems/<name> — by the method the server holds as the skill definition map-subsystem, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to map a subsystem, a service, a module or a client of the codebase into the wiki, to document one part of the system, or picks \"Map a subsystem\" from the Fuseki menu."
+argument-hint: "<the subsystem's name or folder>"
+allowed-tools: "Bash(node \"${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs\" *), Bash(date *), Bash(mkdir *), Bash(git ls-files *), Bash(git log *), Read, Write, Edit, Glob, Grep, WebSearch, WebFetch, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__start_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info"
 ---
 
 # Map a subsystem

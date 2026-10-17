@@ -1,6 +1,6 @@
 ---
-name: fuseki-map-walkthrough
-description: Write a walkthrough in this repository's wiki — one flow followed end to end through the code, tutorial style, from the first call to the last write — by the method the server holds as the skill definition map-walkthrough, under the documentation root's wiki/subsystems/<name>/walkthroughs, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to write or refresh a walkthrough, to trace how one flow works through the code, or picks "Write a walkthrough" from the Fuseki menu.
+name: "fuseki-map-walkthrough"
+description: "Write a walkthrough in this repository's wiki — one flow followed end to end through the code, tutorial style, from the first call to the last write — by the method the server holds as the skill definition map-walkthrough, under the documentation root's wiki/subsystems/<name>/walkthroughs, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to write or refresh a walkthrough, to trace how one flow works through the code, or picks \"Write a walkthrough\" from the Fuseki menu."
 ---
 
 # Write a walkthrough

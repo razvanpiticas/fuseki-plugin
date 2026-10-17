@@ -1,8 +1,8 @@
 ---
-name: fuseki-map-cross-cutting
-description: Write a cross-cutting document in this repository's wiki — shared infrastructure that spans several systems of a subsystem, such as authentication, persistence or messaging — by the method the server holds as the skill definition map-cross-cutting, under the documentation root's wiki/subsystems/<name>/cross-cutting, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to write or refresh a cross-cutting document, to document a concern several systems share, or picks "Write a cross-cutting document" from the Fuseki menu.
-argument-hint: <subsystem> <the shared concern to document>
-allowed-tools: Bash(node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" *), Bash(date *), Bash(mkdir *), Bash(git ls-files *), Bash(git log *), Bash(git diff *), Bash(git show *), Read, Write, Edit, Glob, Grep, mcp__fuseki__get_work_item, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__start_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info
+name: "fuseki-map-cross-cutting"
+description: "Write a cross-cutting document in this repository's wiki — shared infrastructure that spans several systems of a subsystem, such as authentication, persistence or messaging — by the method the server holds as the skill definition map-cross-cutting, under the documentation root's wiki/subsystems/<name>/cross-cutting, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to write or refresh a cross-cutting document, to document a concern several systems share, or picks \"Write a cross-cutting document\" from the Fuseki menu."
+argument-hint: "<subsystem> <the shared concern to document>"
+allowed-tools: "Bash(node \"${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs\" *), Bash(date *), Bash(mkdir *), Bash(git ls-files *), Bash(git log *), Bash(git diff *), Bash(git show *), Read, Write, Edit, Glob, Grep, mcp__fuseki__get_work_item, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__start_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info"
 ---
 
 # Write a cross-cutting document

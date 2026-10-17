@@ -1,6 +1,6 @@
 ---
-name: fuseki-map-system
-description: Map the system-wide wiki of this repository — its structure, architecture and testing documents under the documentation root's wiki/system-wide, and the wiki readme — by the method the server holds as the skill definition map-system, and, after each run, update and maintain the wiki mapping in .fuseki/state.json: every document written or found, the readme and the system-wide decision records. Use when the person asks to map the system, document the whole codebase, write or refresh the architecture, structure or testing documents, start the repository's wiki, or picks "Map the system" from the Fuseki menu.
+name: "fuseki-map-system"
+description: "Map the system-wide wiki of this repository — its structure, architecture and testing documents under the documentation root's wiki/system-wide, and the wiki readme — by the method the server holds as the skill definition map-system, and, after each run, update and maintain the wiki mapping in .fuseki/state.json: every document written or found, the readme and the system-wide decision records. Use when the person asks to map the system, document the whole codebase, write or refresh the architecture, structure or testing documents, start the repository's wiki, or picks \"Map the system\" from the Fuseki menu."
 ---
 
 # Map the system

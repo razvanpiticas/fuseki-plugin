@@ -1,6 +1,6 @@
 ---
-name: fuseki-map-sys-doc
-description: Write a system document for one system of a subsystem in this repository's wiki — what exists, how it works and where it lives — by the method the server holds as the skill definition map-sys-doc, under the documentation root's wiki/subsystems/<name>/systems, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to write, refresh or start a system document, to document how one system of the codebase works, or picks "Write a system document" from the Fuseki menu.
+name: "fuseki-map-sys-doc"
+description: "Write a system document for one system of a subsystem in this repository's wiki — what exists, how it works and where it lives — by the method the server holds as the skill definition map-sys-doc, under the documentation root's wiki/subsystems/<name>/systems, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to write, refresh or start a system document, to document how one system of the codebase works, or picks \"Write a system document\" from the Fuseki menu."
 ---
 
 # Write a system document

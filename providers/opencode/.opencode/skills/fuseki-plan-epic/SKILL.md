@@ -1,6 +1,6 @@
 ---
-name: fuseki-plan-epic
-description: Plan an epic in a Fuseki project and break it into its features, by the method the server holds as the skill definition plan-epic — the epic and its features written as work items in one change set, acceptance criteria, estimate and priority in the cards' own fields, their links typed before it completes, the epic recorded in .fuseki/state.json. Use when the person asks to plan, write or break down an epic, to turn part of the product vision into an epic, to split a large piece of work into features, or picks "Plan an epic" from the Fuseki menu.
+name: "fuseki-plan-epic"
+description: "Plan an epic in a Fuseki project and break it into its features, by the method the server holds as the skill definition plan-epic — the epic and its features written as work items in one change set, acceptance criteria, estimate and priority in the cards' own fields, their links typed before it completes, the epic recorded in .fuseki/state.json. Use when the person asks to plan, write or break down an epic, to turn part of the product vision into an epic, to split a large piece of work into features, or picks \"Plan an epic\" from the Fuseki menu."
 ---
 
 # Plan an epic

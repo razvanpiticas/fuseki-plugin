@@ -1,8 +1,8 @@
 ---
-name: fuseki-map-walkthrough
-description: Write a walkthrough in this repository's wiki — one flow followed end to end through the code, tutorial style, from the first call to the last write — by the method the server holds as the skill definition map-walkthrough, under the documentation root's wiki/subsystems/<name>/walkthroughs, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to write or refresh a walkthrough, to trace how one flow works through the code, or picks "Write a walkthrough" from the Fuseki menu.
-argument-hint: <subsystem> <the flow to walk through>
-allowed-tools: Bash(node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" *), Bash(date *), Bash(mkdir *), Bash(git ls-files *), Bash(git log *), Read, Write, Edit, Glob, Grep, WebSearch, WebFetch, mcp__fuseki__get_work_item, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__start_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info
+name: "fuseki-map-walkthrough"
+description: "Write a walkthrough in this repository's wiki — one flow followed end to end through the code, tutorial style, from the first call to the last write — by the method the server holds as the skill definition map-walkthrough, under the documentation root's wiki/subsystems/<name>/walkthroughs, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to write or refresh a walkthrough, to trace how one flow works through the code, or picks \"Write a walkthrough\" from the Fuseki menu."
+argument-hint: "<subsystem> <the flow to walk through>"
+allowed-tools: "Bash(node \"${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs\" *), Bash(date *), Bash(mkdir *), Bash(git ls-files *), Bash(git log *), Read, Write, Edit, Glob, Grep, WebSearch, WebFetch, mcp__fuseki__get_work_item, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__start_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info"
 ---
 
 # Write a walkthrough

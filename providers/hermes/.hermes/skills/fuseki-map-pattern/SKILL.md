@@ -1,6 +1,6 @@
 ---
-name: fuseki-map-pattern
-description: Write a pattern document in this repository's wiki — one reusable implementation pattern the code follows, with where it is used and why — by the method the server holds as the skill definition map-pattern, under the documentation root's wiki/subsystems/<name>/patterns, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to write or refresh a pattern document, to document a convention the code repeats, or picks "Write a pattern" from the Fuseki menu.
+name: "fuseki-map-pattern"
+description: "Write a pattern document in this repository's wiki — one reusable implementation pattern the code follows, with where it is used and why — by the method the server holds as the skill definition map-pattern, under the documentation root's wiki/subsystems/<name>/patterns, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to write or refresh a pattern document, to document a convention the code repeats, or picks \"Write a pattern\" from the Fuseki menu."
 ---
 
 # Write a pattern document

@@ -1,6 +1,6 @@
 ---
-name: fuseki-plan-product-vision
-description: Plan the product vision of a Fuseki project — who the product is for, the problem it solves, why now and how success is measured — by the method the server holds as the skill definition plan-product-vision, then save it on the project, keep the same text in the repository's documentation and record both in .fuseki/state.json. Use when the person asks to write, plan, refresh or rewrite the product vision, says the project has no vision yet, or picks "Plan the product vision" from the Fuseki menu.
+name: "fuseki-plan-product-vision"
+description: "Plan the product vision of a Fuseki project — who the product is for, the problem it solves, why now and how success is measured — by the method the server holds as the skill definition plan-product-vision, then save it on the project, keep the same text in the repository's documentation and record both in .fuseki/state.json. Use when the person asks to write, plan, refresh or rewrite the product vision, says the project has no vision yet, or picks \"Plan the product vision\" from the Fuseki menu."
 ---
 
 # Plan the product vision

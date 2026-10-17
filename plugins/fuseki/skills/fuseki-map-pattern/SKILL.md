@@ -1,8 +1,8 @@
 ---
-name: fuseki-map-pattern
-description: Write a pattern document in this repository's wiki — one reusable implementation pattern the code follows, with where it is used and why — by the method the server holds as the skill definition map-pattern, under the documentation root's wiki/subsystems/<name>/patterns, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to write or refresh a pattern document, to document a convention the code repeats, or picks "Write a pattern" from the Fuseki menu.
-argument-hint: <subsystem> <the pattern to document>
-allowed-tools: Bash(node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" *), Bash(date *), Bash(mkdir *), Bash(git ls-files *), Bash(git log *), Bash(git diff *), Bash(git show *), Read, Write, Edit, Glob, Grep, mcp__fuseki__get_work_item, mcp__fuseki__list_comments, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__start_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info
+name: "fuseki-map-pattern"
+description: "Write a pattern document in this repository's wiki — one reusable implementation pattern the code follows, with where it is used and why — by the method the server holds as the skill definition map-pattern, under the documentation root's wiki/subsystems/<name>/patterns, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to write or refresh a pattern document, to document a convention the code repeats, or picks \"Write a pattern\" from the Fuseki menu."
+argument-hint: "<subsystem> <the pattern to document>"
+allowed-tools: "Bash(node \"${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs\" *), Bash(date *), Bash(mkdir *), Bash(git ls-files *), Bash(git log *), Bash(git diff *), Bash(git show *), Read, Write, Edit, Glob, Grep, mcp__fuseki__get_work_item, mcp__fuseki__list_comments, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__start_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info"
 ---
 
 # Write a pattern document

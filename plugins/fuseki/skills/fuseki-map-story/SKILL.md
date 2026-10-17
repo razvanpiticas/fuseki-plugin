@@ -1,8 +1,8 @@
 ---
-name: fuseki-map-story
-description: Map a story into the wiki once it is built — read the Fuseki story by its reference code, find what its change touched in this repository, and update or write the wiki documents that describe it, by the method the server holds as the skill definition map-story, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to map a story, update the wiki after a story, document what FUS-12 changed, bring the docs in line with a finished piece of work, or picks "Map a story" from the Fuseki menu.
-argument-hint: <the story's reference code, such as FUS-12>
-allowed-tools: Bash(node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" *), Bash(date *), Bash(mkdir *), Bash(git log *), Bash(git show *), Bash(git diff *), Read, Write, Edit, Glob, Grep, WebSearch, WebFetch, mcp__fuseki__get_work_item, mcp__fuseki__list_comments, mcp__fuseki__list_work_item_links, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__start_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info
+name: "fuseki-map-story"
+description: "Map a story into the wiki once it is built — read the Fuseki story by its reference code, find what its change touched in this repository, and update or write the wiki documents that describe it, by the method the server holds as the skill definition map-story, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to map a story, update the wiki after a story, document what FUS-12 changed, bring the docs in line with a finished piece of work, or picks \"Map a story\" from the Fuseki menu."
+argument-hint: "<the story's reference code, such as FUS-12>"
+allowed-tools: "Bash(node \"${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs\" *), Bash(date *), Bash(mkdir *), Bash(git log *), Bash(git show *), Bash(git diff *), Read, Write, Edit, Glob, Grep, WebSearch, WebFetch, mcp__fuseki__get_work_item, mcp__fuseki__list_comments, mcp__fuseki__list_work_item_links, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__start_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info"
 ---
 
 # Map a story

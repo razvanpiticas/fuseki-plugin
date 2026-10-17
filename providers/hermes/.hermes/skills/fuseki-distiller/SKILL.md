@@ -1,6 +1,6 @@
 ---
-name: fuseki-distiller
-description: Distil the insights recorded about how a Fuseki project's skill definitions worked — the drafts runs left when something blocked them — into one proposal per skill definition whose instructions should change, written as the whole new text, at the project's level or the organisation's, superseding the drafts it folds and naming contradictions. It never approves, applies, rejects or deletes anything: a person does, on the skill definition's Guidance tab. Use when the person says "distil the insights", "what did we learn about plan-story", "fold the learnings", when fuseki-routines hands it the Weekly distiller's run, or when blockers were recorded and the person asks what a skill definition should say instead. "Run the Weekly distiller", now or on its schedule, is the routine's run: fuseki-routines opens it first.
+name: "fuseki-distiller"
+description: "Distil the insights recorded about how a Fuseki project's skill definitions worked — the drafts runs left when something blocked them — into one proposal per skill definition whose instructions should change, written as the whole new text, at the project's level or the organisation's, superseding the drafts it folds and naming contradictions. It never approves, applies, rejects or deletes anything: a person does, on the skill definition's Guidance tab. Use when the person says \"distil the insights\", \"what did we learn about plan-story\", \"fold the learnings\", when fuseki-routines hands it the Weekly distiller's run, or when blockers were recorded and the person asks what a skill definition should say instead. \"Run the Weekly distiller\", now or on its schedule, is the routine's run: fuseki-routines opens it first."
 ---
 
 # Fuseki distiller

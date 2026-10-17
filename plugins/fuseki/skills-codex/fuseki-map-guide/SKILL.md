@@ -1,6 +1,6 @@
 ---
-name: fuseki-map-guide
-description: Write a guide in this repository's wiki — a step-by-step recipe for a task developers do again and again, such as adding an endpoint or a migration — by the method the server holds as the skill definition map-guide, under the documentation root's wiki/subsystems/<name>/guides, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to write or refresh a guide, a how-to or a recipe for a common implementation task, or picks "Write a guide" from the Fuseki menu.
+name: "fuseki-map-guide"
+description: "Write a guide in this repository's wiki — a step-by-step recipe for a task developers do again and again, such as adding an endpoint or a migration — by the method the server holds as the skill definition map-guide, under the documentation root's wiki/subsystems/<name>/guides, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to write or refresh a guide, a how-to or a recipe for a common implementation task, or picks \"Write a guide\" from the Fuseki menu."
 ---
 
 # Write a guide

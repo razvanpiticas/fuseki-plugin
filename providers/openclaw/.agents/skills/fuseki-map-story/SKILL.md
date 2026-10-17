@@ -1,6 +1,6 @@
 ---
-name: fuseki-map-story
-description: Map a story into the wiki once it is built — read the Fuseki story by its reference code, find what its change touched in this repository, and update or write the wiki documents that describe it, by the method the server holds as the skill definition map-story, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to map a story, update the wiki after a story, document what FUS-12 changed, bring the docs in line with a finished piece of work, or picks "Map a story" from the Fuseki menu.
+name: "fuseki-map-story"
+description: "Map a story into the wiki once it is built — read the Fuseki story by its reference code, find what its change touched in this repository, and update or write the wiki documents that describe it, by the method the server holds as the skill definition map-story, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to map a story, update the wiki after a story, document what FUS-12 changed, bring the docs in line with a finished piece of work, or picks \"Map a story\" from the Fuseki menu."
 ---
 
 # Map a story

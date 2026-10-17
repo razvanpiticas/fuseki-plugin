@@ -1,6 +1,6 @@
 ---
-name: fuseki-map-subsystem
-description: Map a subsystem of this repository into the wiki — its structure and architecture documents and the systems, patterns, cross-cutting documents, guides, walkthroughs and decision records inside it, under the documentation root's wiki/subsystems/<name> — by the method the server holds as the skill definition map-subsystem, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to map a subsystem, a service, a module or a client of the codebase into the wiki, to document one part of the system, or picks "Map a subsystem" from the Fuseki menu.
+name: "fuseki-map-subsystem"
+description: "Map a subsystem of this repository into the wiki — its structure and architecture documents and the systems, patterns, cross-cutting documents, guides, walkthroughs and decision records inside it, under the documentation root's wiki/subsystems/<name> — by the method the server holds as the skill definition map-subsystem, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to map a subsystem, a service, a module or a client of the codebase into the wiki, to document one part of the system, or picks \"Map a subsystem\" from the Fuseki menu."
 ---
 
 # Map a subsystem

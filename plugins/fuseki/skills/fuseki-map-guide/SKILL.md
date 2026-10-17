@@ -1,8 +1,8 @@
 ---
-name: fuseki-map-guide
-description: Write a guide in this repository's wiki — a step-by-step recipe for a task developers do again and again, such as adding an endpoint or a migration — by the method the server holds as the skill definition map-guide, under the documentation root's wiki/subsystems/<name>/guides, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to write or refresh a guide, a how-to or a recipe for a common implementation task, or picks "Write a guide" from the Fuseki menu.
-argument-hint: <subsystem> <the task the guide teaches>
-allowed-tools: Bash(node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" *), Bash(date *), Bash(mkdir *), Bash(git ls-files *), Bash(git log *), Bash(git diff *), Bash(git show *), Read, Write, Edit, Glob, Grep, mcp__fuseki__get_work_item, mcp__fuseki__list_comments, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__start_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info
+name: "fuseki-map-guide"
+description: "Write a guide in this repository's wiki — a step-by-step recipe for a task developers do again and again, such as adding an endpoint or a migration — by the method the server holds as the skill definition map-guide, under the documentation root's wiki/subsystems/<name>/guides, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. Use when the person asks to write or refresh a guide, a how-to or a recipe for a common implementation task, or picks \"Write a guide\" from the Fuseki menu."
+argument-hint: "<subsystem> <the task the guide teaches>"
+allowed-tools: "Bash(node \"${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs\" *), Bash(date *), Bash(mkdir *), Bash(git ls-files *), Bash(git log *), Bash(git diff *), Bash(git show *), Read, Write, Edit, Glob, Grep, mcp__fuseki__get_work_item, mcp__fuseki__list_comments, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__start_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info"
 ---
 
 # Write a guide

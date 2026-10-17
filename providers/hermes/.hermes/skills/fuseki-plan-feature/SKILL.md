@@ -1,6 +1,6 @@
 ---
-name: fuseki-plan-feature
-description: Plan a feature in a Fuseki project and break it into stories, by the method the server holds as the skill definition plan-feature — the feature and its stories written as work items in one change set, acceptance criteria, estimate and priority in the cards' own fields, the feature's acceptance criteria for a screen written as playwright-cli browser checks, links typed before the change set completes, the feature recorded in .fuseki/state.json. Use when the person asks to plan, specify or break down a feature, to split a feature into stories, or picks "Plan a feature" from the Fuseki menu.
+name: "fuseki-plan-feature"
+description: "Plan a feature in a Fuseki project and break it into stories, by the method the server holds as the skill definition plan-feature — the feature and its stories written as work items in one change set, acceptance criteria, estimate and priority in the cards' own fields, the feature's acceptance criteria for a screen written as playwright-cli browser checks, links typed before the change set completes, the feature recorded in .fuseki/state.json. Use when the person asks to plan, specify or break down a feature, to split a feature into stories, or picks \"Plan a feature\" from the Fuseki menu."
 ---
 
 # Plan a feature

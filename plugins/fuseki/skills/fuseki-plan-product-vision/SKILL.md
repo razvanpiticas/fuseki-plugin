@@ -1,8 +1,8 @@
 ---
-name: fuseki-plan-product-vision
-description: Plan the product vision of a Fuseki project — who the product is for, the problem it solves, why now and how success is measured — by the method the server holds as the skill definition plan-product-vision, then save it on the project, keep the same text in the repository's documentation and record both in .fuseki/state.json. Use when the person asks to write, plan, refresh or rewrite the product vision, says the project has no vision yet, or picks "Plan the product vision" from the Fuseki menu.
-argument-hint: [project key] [what the person already knows about the product]
-allowed-tools: Bash(node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" *), Bash(date *), Bash(mkdir *), Read, Write, Glob, Grep, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__get_product_vision, mcp__fuseki__save_product_vision, mcp__fuseki__start_change_set, mcp__fuseki__observe_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info
+name: "fuseki-plan-product-vision"
+description: "Plan the product vision of a Fuseki project — who the product is for, the problem it solves, why now and how success is measured — by the method the server holds as the skill definition plan-product-vision, then save it on the project, keep the same text in the repository's documentation and record both in .fuseki/state.json. Use when the person asks to write, plan, refresh or rewrite the product vision, says the project has no vision yet, or picks \"Plan the product vision\" from the Fuseki menu."
+argument-hint: "[project key] [what the person already knows about the product]"
+allowed-tools: "Bash(node \"${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs\" *), Bash(date *), Bash(mkdir *), Read, Write, Glob, Grep, mcp__fuseki__get_skill_definition, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__get_product_vision, mcp__fuseki__save_product_vision, mcp__fuseki__start_change_set, mcp__fuseki__observe_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info"
 ---
 
 # Plan the product vision

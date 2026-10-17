@@ -1,8 +1,8 @@
 ---
-name: fuseki-map-system
-description: Map the system-wide wiki of this repository — its structure, architecture and testing documents under the documentation root's wiki/system-wide, and the wiki readme — by the method the server holds as the skill definition map-system, and, after each run, update and maintain the wiki mapping in .fuseki/state.json: every document written or found, the readme and the system-wide decision records. Use when the person asks to map the system, document the whole codebase, write or refresh the architecture, structure or testing documents, start the repository's wiki, or picks "Map the system" from the Fuseki menu.
-argument-hint: [what to focus on, or nothing for the whole repository]
-allowed-tools: Bash(node "${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs" *), Bash(date *), Bash(mkdir *), Bash(git ls-files *), Bash(git log *), Read, Write, Edit, Glob, Grep, mcp__fuseki__get_skill_definition, mcp__fuseki__get_product_vision, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__start_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info
+name: "fuseki-map-system"
+description: "Map the system-wide wiki of this repository — its structure, architecture and testing documents under the documentation root's wiki/system-wide, and the wiki readme — by the method the server holds as the skill definition map-system, and, after each run, update and maintain the wiki mapping in .fuseki/state.json: every document written or found, the readme and the system-wide decision records. Use when the person asks to map the system, document the whole codebase, write or refresh the architecture, structure or testing documents, start the repository's wiki, or picks \"Map the system\" from the Fuseki menu."
+argument-hint: "[what to focus on, or nothing for the whole repository]"
+allowed-tools: "Bash(node \"${CLAUDE_PLUGIN_ROOT}/cli/bin/fuseki.mjs\" *), Bash(date *), Bash(mkdir *), Bash(git ls-files *), Bash(git log *), Read, Write, Edit, Glob, Grep, mcp__fuseki__get_skill_definition, mcp__fuseki__get_product_vision, mcp__fuseki__list_insights, mcp__fuseki__get_insight, mcp__fuseki__start_change_set, mcp__fuseki__complete_change_set, mcp__fuseki__record_skill_definition_insight, mcp__fuseki__get_project, mcp__fuseki__list_projects, mcp__fuseki__list_portfolios, mcp__fuseki__server_info"
 ---
 
 # Map the system

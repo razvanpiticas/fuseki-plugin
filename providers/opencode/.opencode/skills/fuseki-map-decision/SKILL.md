@@ -1,6 +1,6 @@
 ---
-name: fuseki-map-decision
-description: Write a decision record in this repository's wiki — one architectural decision of a subsystem or of the whole system, numbered, with its context, what was chosen, the alternatives turned down and its consequences, short enough to read in a minute — by the method the server holds as the skill definition map-decision, under the documentation root's wiki/subsystems/<name>/decisions or wiki/system-wide/decisions, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. An accepted record is never edited: a new one supersedes it. Use when the person asks to write or record a decision record or an ADR, to write down why the code is built the way it is, to supersede an earlier decision, or picks "Write a decision record" from the Fuseki menu.
+name: "fuseki-map-decision"
+description: "Write a decision record in this repository's wiki — one architectural decision of a subsystem or of the whole system, numbered, with its context, what was chosen, the alternatives turned down and its consequences, short enough to read in a minute — by the method the server holds as the skill definition map-decision, under the documentation root's wiki/subsystems/<name>/decisions or wiki/system-wide/decisions, and, after each run, update and maintain the wiki mapping in .fuseki/state.json. An accepted record is never edited: a new one supersedes it. Use when the person asks to write or record a decision record or an ADR, to write down why the code is built the way it is, to supersede an earlier decision, or picks \"Write a decision record\" from the Fuseki menu."
 ---
 
 # Write a decision record

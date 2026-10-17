@@ -1,6 +1,6 @@
 ---
-name: fuseki-coding-standards
-description: Write the coding standards of this repository — the rules that keep the code maintainable and extensible story after story — by the method the server holds as the skill definition coding-standards: a technical person chooses the architecture and paradigm (Clean Architecture with dependency injection by default), otherwise the agent chooses from the product vision and the code, at the documentation root's wiki/system-wide/coding-standards.md, never over an existing file without the person's yes, and record it in .fuseki/state.json. Use when the person asks to write, refresh or start the coding standards, the coding conventions or the rules for this codebase, or picks "Write the coding standards" from the Fuseki menu.
+name: "fuseki-coding-standards"
+description: "Write the coding standards of this repository — the rules that keep the code maintainable and extensible story after story — by the method the server holds as the skill definition coding-standards: a technical person chooses the architecture and paradigm (Clean Architecture with dependency injection by default), otherwise the agent chooses from the product vision and the code, at the documentation root's wiki/system-wide/coding-standards.md, never over an existing file without the person's yes, and record it in .fuseki/state.json. Use when the person asks to write, refresh or start the coding standards, the coding conventions or the rules for this codebase, or picks \"Write the coding standards\" from the Fuseki menu."
 ---
 
 # Write the coding standards

@@ -1,6 +1,6 @@
 ---
-name: fuseki-work
-description: Reads and writes a Fuseki project's work through the Fuseki MCP tools — projects, work items and their hierarchy, the backlog, sprints, boards, comments, links and the change set that makes a run revertible. Use this whenever a task touches project work in any way, even if the user never says Fuseki — writing a backlog item, splitting an epic into features, reparenting or ranking something, moving work through a workflow, planning or closing a sprint, typing the links the embedder drew, finding related work, reading the Fuseki glossary, or reading what a project already holds. Every later method skill writes through this one.
+name: "fuseki-work"
+description: "Reads and writes a Fuseki project's work through the Fuseki MCP tools — projects, work items and their hierarchy, the backlog, sprints, boards, comments, links and the change set that makes a run revertible. Use this whenever a task touches project work in any way, even if the user never says Fuseki — writing a backlog item, splitting an epic into features, reparenting or ranking something, moving work through a workflow, planning or closing a sprint, typing the links the embedder drew, finding related work, reading the Fuseki glossary, or reading what a project already holds. Every later method skill writes through this one."
 ---
 
 # Fuseki work
