@@ -1,6 +1,6 @@
 ---
 name: fuseki
-description: The front door to Fuseki and the connection under every other Fuseki skill. Invoked with nothing, it signs in, binds this repository to a Fuseki project in a gitignored .fuseki/state.json, checks git, GitHub and browser testing on this machine, offers to plan the product vision, write the system architecture and write the coding standards when one is missing, shows where the project stands — the foundations as a checklist, the epic and feature being worked on, the stories built and left — offers the next step, such as planning the next story, and offers everything the plugin can do. Set up GitHub or set up browser testing again through it. Use when the person types the Fuseki command alone, asks what Fuseki can do or where the project stands, wants this repository bound to a project, when sign-in or a connection is failing, when a Fuseki tool refuses a call and the refusal needs reading, or when somebody asks what access they have. For reading or writing a project's work, load the fuseki-work skill, which this one hands off to.
+description: The front door to Fuseki and the connection under every other Fuseki skill. Invoked with nothing, it signs in, binds this repository to a Fuseki project in a committed .fuseki/state.json, checks git, GitHub and browser testing on this machine, offers to plan the product vision, write the system architecture and write the coding standards when one is missing, shows where the project stands — the foundations as a checklist, the epic and feature being worked on, the stories built and left — offers the next step, such as planning the next story, and offers everything the plugin can do. Set up GitHub or set up browser testing again through it. Use when the person types the Fuseki command alone, asks what Fuseki can do or where the project stands, wants this repository bound to a project, when sign-in or a connection is failing, when a Fuseki tool refuses a call and the refusal needs reading, or when somebody asks what access they have. For reading or writing a project's work, load the fuseki-work skill, which this one hands off to.
 ---
 
 # Fuseki
@@ -49,8 +49,10 @@ Nine steps, in this order:
    any other refusal — `server_info` first, then [Reading a refusal](#reading-a-refusal). Nothing
    else is called until this answers.
 2. **The state.** Run `pnpm dlx github:razvanpiticas/fuseki-plugin state init`, then `pnpm dlx github:razvanpiticas/fuseki-plugin state reconcile`. The first creates `.fuseki/state.json`
-   from the template and adds `.fuseki/` to `.gitignore` when they are missing, fills the keys an
-   older file lacks, and stops when git would not ignore `.fuseki/.env`. The second clears every
+   from the template when it is missing, fills the keys an older file lacks, keeps this machine's keys
+   in `.fuseki/local.json`, adds `.fuseki/.env` and `.fuseki/local.json` to `.gitignore` only when git
+   does not already ignore them, and stops when git still would not. `.fuseki/state.json` is the
+   repository's and is committed; never add `.fuseki/` or `.fuseki/state.json` to `.gitignore`. The second clears every
    recorded path whose file is gone. Say in one line what either changed; say nothing when neither did.
 3. **The project.** Run `pnpm dlx github:razvanpiticas/fuseki-plugin state get project`.
    - A key is recorded: `get_project` with it. It answers and is not archived: that is the project.

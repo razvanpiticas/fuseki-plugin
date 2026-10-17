@@ -86,7 +86,7 @@ export const checkTooling = ({ repositoryDirectory, bundledDirectory, run, now }
     cicd: stamped(before.repository.cicd, cicd, checkedAtUtc),
   }
 
-  writeStateWhenChanged(repositoryDirectory, before, document)
+  writeStateWhenChanged(repositoryDirectory, document)
 
   return describeFindings(document)
 }

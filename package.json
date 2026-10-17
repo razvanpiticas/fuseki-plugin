@@ -1,6 +1,6 @@
 {
   "name": "fuseki",
-  "version": "0.7.0+892e147f52e6",
+  "version": "0.7.0+d252613f0a2a",
   "description": "Installs the Fuseki skill and MCP server into a project, for harnesses with no plugin system.",
   "type": "module",
   "engines": {

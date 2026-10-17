@@ -13,7 +13,7 @@ import {
   removeTasks,
 } from "./schedule-task-scheduler.mjs"
 import { bundledDirectoryOfThisTool } from "./bundled.mjs"
-import { readState, readTemplate, statePathOf, writeStateWhenChanged } from "./state-document.mjs"
+import { localPathOf, readState, readTemplate, statePathOf, writeStateWhenChanged } from "./state-document.mjs"
 
 /**
  * `fuseki schedule` — the half of switching a routine on that lives on this machine.
@@ -23,7 +23,7 @@ import { readState, readTemplate, statePathOf, writeStateWhenChanged } from "./s
  * and only if an entry for it exists in a scheduler here. So switching a routine on is two writes,
  * and this command is the second: it installs one entry that starts the harness non-interactively
  * in the project's own directory with the prompt the skill composed (D12), and records the entry
- * under `routines.<routine id>` in that directory's `.fuseki/state.json`. Removing the entry takes
+ * under `routines.<routine id>` in that directory's `.fuseki/local.json`. Removing the entry takes
  * the record away with it.</p>
  *
  * <p>Three things it refuses rather than guesses, each because guessing produces a routine that
@@ -312,12 +312,12 @@ const reportInstall = (scheduler, request, machineZone, now, template) => {
     harness: request.harness,
     entry: written.map((entry) => entry.installedAs).join("; "),
   }
-  writeStateWhenChanged(request.projectDirectory, before, document)
+  writeStateWhenChanged(request.projectDirectory, document)
 
   console.log(`Installed "${request.name}" in this machine's ${scheduler.displayName}, for ${HARNESSES[request.harness].displayName}.`)
   for (const entry of written) console.log(`  ${entry.installedAs}`)
   console.log(`  next fires ${formatMoment(nextFireTime(cronLine, now))} (${machineZone})`)
-  console.log(`  recorded as routines.${request.routineId} in ${statePathOf(request.projectDirectory)}`)
+  console.log(`  recorded as routines.${request.routineId} in ${localPathOf(request.projectDirectory)}`)
 }
 
 /**
@@ -346,8 +346,8 @@ const reportRemoval = (scheduler, request, template) => {
 
     const document = structuredClone(before)
     delete document.routines[request.routineId]
-    writeStateWhenChanged(projectDirectory, before, document)
-    console.log(`  removed routines.${request.routineId} from ${statePathOf(projectDirectory)}`)
+    writeStateWhenChanged(projectDirectory, document)
+    console.log(`  removed routines.${request.routineId} from ${localPathOf(projectDirectory)}`)
   }
 }
 

@@ -69,7 +69,7 @@ export const initEnv = ({ repositoryDirectory, bundledDirectory }) => {
   const document = structuredClone(before)
   document.uiTesting.envFile = ENV_FILE_LABEL
   document.uiTesting.requiresSignIn = true
-  writeStateWhenChanged(repositoryDirectory, before, document)
+  writeStateWhenChanged(repositoryDirectory, document)
 
   return lines
 }
@@ -91,7 +91,7 @@ export const checkEnv = ({ repositoryDirectory, bundledDirectory }) => {
 
   const document = structuredClone(before)
   document.uiTesting.envKeysPresent = filled
-  writeStateWhenChanged(repositoryDirectory, before, document)
+  writeStateWhenChanged(repositoryDirectory, document)
 
   return [
     `Filled in ${ENV_FILE_LABEL}: ${filled.length > 0 ? filled.join(", ") : "none"}.`,

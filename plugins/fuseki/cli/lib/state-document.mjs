@@ -7,27 +7,52 @@ import { STATE_TEMPLATE_FILE_NAME, readBundledFile } from "./bundled.mjs"
  * `.fuseki/state.json` as a document: where it lives, how it is read and written, and the shape every
  * value in it must have.
  *
- * <p>The file is the plugin's memory of one repository (D15): the bound project and the path of every
- * local file a skill wrote. It is written only through this tool, the whole file in one step, and
- * never replaced when it cannot be read: a person's state is worth more than a fresh template, so a
- * file that is not JSON, or whose values are not the shape the template gives them, stops every
- * command with the reason and is left for the person to fix.</p>
+ * <p>The document is the plugin's memory of one repository (D15): the bound project and the path of every
+ * local file a skill wrote. It is kept in two files. `.fuseki/state.json` holds what is true of the
+ * repository and is committed with it; `.fuseki/local.json` holds the keys `MACHINE_KEY_PATHS` names,
+ * which are true of one machine only, and is gitignored. Every command reads the two as one document
+ * and writes it back split, so a skill never knows there are two.</p>
+ *
+ * <p>The files are written only through this tool, each in one step, and never replaced when they
+ * cannot be read: a person's state is worth more than a fresh template, so a file that is not JSON, or
+ * whose values are not the shape the template gives them, stops every command with the reason and is
+ * left for the person to fix.</p>
  */
 
-/** The gitignored directory the plugin keeps everything of a repository's in. */
+/** The directory the plugin keeps everything of a repository's in. */
 export const STATE_DIRECTORY_NAME = ".fuseki"
 
-/** The state file, inside that directory. */
+/** The state file, inside that directory. Committed with the repository. */
 export const STATE_FILE_NAME = "state.json"
 
-/** The test account's sign-in, inside that directory. Written by the person, never by this tool. */
+/** This machine's part of the state, inside that directory. Gitignored. */
+export const LOCAL_FILE_NAME = "local.json"
+
+/** The test account's sign-in, inside that directory. Written by the person, never by this tool. Gitignored. */
 export const ENV_FILE_NAME = ".env"
 
 /** The state file as a person reads its name: relative to the repository, forward slashes. */
 export const STATE_FILE_LABEL = `${STATE_DIRECTORY_NAME}/${STATE_FILE_NAME}`
 
+/** The local file as a person reads its name. */
+export const LOCAL_FILE_LABEL = `${STATE_DIRECTORY_NAME}/${LOCAL_FILE_NAME}`
+
 /** The env file as the state records it and a person reads it. */
 export const ENV_FILE_LABEL = `${STATE_DIRECTORY_NAME}/${ENV_FILE_NAME}`
+
+/**
+ * The keys that describe this machine rather than the repository, kept in `.fuseki/local.json`: the
+ * plugin installed here, the routines this machine's scheduler fires, the tools found on it, and the
+ * env file, which is never committed, with the key names read from it.
+ */
+export const MACHINE_KEY_PATHS = Object.freeze([
+  "uiTesting.playwrightCli",
+  "uiTesting.envFile",
+  "uiTesting.envKeysPresent",
+  "repository.github.ghCli",
+  "routines",
+  "plugin",
+])
 
 /** What the file is written to first, beside itself, so the rename that replaces it is one step. */
 const TEMPORARY_SUFFIX = ".tmp"
@@ -64,6 +89,9 @@ export const NULLABLE_KEY_TYPES = Object.freeze({
 /** The state file of one repository. */
 export const statePathOf = (repositoryDirectory) => join(repositoryDirectory, STATE_DIRECTORY_NAME, STATE_FILE_NAME)
 
+/** The local file of one repository. */
+export const localPathOf = (repositoryDirectory) => join(repositoryDirectory, STATE_DIRECTORY_NAME, LOCAL_FILE_NAME)
+
 /** The env file of one repository. */
 export const envPathOf = (repositoryDirectory) => join(repositoryDirectory, STATE_DIRECTORY_NAME, ENV_FILE_NAME)
 
@@ -80,64 +108,144 @@ export const readTemplate = (bundledDirectory) => parseDocument(readBundledFile(
  */
 export const readState = (repositoryDirectory, template) => {
   const document = readStateUnchecked(repositoryDirectory)
+
+  const absent = MACHINE_KEY_PATHS.filter((keyPath) => !valueAt(document, splitKeyPath(keyPath)).found)
+  if (absent.length > 0 && !existsSync(localPathOf(repositoryDirectory))) {
+    throw new Error(`There is no ${LOCAL_FILE_LABEL} in ${repositoryDirectory}, so this machine's keys (${absent.join(", ")}) are missing. Run fuseki state init there first.`)
+  }
+
   requireConformance(template, document, "")
 
   return document
 }
 
 /**
- * Reads the state file, refusing a missing one and one that is not JSON, without holding its values
- * to the template. Only `fuseki state init` reads this way, because it fills the keys an older file
- * lacks before anything is held to anything.
+ * Reads the state file with the local file laid over it, refusing a missing state file and either
+ * file when it is not JSON, without holding the values to the template. Only `fuseki state init` reads
+ * this way, because it fills the keys an older file lacks before anything is held to anything.
  */
 export const readStateUnchecked = (repositoryDirectory) => {
   const path = statePathOf(repositoryDirectory)
   if (!existsSync(path)) throw new Error(`There is no ${STATE_FILE_LABEL} in ${repositoryDirectory}. Run fuseki state init there first.`)
 
-  return parseDocument(readFileSync(path, "utf8"), STATE_FILE_LABEL)
+  return overlayLocalState(repositoryDirectory, parseDocument(readFileSync(path, "utf8"), STATE_FILE_LABEL))
 }
 
 /**
- * Writes the whole file in one step: to a temporary file beside it, then a rename over it.
+ * Lays this machine's keys from `.fuseki/local.json` over a document, when the file exists. A key the
+ * local file holds wins over the same key in the state file, which an older plugin wrote there.
  *
- * A crash between the two leaves the file as it was. A rename that fails takes the temporary file
- * away and says so; the file as it was is untouched either way.
- *
- * @param {string} repositoryDirectory the repository the file belongs to
- * @param {object} document the whole document
- * @param {{rename?: function}} [ports] the rename, injected so a failing one can be proved harmless
+ * @returns {object} the document it was given, changed in place
  */
-export const writeState = (repositoryDirectory, document, { rename = renameSync } = {}) => {
-  const path = statePathOf(repositoryDirectory)
-  const temporary = `${path}${TEMPORARY_SUFFIX}`
+export const overlayLocalState = (repositoryDirectory, document) => {
+  const path = localPathOf(repositoryDirectory)
+  if (!existsSync(path)) return document
 
+  const local = parseDocument(readFileSync(path, "utf8"), LOCAL_FILE_LABEL)
+  requireMachineKeysOnly(local, "")
+
+  for (const keyPath of MACHINE_KEY_PATHS) {
+    const segments = splitKeyPath(keyPath)
+    const { found, value } = valueAt(local, segments)
+    if (found) placeAt(document, segments, value)
+  }
+
+  return document
+}
+
+/**
+ * Writes the document split in two — this machine's keys to `.fuseki/local.json`, the rest to
+ * `.fuseki/state.json` — and writes each file only when its text differs from what is on disk, so a
+ * run that finds nothing new leaves both byte for byte as they were. A state file an older plugin
+ * wrote with this machine's keys in it loses them here, to the local file.
+ *
+ * The local file goes first: a failure between the two leaves the state file as it was, and its
+ * stale machine keys are overlaid by the local file's on the next read.
+ *
+ * @param {string} repositoryDirectory the repository the files belong to
+ * @param {object} document the whole document, every machine key in it
+ * @param {{rename?: function}} [ports] the rename, injected so a failing one can be proved harmless
+ * @returns {boolean} whether either file was written
+ */
+export const writeStateWhenChanged = (repositoryDirectory, document, { rename = renameSync } = {}) => {
+  const { shared, local } = splitDocument(document)
+
+  const wroteLocal = writeFileWhenChanged(localPathOf(repositoryDirectory), LOCAL_FILE_LABEL, serialise(local), rename)
+  const wroteShared = writeFileWhenChanged(statePathOf(repositoryDirectory), STATE_FILE_LABEL, serialise(shared), rename)
+
+  return wroteLocal || wroteShared
+}
+
+/**
+ * Writes one file in one step, when its text differs: to a temporary file beside it, then a rename
+ * over it. A crash between the two leaves the file as it was. A rename that fails takes the temporary
+ * file away and says so; the file as it was is untouched either way.
+ */
+const writeFileWhenChanged = (path, label, text, rename) => {
+  if (existsSync(path) && readFileSync(path, "utf8") === text) return false
+
+  const temporary = `${path}${TEMPORARY_SUFFIX}`
   mkdirSync(dirname(path), { recursive: true })
-  writeFileSync(temporary, serialise(document), "utf8")
+  writeFileSync(temporary, text, "utf8")
 
   try {
     rename(temporary, path)
   } catch (error) {
     rmSync(temporary, { force: true })
-    throw new Error(`${STATE_FILE_LABEL} was not written, and the file as it was is untouched: ${error.message}`)
+    throw new Error(`${label} was not written, and the file as it was is untouched: ${error.message}`)
   }
-}
-
-/**
- * Writes the document only when it differs from what was read, so a run that finds nothing new
- * leaves the file byte for byte as it was.
- *
- * @returns {boolean} whether it was written
- */
-export const writeStateWhenChanged = (repositoryDirectory, before, after) => {
-  if (before !== null && serialise(before) === serialise(after)) return false
-
-  writeState(repositoryDirectory, after)
 
   return true
 }
 
+/** The document as its two files: this machine's keys, and everything else. */
+const splitDocument = (document) => {
+  const shared = structuredClone(document)
+  const local = {}
+
+  for (const keyPath of MACHINE_KEY_PATHS) {
+    const segments = splitKeyPath(keyPath)
+    const parent = valueAt(shared, segments.slice(0, -1))
+    const key = segments.at(-1)
+    if (!parent.found || !Object.hasOwn(parent.value, key)) throw new Error(`The document to write has no ${keyPath}, which ${LOCAL_FILE_LABEL} keeps. Nothing was written.`)
+
+    placeAt(local, segments, parent.value[key])
+    delete parent.value[key]
+  }
+
+  return { shared, local }
+}
+
+/** Sets a value at a key path, making the objects on the way to it when they are absent. */
+const placeAt = (document, segments, value) => {
+  let parent = document
+
+  segments.slice(0, -1).forEach((segment, index) => {
+    if (!Object.hasOwn(parent, segment)) parent[segment] = {}
+    if (!isPlainObject(parent[segment])) throw new Error(`${segments.slice(0, index + 1).join(".")} is ${describe(parent[segment])}, not an object, so ${segments.join(".")} cannot be kept in it.`)
+
+    parent = parent[segment]
+  })
+
+  parent[segments.at(-1)] = value
+}
+
+/** Refuses a local file holding any key that is not this machine's, or not on the way to one. */
+const requireMachineKeysOnly = (local, keyPath) => {
+  for (const [key, value] of Object.entries(local)) {
+    const childPath = joinKey(keyPath, key)
+    if (MACHINE_KEY_PATHS.includes(childPath)) continue
+
+    if (!isPlainObject(value) || !MACHINE_KEY_PATHS.some((machineKeyPath) => machineKeyPath.startsWith(`${childPath}.`))) {
+      throw new Error(`${LOCAL_FILE_LABEL} holds ${childPath}, which is not a key of this machine; it belongs in ${STATE_FILE_LABEL}. It is never replaced: fix it by hand, then run the command again.`)
+    }
+
+    requireMachineKeysOnly(value, childPath)
+  }
+}
+
 /** The file's text for a document. */
-export const serialise = (document) => `${JSON.stringify(document, null, JSON_INDENT)}\n`
+const serialise = (document) => `${JSON.stringify(document, null, JSON_INDENT)}\n`
 
 /** A key path, `a.b.c`, as its segments; refused when it is empty or has an empty segment. */
 export const splitKeyPath = (keyPath) => {

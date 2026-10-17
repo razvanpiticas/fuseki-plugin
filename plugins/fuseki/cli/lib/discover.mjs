@@ -91,7 +91,7 @@ export const discoverDocuments = ({ repositoryDirectory, bundledDirectory }) => 
   document.discovery.ignored = document.discovery.ignored.filter((path) => !recordedNow.has(path))
   if (restored.length > 0) recorded.push(`No longer ignored, because it is recorded now: ${restored.join(", ")}`)
 
-  writeStateWhenChanged(repositoryDirectory, before, document)
+  writeStateWhenChanged(repositoryDirectory, document)
 
   const known = new Set([...recordedNow, ...document.discovery.ignored])
   const lines = [...recorded, ...candidates.filter(({ path }) => !known.has(path)).map(({ keyPath, path }) => `Candidate for ${keyPath}: ${path}`)]

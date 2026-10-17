@@ -7,10 +7,12 @@ import { discoverDocuments } from "./discover.mjs"
 import { answeredYes } from "./run-program.mjs"
 import {
   ENV_FILE_LABEL,
+  LOCAL_FILE_LABEL,
   OPEN_MAP_ENTRY_SHAPES,
   STATE_DIRECTORY_NAME,
   STATE_FILE_LABEL,
   fillMissingKeys,
+  overlayLocalState,
   readState,
   readStateUnchecked,
   readTemplate,
@@ -23,10 +25,11 @@ import {
 } from "./state-document.mjs"
 
 /**
- * `fuseki state` — creates, reads, writes and reconciles `.fuseki/state.json`.
+ * `fuseki state` — creates, reads, writes and reconciles `.fuseki/state.json` and this machine's
+ * `.fuseki/local.json`, as one document.
  *
  * <p>The front door runs `init`, `reconcile` and `discover` on every run, and every skill writes its own
- * key through `set`. Nothing else writes the file (D15). Each action answers the lines it prints, so
+ * key through `set`. Nothing else writes the files (D15). Each action answers the lines it prints, so
  * what a person reads is what the tests read.</p>
  */
 
@@ -42,8 +45,12 @@ export const STATE_ACTIONS = Object.freeze({
   discover: { usage: "fuseki state discover", argumentCount: 0 },
 })
 
-/** The line `.gitignore` must carry, so nothing under `.fuseki/` is ever committed. */
-export const GITIGNORE_LINE = `${STATE_DIRECTORY_NAME}/`
+/**
+ * The files git must never see: the test account's password, and this machine's keys. Each is also
+ * the line `.gitignore` gains when git does not already ignore it. `.fuseki/state.json` is not one of
+ * them: it is the repository's, and is committed.
+ */
+export const IGNORED_FILE_LABELS = Object.freeze([ENV_FILE_LABEL, LOCAL_FILE_LABEL])
 
 const GITIGNORE_FILE_NAME = ".gitignore"
 
@@ -97,24 +104,24 @@ export const runState = (argv, context) => {
 }
 
 /**
- * Makes sure the repository has a state file that git ignores, and that it carries every key.
+ * Makes sure the repository has a state file carrying every key, and that git ignores the files
+ * that must never be committed.
  *
- * In this order, so a repository where `.fuseki/.env` would be committed gets nothing written into
- * `.fuseki/` at all: `.gitignore` gains `.fuseki/` when it lacks it; git, when this is a git
- * repository, is asked whether `.fuseki/.env` is ignored, and a no stops here; then the file is
- * copied from the template when missing, or given the template's keys it lacks (an older `planning`
- * key moved into `activity` first); and the plugin's
- * version is recorded.
+ * In this order, so a repository where `.fuseki/.env` or `.fuseki/local.json` would be committed gets
+ * nothing written into `.fuseki/` at all: each is made ignored, and a file git still does not ignore
+ * stops here; then the state is copied from the template when missing, or given the template's keys
+ * it lacks (an older `planning` key moved into `activity` first); the plugin's version is recorded;
+ * and the document is written split, which moves the machine keys an older plugin kept in
+ * `.fuseki/state.json` into `.fuseki/local.json`.
  */
 export const initState = ({ repositoryDirectory, bundledDirectory, run }) => {
-  const lines = [ensureGitignored(repositoryDirectory), confirmEnvIgnored(repositoryDirectory, run)]
+  const lines = ensureIgnored(repositoryDirectory, run)
 
   const template = readTemplate(bundledDirectory)
   const version = readBundledVersion(bundledDirectory)
   const existed = existsSync(statePathOf(repositoryDirectory))
 
-  const before = existed ? readStateUnchecked(repositoryDirectory) : null
-  const document = existed ? structuredClone(before) : structuredClone(template)
+  const document = existed ? readStateUnchecked(repositoryDirectory) : overlayLocalState(repositoryDirectory, structuredClone(template))
   const carried = existed ? carryRetiredPlanning(document) : []
   const added = existed ? fillMissingKeys(template, document) : []
 
@@ -130,7 +137,7 @@ export const initState = ({ repositoryDirectory, bundledDirectory, run }) => {
     lines.push(`Recorded plugin version ${version}.`)
   }
 
-  writeStateWhenChanged(repositoryDirectory, before, document)
+  writeStateWhenChanged(repositoryDirectory, document)
 
   return lines
 }
@@ -172,7 +179,7 @@ export const setState = ({ repositoryDirectory, bundledDirectory }, keyPath, jso
 
   parent.value[segments.at(-1)] = value
 
-  return [writeStateWhenChanged(repositoryDirectory, before, document) ? `Set ${keyPath}.` : `${keyPath} already holds that value.`]
+  return [writeStateWhenChanged(repositoryDirectory, document) ? `Set ${keyPath}.` : `${keyPath} already holds that value.`]
 }
 
 /**
@@ -198,7 +205,7 @@ export const reconcileState = ({ repositoryDirectory, bundledDirectory }) => {
     cleared.push(`${ENV_KEYS_PRESENT_KEY} (the file it was read from is gone)`)
   }
 
-  writeStateWhenChanged(repositoryDirectory, before, document)
+  writeStateWhenChanged(repositoryDirectory, document)
 
   if (cleared.length === 0) return ["Nothing to clear: every recorded path exists."]
 
@@ -228,44 +235,75 @@ const clearGonePaths = (document, segments, repositoryDirectory, cleared) => {
   cleared.push(`${keyPath} (${recorded} is gone)`)
 }
 
-/** Adds `.fuseki/` to `.gitignore`, creating the file when it is missing and never adding it twice. */
-const ensureGitignored = (repositoryDirectory) => {
+/**
+ * Makes git ignore every file `IGNORED_FILE_LABELS` names, adding to `.gitignore` only the ones git
+ * does not ignore already, so a repository's own rule — `.fuseki/*`, say — is respected and never
+ * duplicated. Git is asked again after the line is added, because a rule in a deeper `.gitignore` can
+ * still un-ignore the file, and a file git still does not ignore stops here.
+ *
+ * Outside a git repository there is nobody to ask and nothing to commit to, so the lines `.gitignore`
+ * lacks are added for the day it becomes one.
+ */
+const ensureIgnored = (repositoryDirectory, run) => {
+  const insideWorkTree = run("git", ["rev-parse", "--is-inside-work-tree"], { cwd: repositoryDirectory })
+  if (!answeredYes(insideWorkTree) || insideWorkTree.stdout.trim() !== "true") {
+    const lines = IGNORED_FILE_LABELS.filter((label) => !gitignoreCarries(repositoryDirectory, label)).map((label) => appendToGitignore(repositoryDirectory, label))
+
+    return ["No git repository here, so git was not asked what it ignores.", ...lines]
+  }
+
+  const lines = []
+
+  for (const label of IGNORED_FILE_LABELS) {
+    if (gitIgnores(repositoryDirectory, run, label)) {
+      lines.push(`git ignores ${label}.`)
+      continue
+    }
+
+    lines.push(appendToGitignore(repositoryDirectory, label))
+
+    if (!gitIgnores(repositoryDirectory, run, label)) {
+      throw new Error(`git does not ignore ${label}, although ${GITIGNORE_FILE_NAME} now ends with it: a rule in a deeper .gitignore un-ignores it (git check-ignore -v --no-index ${label} names it). Nothing was written into ${STATE_DIRECTORY_NAME}/. Remove that rule, then run fuseki state init again.`)
+    }
+  }
+
+  if (gitIgnores(repositoryDirectory, run, STATE_FILE_LABEL)) {
+    lines.push(`git ignores ${STATE_FILE_LABEL}, so this repository's state is not committed. To share it, remove the rule that ignores it (git check-ignore -v --no-index ${STATE_FILE_LABEL} names it).`)
+  }
+
+  return lines
+}
+
+/** Whether git ignores a path; a failure that is not git's "not ignored" is git's own, and stops. */
+const gitIgnores = (repositoryDirectory, run, label) => {
+  const answer = run("git", ["check-ignore", "-q", label], { cwd: repositoryDirectory })
+  if (answeredYes(answer)) return true
+  if (answer.started && answer.status === NOT_IGNORED_STATUS) return false
+
+  throw new Error(`git check-ignore could not answer whether ${label} is ignored: ${answer.stderr.trim()}`)
+}
+
+/** Whether `.gitignore` has a line that is exactly this one. */
+const gitignoreCarries = (repositoryDirectory, line) => {
+  const path = join(repositoryDirectory, GITIGNORE_FILE_NAME)
+
+  return existsSync(path) && readFileSync(path, "utf8").split(/\r?\n/).some((existing) => existing.trim() === line)
+}
+
+/** Adds one line to the end of `.gitignore` in the file's own line ending, creating the file when it is missing. */
+const appendToGitignore = (repositoryDirectory, line) => {
   const path = join(repositoryDirectory, GITIGNORE_FILE_NAME)
 
   if (!existsSync(path)) {
-    writeFileSync(path, `${GITIGNORE_LINE}\n`, "utf8")
+    writeFileSync(path, `${line}\n`, "utf8")
 
-    return `Created ${GITIGNORE_FILE_NAME} with ${GITIGNORE_LINE}.`
+    return `Created ${GITIGNORE_FILE_NAME} with ${line}.`
   }
 
   const contents = readFileSync(path, "utf8")
-  if (contents.split(/\r?\n/).some((line) => line.trim() === GITIGNORE_LINE)) return `${GITIGNORE_FILE_NAME} already carries ${GITIGNORE_LINE}.`
-
   const lineEnding = contents.includes("\r\n") ? "\r\n" : "\n"
   const separator = contents.length === 0 || contents.endsWith("\n") ? "" : lineEnding
-  writeFileSync(path, `${contents}${separator}${GITIGNORE_LINE}${lineEnding}`, "utf8")
+  writeFileSync(path, `${contents}${separator}${line}${lineEnding}`, "utf8")
 
-  return `Added ${GITIGNORE_LINE} to ${GITIGNORE_FILE_NAME}.`
-}
-
-/**
- * Asks git whether `.fuseki/.env` is ignored, and stops when it is not.
- *
- * A later rule such as `!.fuseki/.env` un-ignores it in spite of the line, and the file holds a test
- * account's password. Outside a git repository there is nothing to commit it to, so nothing is asked.
- */
-const confirmEnvIgnored = (repositoryDirectory, run) => {
-  const insideWorkTree = run("git", ["rev-parse", "--is-inside-work-tree"], { cwd: repositoryDirectory })
-  if (!answeredYes(insideWorkTree) || insideWorkTree.stdout.trim() !== "true") {
-    return `No git repository here, so git was not asked whether ${ENV_FILE_LABEL} is ignored.`
-  }
-
-  const ignored = run("git", ["check-ignore", "-q", ENV_FILE_LABEL], { cwd: repositoryDirectory })
-  if (answeredYes(ignored)) return `git ignores ${ENV_FILE_LABEL}.`
-
-  if (ignored.started && ignored.status === NOT_IGNORED_STATUS) {
-    throw new Error(`git does not ignore ${ENV_FILE_LABEL}, although ${GITIGNORE_FILE_NAME} carries ${GITIGNORE_LINE}: a later rule un-ignores it (git check-ignore -v --no-index ${ENV_FILE_LABEL} names it). Nothing was written into ${STATE_DIRECTORY_NAME}/. Remove that rule, then run fuseki state init again.`)
-  }
-
-  throw new Error(`git check-ignore could not answer whether ${ENV_FILE_LABEL} is ignored: ${ignored.stderr.trim()}`)
+  return `Added ${line} to ${GITIGNORE_FILE_NAME}.`
 }

@@ -90,7 +90,7 @@ export const recordActivity = ({ repositoryDirectory, bundledDirectory, now }, r
 
   if (skill.implements) activity.implemented = [request.item, ...activity.implemented.filter((code) => code !== request.item)].slice(0, IMPLEMENTED_LIMIT)
 
-  writeStateWhenChanged(repositoryDirectory, before, document)
+  writeStateWhenChanged(repositoryDirectory, document)
 
   const pointers = [activity.epic === "" ? "no epic" : `epic ${activity.epic}`, activity.feature === "" ? "no feature" : `feature ${activity.feature}`]
 

@@ -19,16 +19,16 @@ const FROM_ARGUMENT = "--from"
 const HARNESS_ARGUMENT = "--harness"
 const DYNAMIC_REGISTRATION = "dynamic-registration"
 
-const USAGE = `fuseki — installs the Fuseki skill and MCP server, keeps this repository's .fuseki/state.json,
-and schedules a project's routines.
+const USAGE = `fuseki — installs the Fuseki skill and MCP server, keeps this repository's .fuseki/state.json
+and this machine's .fuseki/local.json, and schedules a project's routines.
 
   fuseki install                       install for every harness detected on this machine
   fuseki install --harness cursor      install for one harness
   fuseki install --from <dir>          install from a local build instead of the published trees
 
-  fuseki state init                    create .fuseki/state.json, gitignore .fuseki/, fill missing keys
+  fuseki state init                    create .fuseki/state.json, gitignore .fuseki/.env and .fuseki/local.json, fill missing keys
   fuseki state get <key path>          print one value, such as project
-  fuseki state set <key path> <json>   write one value, the whole file in one step
+  fuseki state set <key path> <json>   write one value, each file in one step
   fuseki state reconcile               clear every recorded path whose file is gone
   fuseki state discover                record the documents already where the skills write them
 
